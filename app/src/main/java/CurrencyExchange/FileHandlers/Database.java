@@ -48,7 +48,18 @@ public class Database {
         }
     }
 
+    /*
+     * Add a country (column) to the database 
+     * @params: 
+     *      country: String 
+     *      rate: double 
+     */
     public void addCountry(String country, double rate) {
+        //check if country is valid string 
+        if (country != null && country.matches("[a-zA-Z]+")) {
+            return;
+        }
+
         //define new column
         String addColumnSQL = "ALTER TABLE ExchangeRates ADD COLUMN " + country + " DECIMAL(10, 5)";
 
@@ -86,6 +97,9 @@ public class Database {
 
     /*
      * Checks if a column with columnName exists
+     * @params: 
+     *      connection: Connection 
+     *      columnName: String 
      */
     private boolean columnExists(Connection connection, String columnName) throws SQLException {
         String querySQL = "PRAGMA table_info(ExchangeRates)";
@@ -105,6 +119,9 @@ public class Database {
 
     /*
      * Updates an existing column with a rate
+     * @params: 
+     *      country: String 
+     *      rate: double 
      */
     public void updateRate(String country, double rate) {
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -129,6 +146,8 @@ public class Database {
 
     /*
      * Get the last exchange rate value for a given country
+     * @params: 
+     *      country: String 
      */
     public float getLastExchangeRate(String country) {
         String querySQL = "SELECT " + country + " FROM ExchangeRates "
@@ -153,6 +172,9 @@ public class Database {
         return -1;
     }
 
+    /*
+     * Function to print everything in database 
+     */
     public void printAllRecords() {
         String querySQL = "SELECT * FROM " + "ExchangeRates";
 

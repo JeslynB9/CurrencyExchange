@@ -27,13 +27,16 @@ public class Json {
      *      symbol : String       
      */
     public void addCountry(String country, String flagFilePath, String symbol) {
-        JSONObject flagObject = fileObj.getJSONObject("flag");
-        flagObject.setString(country, flagFilePath);
-
-        JSONObject symbolObject = fileObj.getJSONObject("symbol");
-        symbolObject.setString(country, symbol);
-        saveJsonFile();
-
+        //check if country is valid string 
+        if (country != null && country.matches("[a-zA-Z]+")) {
+            JSONObject flagObject = fileObj.getJSONObject("flag");
+            flagObject.setString(country, flagFilePath);
+    
+            JSONObject symbolObject = fileObj.getJSONObject("symbol");
+            symbolObject.setString(country, symbol);
+            saveJsonFile();
+        }
+        return;
     }
 
     /*
