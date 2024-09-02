@@ -1,0 +1,16 @@
+{
+  "symbol": {
+    "AB": "",
+    "AU": "$",
+    "UK": "£",
+    "MU": "$",
+    "FR": "\u20ac",
+    "US": "$"
+  },
+  "flag": {
+    "AU": "auFlag.png",
+    "UK": "ukFlag.png",
+    "MU": "NULL",
+    "US": ""
+  }
+}
