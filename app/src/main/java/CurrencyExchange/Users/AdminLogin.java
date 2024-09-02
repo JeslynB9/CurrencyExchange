@@ -50,15 +50,18 @@ public class AdminLogin {
      * Update an existing users password
      * @params:
      *      username: String
-     *      newPassword: String
+     *      oldPass: String
+     *      newPass: String
      * @ret: 
      *      true if successful, else false if unsuccessful or user does not exist 
      */
-    public boolean updatePassword(String username, String newPassword) {
-        if (fileObj.hasKey(username)) {
-            fileObj.setString(username, newPassword);
-            saveJsonFile();
-            return true;
+    public boolean updatePassword(String username, String oldPass, String newPass) {
+        if (checkLogin(username, oldPass)) {
+            if (fileObj.hasKey(username) && newPass != null && !newPass.trim().isEmpty()) {
+                fileObj.setString(username, newPass);
+                saveJsonFile();
+                return true;
+            }
         }
         return false; //user does not exist 
     }
@@ -72,7 +75,7 @@ public class AdminLogin {
      *      true if updated successfully, else false 
      */
     public boolean updateUser(String userOld, String userNew) {
-        if (userNew != null && fileObj.hasKey(userOld) && !userNew.isEmpty()) {
+        if (userNew != null && fileObj.hasKey(userOld) && !userNew.trim().isEmpty()) {
             String password = fileObj.getString(userOld);
             fileObj.remove(userOld);
             fileObj.setString(userNew, password);

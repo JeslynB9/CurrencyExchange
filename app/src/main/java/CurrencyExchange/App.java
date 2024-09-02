@@ -4,6 +4,7 @@
 package CurrencyExchange;
 
 import CurrencyExchange.FileHandlers.*;
+import CurrencyExchange.Users.AdminLogin;
 
 import java.io.*;
 import java.util.*;
@@ -15,13 +16,22 @@ import processing.core.*;
 
 public class App extends PApplet{
     Json Json;
-    JSONObject jsonFile;
+    AdminLogin AdminLogin;
+    Database Database;
 
     @Override
     public void setup() {
         //initialise json file 
         String jsonFilepath = "src/main/java/resources/main/config.json";
         Json = new Json(loadJSONObject(jsonFilepath), jsonFilepath);
+
+        //initialise database 
+        String databaseFilePath = "src/main/java/resources/main/database.db";
+        Database = new Database(databaseFilePath);
+
+        //initialise admin login 
+        String loginFilepath = "src/main/java/resources/main/admin.json";
+        AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
     }
 
     @Override
