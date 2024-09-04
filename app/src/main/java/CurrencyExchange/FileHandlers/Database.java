@@ -51,12 +51,13 @@ public class Database {
     /*
      * Add a country (column) to the database 
      * @params: 
+     *      user: String 
      *      country: String 
      *      rate: double 
      */
-    public void addCountry(String country, double rate) {
+    public void addCountry(String user, String country, double rate) {
         //check if country is valid string 
-        if (country != null && country.matches("[a-zA-Z]+")) {
+        if (country != null && !country.matches("[a-zA-Z]+")) {
             return;
         }
 
@@ -75,7 +76,8 @@ public class Database {
             //insert data
             String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String insertSQL = "INSERT INTO ExchangeRates (datetime, " + country + ") VALUES (?, ?) "
-                             + "ON CONFLICT(datetime) DO UPDATE SET " + country + " = excluded." + country;
+                             + "ON CONFLICT(datetime) DO UPDATE SET " + country + " = excluded." + country 
+                             + "INSERT INTO User " + user;
 
             //create a PreparedStatement to execute SQL query
             //automatically closes after try block
@@ -120,10 +122,11 @@ public class Database {
     /*
      * Updates an existing column with a rate
      * @params: 
+     *      user: String 
      *      country: String 
      *      rate: double 
      */
-    public void updateRate(String country, double rate) {
+    public void updateRate(String user, String country, double rate) {
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         String query = "UPDATE ExchangeRates SET " + country + " = ? WHERE datetime = ?";
