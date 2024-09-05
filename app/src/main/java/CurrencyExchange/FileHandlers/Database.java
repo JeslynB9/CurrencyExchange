@@ -75,16 +75,16 @@ public class Database {
 
             //insert data
             String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            String insertSQL = "INSERT INTO ExchangeRates (datetime, " + country + ") VALUES (?, ?) "
-                             + "ON CONFLICT(datetime) DO UPDATE SET " + country + " = excluded." + country 
-                             + "INSERT INTO User " + user;
+            String insertSQL = "INSERT INTO ExchangeRates (datetime, User, " + country + ") VALUES (?, ?, ?) "
+                         + "ON CONFLICT(datetime) DO UPDATE SET User = excluded.User, " + country + " = excluded." + country;
 
             //create a PreparedStatement to execute SQL query
             //automatically closes after try block
             try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
                 //insert a new record
                 pstmt.setString(1, currentDateTime);
-                pstmt.setDouble(2, rate);
+                pstmt.setString(2, user);
+                pstmt.setDouble(3, rate);
                 pstmt.executeUpdate();
             }
             catch (SQLException e) {
@@ -129,15 +129,15 @@ public class Database {
     public void updateRate(String user, String country, double rate) {
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        String query = "UPDATE ExchangeRates SET " + country + " = ? WHERE datetime = ?";
-
+        String query = "UPDATE ExchangeRates SET " + country + " = ?, User = ? WHERE datetime = ?";
         //try to open connection to the SQLite database
         try (Connection connection = getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query)) {
 
             //insert a new record
             pstmt.setDouble(1, rate);
-            pstmt.setString(2, currentDateTime);
+            pstmt.setString(2, user);
+            pstmt.setString(3, currentDateTime);
             pstmt.executeUpdate();
 
         }

@@ -28,14 +28,11 @@ public class App extends PApplet{
         //initialise database 
         String databaseFilePath = "src/main/java/resources/main/database.db";
         Database = new Database(databaseFilePath);
+        Database.initialiseDatabase();
 
-        //initialise admin login 
+        //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
-
-        Database.addCountry("bob", "AU", 1.24);
-        Database.addCountry("bob", "UK", 2.34);
-        Database.printAllRecords();
 
     }
 
