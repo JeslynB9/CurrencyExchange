@@ -22,16 +22,15 @@ dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
 
-    //for processing library 
+    //for processing library
     implementation 'org.processing:core:3.3.7'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
 
-    //for database 
+    //for database
     implementation 'mysql:mysql-connector-java:8.0.32'
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
-
 }
 
 application {
