@@ -6,25 +6,44 @@ package CurrencyExchange;
 import CurrencyExchange.FileHandlers.*;
 import CurrencyExchange.Users.AdminLogin;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.util.*;
 import java.nio.file.*;
 import processing.data.*;
 import processing.core.*;
+// import org.json.JSONObject;
+import processing.data.JSONObject; 
 
 
 
-public class App extends PApplet{
+public class App extends Application {
     Json Json;
     AdminLogin AdminLogin;
     Database Database;
+    PApplet PApplet;
 
     @Override
-    public void setup() {
+    public void start(Stage primaryStage) {
         //initialise json file 
         String jsonFilepath = "src/main/java/resources/main/config.json";
-        Json = new Json(loadJSONObject(jsonFilepath), jsonFilepath);
+        JsonLoader jsonLoader = new JsonLoader(jsonFilepath);
+        PApplet.runSketch(new String[]{""}, jsonLoader);
+        
+        try {
+            Thread.sleep(500); // Allow time for setup()
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        JSONObject json = jsonLoader.getJson();
+        Json = new Json(json, jsonFilepath);
 
+        // Json = new Json(PApplet.loadJSONObject(jsonFilepath), jsonFilepath);
+        
         //initialise database 
         String databaseFilePath = "src/main/java/resources/main/database.db";
         Database = new Database(databaseFilePath);
@@ -32,16 +51,22 @@ public class App extends PApplet{
 
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
-        AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
+        AdminLogin = new AdminLogin(PApplet.loadJSONObject(loginFilepath), loginFilepath);
+        
+        VBox root = new VBox();
+        Scene scene = new Scene(root, 800, 600);
 
+        primaryStage.setTitle("Currency Exchange App");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    @Override
-    public void draw() {
-
+    private JSONObject loadProcessingJSONObject(String filepath) {
+        return PApplet.loadJSONObject(filepath);
     }
 
     public static void main(String[] args) {
-        PApplet.main("CurrencyExchange.App");
+        // PApplet.main("CurrencyExchange.App");
+        launch(args);
     }
 }
