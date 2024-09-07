@@ -10,8 +10,8 @@ import java.nio.file.Paths;
 
 public class CurrencyConverterApp {
     public static void main(String[] args) {
-        Database database = new Database("CurrencyExchange/resources.main/database.db");
-        String jsonFilePath = "CurrencyExchange/resources.main/config.json";
+        Database database = new Database("java/CurrencyExchange/FileHandlers/Database.java");
+        String jsonFilePath = "java/CurrencyExchange/FileHandlers/Json.java";
         JSONObject jsonObject = null;
 
         try {
