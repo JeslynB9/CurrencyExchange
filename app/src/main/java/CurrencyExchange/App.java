@@ -3,12 +3,33 @@
  */
 package CurrencyExchange;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
+import CurrencyExchange.FileHandlers.*;
+
+import java.io.*;
+import java.util.*;
+import java.nio.file.*;
+import processing.data.*;
+import processing.core.*;
+
+
+
+public class App extends PApplet{
+    Json Json;
+    JSONObject jsonFile;
+
+    @Override
+    public void setup() {
+        //initialise json file
+        String jsonFilepath = "src/main/java/resources/main/config.json";
+        Json = new Json(loadJSONObject(jsonFilepath), jsonFilepath);
+    }
+
+    @Override
+    public void draw() {
+
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        PApplet.main("CurrencyExchange.App");
     }
 }
