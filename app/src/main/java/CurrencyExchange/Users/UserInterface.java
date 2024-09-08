@@ -164,8 +164,12 @@ class UserInterface {
             System.out.print("Currency " + (i + 1) + ": ");
             currencies.add(scanner.nextLine().toUpperCase());
         }
-        manager.setPopularCurrencies(currencies);
-        System.out.println("Popular currencies updated successfully.");
+        try {
+            manager.setPopularCurrencies(currencies);
+            System.out.println("Popular currencies updated successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private void convertCurrency() {

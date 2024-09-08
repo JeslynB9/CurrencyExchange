@@ -43,7 +43,10 @@ class CurrencyManager {
     }
 
     public void setPopularCurrencies(List<String> currencies) {
-        this.popularCurrencies = currencies;
+        if (currencies.size() != 4) {
+            throw new IllegalArgumentException("Exactly 4 popular currencies must be set.");
+        }
+        this.popularCurrencies = new ArrayList<>(currencies);
     }
 
     public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
@@ -53,18 +56,16 @@ class CurrencyManager {
     }
 
     public void displayPopularCurrencies() {
-        List<String> allCurrencies = database.getAllCurrencies();
-
-        System.out.println("\nAll Currencies Exchange Rates:");
+        System.out.println("\nPopular Currencies Exchange Rates:");
         System.out.printf("%-6s", "From/To");
-        for (String currency : allCurrencies) {
+        for (String currency : popularCurrencies) {
             System.out.printf("%-10s", currency);
         }
         System.out.println();
 
-        for (String fromCurrency : allCurrencies) {
+        for (String fromCurrency : popularCurrencies) {
             System.out.printf("%-6s", fromCurrency);
-            for (String toCurrency : allCurrencies) {
+            for (String toCurrency : popularCurrencies) {
                 if (fromCurrency.equals(toCurrency)) {
                     System.out.printf("%-10s", "-");
                 } else {
@@ -77,11 +78,6 @@ class CurrencyManager {
         }
     }
 
-    public void displayRateSummary(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
-        // This method needs to be implemented using database queries
-        // You'll need to add a method in the Database class to fetch historical data
-        System.out.println("Rate summary feature not yet implemented.");
-    }
 
     public void addCountryData(String country, String flagFilePath, String symbol) {
         jsonHandler.addCountry(country, flagFilePath, symbol);
