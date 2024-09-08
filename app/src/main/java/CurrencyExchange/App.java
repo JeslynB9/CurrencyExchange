@@ -47,13 +47,15 @@ public class App extends PApplet{
 
     @Override
     public void draw() {
-        // drawing the background image
+        // drawing the background colours - dark pink
         fill(255,249,254);
         rect(0, height/2, width, height/2);
 
+        // drawing the background colours - light pink
         fill(92,16,73);
         rect(0, 0, width, height/2);
 
+        // drawing the logo
         image(logo, 25, -15);
 
         // Shadow properties
