@@ -4,7 +4,6 @@ import java.util.HashMap;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-
 public class Flag {
     private final HashMap<String, PImage> flagMap;
     private final PApplet pApplet;  // Reference to PApplet for image loading
@@ -27,7 +26,7 @@ public class Flag {
         }
     }
 
-    // Get the loaded flag image
+    // Get loaded flag image
     public PImage getFlag(String countryCode) {
         return flagMap.get(countryCode);
     }
