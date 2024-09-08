@@ -3,8 +3,8 @@ package CurrencyExchange.FileHandlers;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 //https://www.marcobehler.com/guides/java-databases
 //https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html
@@ -231,6 +231,88 @@ public class Database {
             while (rs.next()) {
                 System.out.println(rs.getString("name"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public List<ExchangeRateEntry> getHistoricalRates(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
+        List<ExchangeRateEntry> rates = new ArrayList<>();
+        String query = "SELECT datetime, " + currency1 + ", " + currency2 +
+                " FROM ExchangeRates WHERE datetime BETWEEN ? AND ? " +
+                "AND " + currency1 + " IS NOT NULL AND " + currency2 + " IS NOT NULL " +
+                "ORDER BY datetime";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, startDate.toString());
+            pstmt.setString(2, endDate.toString());
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    LocalDate date = LocalDate.parse(rs.getString("datetime").split(" ")[0]);
+                    double rate1 = rs.getDouble(currency1);
+                    double rate2 = rs.getDouble(currency2);
+                    double conversionRate = rate2 / rate1;
+                    rates.add(new ExchangeRateEntry(date, conversionRate));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rates;
+    }
+
+    public static class ExchangeRateEntry {
+        public LocalDate date;
+        public double rate;
+
+        public ExchangeRateEntry(LocalDate date, double rate) {
+            this.date = date;
+            this.rate = rate;
+        }
+    }
+
+
+    public void updateRates(Map<String, Double> currencyRates) {
+        String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        StringBuilder queryBuilder = new StringBuilder("INSERT INTO ExchangeRates (datetime");
+        StringBuilder valuesBuilder = new StringBuilder(") VALUES (?");
+
+        for (String currency : currencyRates.keySet()) {
+            queryBuilder.append(", ").append(currency);
+            valuesBuilder.append(", ?");
+        }
+
+        queryBuilder.append(valuesBuilder).append(") ON CONFLICT(datetime) DO UPDATE SET ");
+
+        boolean first = true;
+        for (String currency : currencyRates.keySet()) {
+            if (!first) {
+                queryBuilder.append(", ");
+            }
+            queryBuilder.append(currency).append(" = excluded.").append(currency);
+            first = false;
+        }
+
+        String query = queryBuilder.toString();
+        System.out.println("Debug: Query = " + query);
+
+        try (Connection connection = getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, currentDateTime);
+            int paramIndex = 2;
+            for (Double rate : currencyRates.values()) {
+                pstmt.setDouble(paramIndex++, rate);
+            }
+
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

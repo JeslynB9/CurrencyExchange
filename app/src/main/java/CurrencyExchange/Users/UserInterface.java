@@ -1,10 +1,11 @@
 package CurrencyExchange.Users;
 
+import CurrencyExchange.FileHandlers.Database;
+import CurrencyExchange.FileHandlers.Json;
 import java.util.*;
-import java.io.*;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 
@@ -39,7 +40,7 @@ class UserInterface {
 
     private void adminMenu() {
         System.out.println("\n--- Admin Menu ---");
-        System.out.println("1. Add/Update Exchange Rate");
+        System.out.println("1. Add/Update Exchange Rates");
         System.out.println("2. Add New Currency");
         System.out.println("3. Set Popular Currencies");
         System.out.println("4. Convert Currency");
@@ -52,7 +53,7 @@ class UserInterface {
 
         switch (choice) {
             case 1:
-                addUpdateExchangeRate();
+                addUpdateExchangeRates();
                 break;
             case 2:
                 addNewCurrency();
@@ -103,20 +104,46 @@ class UserInterface {
         }
     }
 
-    private void addUpdateExchangeRate() {
-        System.out.print("Enter currency code: ");
-        String currency = scanner.nextLine().toUpperCase();
-        System.out.print("Enter new rate (relative to USD): ");
-        double rate = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline
-        System.out.print("Enter date (YYYY-MM-DD): ");
-        String dateStr = scanner.nextLine();
-        LocalDate date = LocalDate.parse(dateStr);
+//    private void addUpdateExchangeRate() {
+//        System.out.print("Enter currency code: ");
+//        String currency = scanner.nextLine().toUpperCase();
+//        System.out.print("Enter new rate (relative to USD): ");
+//        double rate = scanner.nextDouble();
+//        scanner.nextLine(); // Consume newline
+//        System.out.print("Enter date (YYYY-MM-DD): ");
+//        String dateStr = scanner.nextLine();
+//        LocalDate date = LocalDate.parse(dateStr);
+//
+//        manager.addExchangeRate(currency, rate, date);
+//        System.out.println("Exchange rate updated successfully.");
+//    }
 
-        manager.addExchangeRate(currency, rate, date);
-        System.out.println("Exchange rate updated successfully.");
+
+    private void addUpdateExchangeRates() {
+        Map<String, Double> currencyRates = new HashMap<>();
+
+        while (true) {
+            System.out.print("Enter currency code (or 'done' to finish): ");
+            String currency = scanner.nextLine().toUpperCase();
+
+            if (currency.equals("DONE")) {
+                break;
+            }
+
+            System.out.print("Enter new rate for " + currency + ": ");
+            double rate = scanner.nextDouble();
+            scanner.nextLine(); // Consume newline
+
+            currencyRates.put(currency, rate);
+        }
+
+        if (!currencyRates.isEmpty()) {
+            manager.addExchangeRates(currencyRates);
+            System.out.println("Exchange rates updated successfully.");
+        } else {
+            System.out.println("No rates were entered.");
+        }
     }
-
 
     private void addNewCurrency() {
         System.out.print("Enter new currency code: ");
@@ -165,11 +192,47 @@ class UserInterface {
         String currency1 = scanner.nextLine().toUpperCase();
         System.out.print("Enter second currency code: ");
         String currency2 = scanner.nextLine().toUpperCase();
-        System.out.print("Enter start date (YYYY-MM-DD): ");
-        LocalDate startDate = LocalDate.parse(scanner.nextLine());
-        System.out.print("Enter end date (YYYY-MM-DD): ");
-        LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
-        manager.displayRateSummary(currency1, currency2, startDate, endDate);
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        while (startDate == null) {
+            System.out.print("Enter start date (YYYY-MM-DD): ");
+            try {
+                startDate = LocalDate.parse(scanner.nextLine(), formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+            }
+        }
+
+        while (endDate == null) {
+            System.out.print("Enter end date (YYYY-MM-DD): ");
+            try {
+                endDate = LocalDate.parse(scanner.nextLine(), formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+            }
+        }
+
+        CurrencyManager.ExchangeRateSummary summary = manager.getExchangeRateSummary(currency1, currency2, startDate, endDate);
+
+        if (summary == null) {
+            System.out.println("No data available for the specified period and currencies.");
+            return;
+        }
+
+        System.out.printf("\nExchange Rate Summary (%s to %s):\n", currency1, currency2);
+        System.out.printf("Period: %s to %s\n", startDate, endDate);
+        System.out.printf("Minimum: %.4f\n", summary.minimum);
+        System.out.printf("Maximum: %.4f\n", summary.maximum);
+        System.out.printf("Average: %.4f\n", summary.average);
+        System.out.printf("Median: %.4f\n", summary.median);
+        System.out.printf("Standard Deviation: %.4f\n\n", summary.standardDeviation);
+
+        System.out.println("All rates:");
+        for (Database.ExchangeRateEntry entry : summary.allRates) {
+            System.out.printf("%s: %.4f\n", entry.date, entry.rate);
+        }
     }
 }
