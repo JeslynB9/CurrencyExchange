@@ -28,6 +28,8 @@ class CurrencyManager {
 
     public void addNewCurrency(String currency, double initialRate) {
         database.addCountry(currency, initialRate);
+        List<String> allCurrencies = database.getAllCurrencies();
+        setPopularCurrencies(allCurrencies);  // Update the list of popular currencies
     }
 
     public void setPopularCurrencies(List<String> currencies) {
@@ -37,20 +39,22 @@ class CurrencyManager {
     public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
         double fromRate = database.getLastExchangeRate(fromCurrency);
         double toRate = database.getLastExchangeRate(toCurrency);
-        return amount * (toRate / fromRate);
+        return Math.abs(amount * (toRate / fromRate));
     }
 
     public void displayPopularCurrencies() {
-        System.out.println("\nPopular Currencies Exchange Rates:");
+        List<String> allCurrencies = database.getAllCurrencies();
+
+        System.out.println("\nAll Currencies Exchange Rates:");
         System.out.printf("%-6s", "From/To");
-        for (String currency : popularCurrencies) {
+        for (String currency : allCurrencies) {
             System.out.printf("%-10s", currency);
         }
         System.out.println();
 
-        for (String fromCurrency : popularCurrencies) {
+        for (String fromCurrency : allCurrencies) {
             System.out.printf("%-6s", fromCurrency);
-            for (String toCurrency : popularCurrencies) {
+            for (String toCurrency : allCurrencies) {
                 if (fromCurrency.equals(toCurrency)) {
                     System.out.printf("%-10s", "-");
                 } else {

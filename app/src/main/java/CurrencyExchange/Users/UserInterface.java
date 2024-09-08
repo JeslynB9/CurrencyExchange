@@ -117,6 +117,7 @@ class UserInterface {
         System.out.println("Exchange rate updated successfully.");
     }
 
+
     private void addNewCurrency() {
         System.out.print("Enter new currency code: ");
         String currency = scanner.nextLine().toUpperCase();
@@ -126,6 +127,7 @@ class UserInterface {
 
         manager.addNewCurrency(currency, rate);
         System.out.println("New currency added successfully.");
+        displayPopularCurrencies();  // Show the updated list of currencies
     }
 
     private void setPopularCurrencies() {
