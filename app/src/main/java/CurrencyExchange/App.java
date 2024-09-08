@@ -18,6 +18,9 @@ public class App extends PApplet{
     Json Json;
     AdminLogin AdminLogin;
     Database Database;
+
+    static int width = 1920/2;
+    static int height = 1080/2;
     PImage logo;
 
     @Override
