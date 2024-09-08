@@ -34,6 +34,7 @@ public class App extends PApplet{
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
+
         // load the logo
         logo = loadImage("src/main/resources/logo.png");
         logo.resize(492/2, 187/2);
@@ -56,7 +57,7 @@ public class App extends PApplet{
         image(logo, 25, -15);
 
         // Shadow properties
-        fill(0, 0, 0, 50);  // Shadow color: semi-transparent black
+        fill(0, 0, 0, 50);
         noStroke();
 
         // Canvas center
@@ -77,11 +78,11 @@ public class App extends PApplet{
         float shadowOffsetY = 10;
 
         // Draw the shadow all around (slightly larger than the rectangle)
-        float shadowOffset = 8;  // Distance of shadow around the rectangle
+        float shadowOffset = 8;
         rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, rectH + 2 * shadowOffset, cornerRadius + 5);
 
         // Main rectangle properties
-        fill(255,249,254);  // Blue color
+        fill(255,249,254);
         noStroke();
 
         // Draw the main rounded rectangle
