@@ -5,7 +5,58 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b55af20-13e9-4dc4-8347-78a27f16b07a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Flag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/ARG.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/AUS.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/BRA.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CAN.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CHE.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CHN.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CZE.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/DNK.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/EGY.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/EUR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/GBR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/HKG.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/IDN.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/IND.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/JPN.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/KOR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/MEX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/MMR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/NZL.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/PHL.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/POL.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/RUS.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SAU.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SEN.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SGP.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SWE.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/THA.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/TWN.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/USA.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/VNM.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/resources/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/CurrencyExchange.app.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +83,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -47,16 +101,19 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jeslynbowman/Documents/Uni/2024, Year 2/Sem 4, 2024/SOFT2412/Group Project/Aerin_Lab09_Group03&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Downloads/sqlite-jdbc-3.46.1.0.jar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.CurrencyConverterApp">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CurrencyExchange.App" />
       <module name="CurrencyExchange.app.main" />
@@ -70,8 +127,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CurrencyConverterApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CurrencyExchange.Users.CurrencyConverterApp" />
+      <module name="CurrencyExchange.app.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="CurrencyExchange.Users.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CurrencyConverterApp" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -90,10 +161,26 @@
       <workItem from="1725616697043" duration="723000" />
       <workItem from="1725708100541" duration="52000" />
       <workItem from="1725708155504" duration="40000" />
+      <workItem from="1725722495802" duration="17000" />
+      <workItem from="1725722516106" duration="49000" />
+      <workItem from="1725722567404" duration="714000" />
+      <workItem from="1725777386625" duration="9666000" />
+      <workItem from="1725858845413" duration="9381000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
