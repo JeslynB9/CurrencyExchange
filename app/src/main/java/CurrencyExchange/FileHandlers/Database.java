@@ -57,7 +57,7 @@ public class Database {
      */
     public void addCountry(String user, String country, double rate) {
         //check if country is valid string 
-        if (country != null && !country.matches("[a-zA-Z]+")) {
+        if ((country != null && !country.matches("[a-zA-Z]+")) || rate < 0) {
             return;
         }
 
@@ -127,19 +127,28 @@ public class Database {
      *      rate: double 
      */
     public void updateRate(String user, String country, double rate) {
+        if (rate < 0) {
+            return; 
+        }
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         String query = "UPDATE ExchangeRates SET " + country + " = ?, User = ? WHERE datetime = ?";
+        
         //try to open connection to the SQLite database
-        try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(query)) {
-
-            //insert a new record
-            pstmt.setDouble(1, rate);
-            pstmt.setString(2, user);
-            pstmt.setString(3, currentDateTime);
-            pstmt.executeUpdate();
-
+        try (Connection connection = getConnection()) {
+        
+            //check if column exists
+            if (!columnExists(connection, country)) {
+                return;
+            }
+    
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setDouble(1, rate);
+                pstmt.setString(2, user);
+                pstmt.setString(3, currentDateTime);
+                pstmt.executeUpdate();
+            }
+    
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -176,33 +185,96 @@ public class Database {
     }
 
     /*
-     * Function to print everything in database 
+    * Gets the last two exchange rates for a given country
+    * @params: 
+    *      country: String 
+    * @ret: 
+    *       rates: float[] where float[0] is the most recent rate 
+    */
+    public float[] getLastTwoExchangeRates(String country) {
+        float[] rates = new float[2];
+
+        rates[0] = -1.0f;
+        rates[1] = -1.0f;
+        
+        String querySQL = "SELECT " + country + " FROM ExchangeRates "
+                    + "WHERE " + country + " IS NOT NULL "
+                    + "ORDER BY datetime DESC LIMIT 2";
+    
+        try (Connection connection = getConnection();
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(querySQL)) {
+
+            int i = 0;
+            while (rs.next() && i < 2) {
+                rates[i] = rs.getFloat(1);
+                i++;
+            }
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+            
+        return rates;
+    }
+
+    /*
+     * Get the last user to modify rate value for a given country
+     * @params: 
+     *      country: String 
+     * @ret: 
+     *      user: String else null 
      */
-    public void printAllRecords() {
-        String querySQL = "SELECT * FROM " + "ExchangeRates";
+    public String getLastUser(String country) {
+        String querySQL = "SELECT User FROM ExchangeRates "
+                      + "WHERE " + country + " IS NOT NULL "
+                      + "ORDER BY datetime DESC LIMIT 1";
 
         try (Connection connection = getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(querySQL)) {
 
-            int columnCount = rs.getMetaData().getColumnCount();
-
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.printf("%-20s", rs.getMetaData().getColumnName(i));
-            }
-            System.out.println();
-
-            while (rs.next()) {
-                for (int i = 1; i <= columnCount; i++) {
-                    System.out.printf("%-20s", rs.getString(i));
-                }
-                System.out.println();
+            //move the cursor to the next row
+            if (rs.next()) {
+                return rs.getString("User"); 
             }
 
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return null;
+    }
+
+    /*
+     * Get the last date to modify rate value for a given country
+     * @params: 
+     *      country: String 
+     * @ret: 
+     *      datetime: String else null
+     */
+    public String getLastDate(String country) {
+        String querySQL = "SELECT datetime FROM ExchangeRates "
+                        + "WHERE " + country + " IS NOT NULL "
+                        + "ORDER BY datetime DESC LIMIT 1";
+
+
+        try (Connection connection = getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(querySQL)) {
+
+            //move the cursor to the next row
+            if (rs.next()) {
+                return rs.getString("datetime"); 
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
 
