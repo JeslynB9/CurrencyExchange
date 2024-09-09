@@ -5,57 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b55af20-13e9-4dc4-8347-78a27f16b07a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Flag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/ARG.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/AUS.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/BRA.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CAN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CHE.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CHN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CZE.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/DNK.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/EGY.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/EUR.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/GBR.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/HKG.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/IDN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/IND.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/JPN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/KOR.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/MEX.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/MMR.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/NZL.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/PHL.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/POL.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/RUS.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SAU.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SEN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SGP.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/SWE.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/THA.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/TWN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/USA.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/flags/VNM.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/CurrencyExchange.app.main.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -165,7 +117,7 @@
       <workItem from="1725722516106" duration="49000" />
       <workItem from="1725722567404" duration="714000" />
       <workItem from="1725777386625" duration="9666000" />
-      <workItem from="1725858845413" duration="9381000" />
+      <workItem from="1725858845413" duration="9770000" />
     </task>
     <servers />
   </component>
