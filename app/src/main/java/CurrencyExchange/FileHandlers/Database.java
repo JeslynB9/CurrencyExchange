@@ -48,26 +48,19 @@ public class Database {
         }
     }
 
-    /*
-     * Add a country (column) to the database
-     * @params:
-     *      country: String
-     *      rate: double
-     */
-    public void addCountry(String country, double rate) {
-        // Check if country is a valid string
+
+
+    public void addCountry(String country) {
         if (country == null || !country.matches("[a-zA-Z]+")) {
             System.out.println("Invalid country code. Please use only letters.");
             return;
         }
 
-        // Define new column
         String addColumnSQL = "ALTER TABLE ExchangeRates ADD COLUMN " + country + " DECIMAL(10, 5)";
 
         try (Connection connection = getConnection();
              Statement stmt = connection.createStatement()) {
 
-            // Check if column exists
             if (!columnExists(connection, country)) {
                 stmt.execute(addColumnSQL);
                 System.out.println("Added new column: " + country);
@@ -75,22 +68,12 @@ public class Database {
                 System.out.println("Column " + country + " already exists.");
             }
 
-            // Insert data
-            String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            String insertSQL = "INSERT INTO ExchangeRates (datetime, " + country + ") VALUES (?, ?) "
-                    + "ON CONFLICT(datetime) DO UPDATE SET " + country + " = excluded." + country;
-
-            try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
-                pstmt.setString(1, currentDateTime);
-                pstmt.setDouble(2, rate);
-                int rowsAffected = pstmt.executeUpdate();
-                System.out.println("Rows affected: " + rowsAffected);
-            }
         } catch (SQLException e) {
+            System.out.println("Error adding new country: " + e.getMessage());
             e.printStackTrace();
         }
 
-        checkDatabaseContents();
+        //checkDatabaseContents();
     }
 
     /*
@@ -115,36 +98,6 @@ public class Database {
         return false;
     }
 
-    /*
-     * Updates an existing column with a rate
-     * @params:
-     *      country: String
-     *      rate: double
-     */
-    public void updateRate(String country, double rate) {
-        String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        String query = "INSERT INTO ExchangeRates (datetime, " + country + ") VALUES (?, ?) "
-                + "ON CONFLICT(datetime) DO UPDATE SET " + country + " = excluded." + country;
-
-        try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(query)) {
-
-            pstmt.setString(1, currentDateTime);
-            pstmt.setDouble(2, rate);
-
-            int rowsAffected = pstmt.executeUpdate();
-
-            System.out.println("Rows affected: " + rowsAffected);
-            System.out.println("Updated " + country + " rate to " + rate + " at " + currentDateTime);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        // After updating, let's verify the change
-        checkDatabaseContents();
-    }
 
 
     /*
@@ -222,6 +175,7 @@ public class Database {
     }
 
 
+    // unnecessary function
     public void checkDatabaseContents() {
         String query = "PRAGMA table_info(ExchangeRates)";
         try (Connection conn = getConnection();

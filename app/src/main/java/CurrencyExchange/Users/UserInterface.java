@@ -150,12 +150,10 @@ class UserInterface {
         System.out.print("Enter new currency code: ");
         String currency = scanner.nextLine().toUpperCase();
         System.out.print("Enter initial rate (relative to USD): ");
-        double rate = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline
 
-        manager.addNewCurrency(currency, rate);
+        manager.addNewCurrency(currency);
         System.out.println("New currency added successfully.");
-        displayPopularCurrencies();  // Show the updated list of currencies
+        //displayPopularCurrencies();  // Show the updated list of currencies
     }
 
     private void setPopularCurrencies() {
@@ -188,41 +186,41 @@ class UserInterface {
         System.out.printf("%.2f %s = %.2f %s%n", amount, sourceCurrency, result, targetCurrency);
     }
 
-//    private void displayPopularCurrencies() {
-//        manager.displayPopularCurrencies();
-//    }
-
     private void displayPopularCurrencies() {
-        System.out.print("Enter first currency code: ");
-        String currency1 = scanner.nextLine().toUpperCase();
-        System.out.print("Enter second currency code: ");
-        String currency2 = scanner.nextLine().toUpperCase();
-
-        LocalDate startDate = null;
-        LocalDate endDate = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        while (startDate == null) {
-            System.out.print("Enter start date (YYYY-MM-DD): ");
-            try {
-                startDate = LocalDate.parse(scanner.nextLine(), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
-            }
-        }
-
-        while (endDate == null) {
-            System.out.print("Enter end date (YYYY-MM-DD): ");
-            try {
-                endDate = LocalDate.parse(scanner.nextLine(), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
-            }
-        }
-
-        manager.generateExchangeRateSummaryPDF(currency1, currency2, startDate, endDate);
-        System.out.println("Returning to user menu...");
+        manager.displayPopularCurrencies();
     }
+
+//    private void displayPopularCurrencies() {
+//        System.out.print("Enter first currency code: ");
+//        String currency1 = scanner.nextLine().toUpperCase();
+//        System.out.print("Enter second currency code: ");
+//        String currency2 = scanner.nextLine().toUpperCase();
+//
+//        LocalDate startDate = null;
+//        LocalDate endDate = null;
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//
+//        while (startDate == null) {
+//            System.out.print("Enter start date (YYYY-MM-DD): ");
+//            try {
+//                startDate = LocalDate.parse(scanner.nextLine(), formatter);
+//            } catch (DateTimeParseException e) {
+//                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+//            }
+//        }
+//
+//        while (endDate == null) {
+//            System.out.print("Enter end date (YYYY-MM-DD): ");
+//            try {
+//                endDate = LocalDate.parse(scanner.nextLine(), formatter);
+//            } catch (DateTimeParseException e) {
+//                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+//            }
+//        }
+//
+//        manager.generateExchangeRateSummaryPDF(currency1, currency2, startDate, endDate);
+//        System.out.println("Returning to user menu...");
+//    }
 
     private void viewCurrencyRateSummary() {
         System.out.print("Enter first currency code: ");

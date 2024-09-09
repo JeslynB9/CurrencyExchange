@@ -49,10 +49,10 @@ class CurrencyManager {
         displayPopularCurrencies();  // Show the updated rates
     }
 
-    public void addNewCurrency(String currency, double initialRate) {
-        database.addCountry(currency, initialRate);
-        List<String> allCurrencies = database.getAllCurrencies();
-        setPopularCurrencies(allCurrencies);  // Update the list of popular currencies
+    public void addNewCurrency(String currency) {
+        database.addCountry(currency);
+        //List<String> allCurrencies = database.getAllCurrencies();
+        //setPopularCurrencies(allCurrencies);  // Update the list of popular currencies
     }
 
     public void setPopularCurrencies(List<String> currencies) {
