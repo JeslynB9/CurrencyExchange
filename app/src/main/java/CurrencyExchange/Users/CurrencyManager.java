@@ -5,13 +5,26 @@ import CurrencyExchange.FileHandlers.Database;
 import CurrencyExchange.FileHandlers.Json;
 
 import java.io.*;
+import java.nio.file.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import CurrencyExchange.FileHandlers.Database.ExchangeRateEntry;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 //import java.util.stream.Collectors;
+
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+
 
 // Currency manager class
 class CurrencyManager {
@@ -157,5 +170,91 @@ class CurrencyManager {
             this.standardDeviation = standardDeviation;
         }
     }
+
+
+
+    public void generateExchangeRateSummaryPDF(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
+        ExchangeRateSummary summary = getExchangeRateSummary(currency1, currency2, startDate, endDate);
+
+        if (summary == null || summary.allRates.isEmpty()) {
+            System.out.println("No data available for the specified period and currencies.");
+            return;
+        }
+
+        String fileName = String.format("%s-%s_%s_to_%s_Summary.pdf",
+                currency1, currency2,
+                startDate.toString(), endDate.toString());
+        String folderPath = "app/src/main/java/CurrencyExchange/Users/PDFSummary";
+        String filePath = folderPath + File.separator + fileName;
+
+        // Ensure the summaries folder exists
+        try {
+            Files.createDirectories(Paths.get(folderPath));
+        } catch (Exception e) {
+            System.out.println("Error creating summaries folder: " + e.getMessage());
+            return;
+        }
+
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            document.open();
+
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Font headingFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+            Font normalFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+            // Title
+            Paragraph title = new Paragraph("Exchange Rate Summary", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(Chunk.NEWLINE);
+
+            // Currency and Date Range
+            document.add(new Paragraph("From: " + currency1 + " To: " + currency2, headingFont));
+            document.add(new Paragraph("Period: " + startDate + " to " + endDate, headingFont));
+            document.add(Chunk.NEWLINE);
+
+            // Summary Statistics Table
+            PdfPTable statsTable = new PdfPTable(2);
+            statsTable.setWidthPercentage(100);
+            addRowToTable(statsTable, "Statistic", "Value", headingFont);
+            addRowToTable(statsTable, "Minimum", String.format("%.4f", summary.minimum), normalFont);
+            addRowToTable(statsTable, "Maximum", String.format("%.4f", summary.maximum), normalFont);
+            addRowToTable(statsTable, "Average", String.format("%.4f", summary.average), normalFont);
+            addRowToTable(statsTable, "Median", String.format("%.4f", summary.median), normalFont);
+            addRowToTable(statsTable, "Standard Deviation", String.format("%.4f", summary.standardDeviation), normalFont);
+            document.add(statsTable);
+            document.add(Chunk.NEWLINE);
+
+            // All Rates Table
+            document.add(new Paragraph("All Rates:", headingFont));
+            PdfPTable ratesTable = new PdfPTable(2);
+            ratesTable.setWidthPercentage(100);
+            addRowToTable(ratesTable, "Date", "Rate", headingFont);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            for (Database.ExchangeRateEntry entry : summary.allRates) {
+                addRowToTable(ratesTable, entry.date.format(formatter), String.format("%.4f", entry.rate), normalFont);
+            }
+            document.add(ratesTable);
+
+        } catch (Exception e) {
+            System.out.println("Error generating PDF: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            document.close();
+        }
+
+        System.out.println("PDF generated successfully: " + filePath);
+    }
+
+    private void addRowToTable(PdfPTable table, String key, String value, Font font) {
+        table.addCell(new Phrase(key, font));
+        table.addCell(new Phrase(value, font));
+    }
+
+
+
 
 }
