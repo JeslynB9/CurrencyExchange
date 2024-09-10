@@ -8,7 +8,7 @@ public class CurrencyConverterUI {
     PImage switchImg;
     PImage dropdownFrom;
     PImage dropdownTo;
-    Flag flagManager; // Add Flag instance
+    Flag flagManager;
     static int width = 1920 / 2;
     static int height = 1080 / 2;
     float rectW = width / 2;
@@ -16,7 +16,7 @@ public class CurrencyConverterUI {
     float cornerRadius = 10;
     float rectX;
     float rectY;
-
+    boolean amountBoxSelected = false;
     boolean fromBoxSelected = false;
     boolean toBoxSelected = false;
     String selectedFromCurrencyText = "USD - Us Dollar"; // Default currency
@@ -51,22 +51,26 @@ public class CurrencyConverterUI {
 
     // Method to draw the converter UI
     public void drawConverter() {
-        System.out.println("Drawing converter UI...");
 
         // Set text size using the PApplet instance
         parent.textSize(12);
         parent.fill(0);
 
         // Draw the "AMOUNT" box
-        parent.fill(255);
+        if (amountBoxSelected) {
+            parent.fill(255);
+        } else {
+            parent.noFill();
+        }
+
         parent.stroke(0);
         parent.rect(80, 250, 200, 40, cornerRadius);
 
         // Draw the "FROM" box
         if (fromBoxSelected) {
-            parent.fill(200, 200, 255); // Highlight color
+            parent.fill(255); // Highlight color
         } else {
-            parent.fill(255);
+            parent.noFill();
         }
         parent.stroke(0);
         parent.rect(350, 250, 200, 40, cornerRadius);
@@ -89,9 +93,9 @@ public class CurrencyConverterUI {
 
         // Draw the "TO" box
         if (toBoxSelected) {
-            parent.fill(200, 200, 255);
-        } else {
             parent.fill(255);
+        } else {
+            parent.noFill();
         }
         parent.stroke(0);
         parent.rect(675, 250, 200, 40, cornerRadius);
@@ -142,7 +146,29 @@ public class CurrencyConverterUI {
                 parent.mouseY > y && parent.mouseY < y + h);
     }
 
-    // Method to handle mouse clicks
+    // Method to handle mouse presses
     public void mousePressed() {
+        
+        // Check if the "AMOUNT" box is clicked
+        if (isMouseOverButton(350, 250, 200, 40)) {
+            amountBoxSelected = true;
+            fromBoxSelected = false; // Deselect the other box
+            toBoxSelected = false;  // Deselect the other box
+        }
+
+        // Check if the "FROM" box is clicked
+        if (isMouseOverButton(350, 250, 200, 40)) {
+            amountBoxSelected = false; // Deselect the other box
+            fromBoxSelected = true;
+            toBoxSelected = false;  // Deselect the other box
+        }
+
+        // Check if the "TO" box is clicked
+        else if (isMouseOverButton(675, 250, 200, 40)) {
+            amountBoxSelected = false; // Deselect the other box
+            fromBoxSelected = false;  // Deselect the other box
+            toBoxSelected = true;
+        }
     }
+
 }

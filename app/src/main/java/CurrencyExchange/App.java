@@ -106,6 +106,12 @@ public class App extends PApplet{
 
     }
 
+    @Override
+    public void mousePressed() {
+        // Delegate the mouse press event to the UI handler
+        CurrencyConverterUI.mousePressed();
+    }
+
     public static void main(String[] args) {
         PApplet.main("CurrencyExchange.App");
     }
