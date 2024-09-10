@@ -89,15 +89,17 @@ public class CurrencyConverterUI {
 
         // Draw the "TO" box
         if (toBoxSelected) {
-            parent.fill(200, 200, 255); // Highlight color
+            parent.fill(200, 200, 255);
         } else {
             parent.fill(255);
         }
         parent.stroke(0);
         parent.rect(675, 250, 200, 40, cornerRadius);
 
+        // Drop down icon
         parent.image(dropdownFrom, 525, 265);
         parent.image(dropdownTo, 850, 265);
+
         // Draw the flag for "TO" currency
         flagManager.drawFlag(selectedToCurrency, 685, 263);
         // Draw the flag for "FROM" currency
