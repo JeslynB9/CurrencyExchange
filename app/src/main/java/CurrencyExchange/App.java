@@ -10,6 +10,8 @@ import CurrencyExchange.Users.AdminLogin;
 import java.io.*;
 import java.util.*;
 import java.nio.file.*;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import processing.data.*;
 import processing.core.*;
 
@@ -19,6 +21,9 @@ public class App extends PApplet{
     AdminLogin AdminLogin;
     Database Database;
     CurrencyConverterUI CurrencyConverterUI;
+    PopularUI PopularUI;
+    PrintSummaryUI PrintSummaryUI;
+    UpdateUI UpdateUI;
 
     // Canvas center
     int centerX = width/2;
@@ -27,7 +32,7 @@ public class App extends PApplet{
     // Rectangle properties
     float rectW = width-100;
     float rectH = height/2;
-    float cornerRadius = 20;
+    float cornerRadius = 10;
 
     // Calculate position to center the rectangle
     float rectX = centerX - rectW / 2;
@@ -61,16 +66,16 @@ public class App extends PApplet{
 
     @Override
     public void setup() {
-        //initialise json file 
+        //initialise json file
         String jsonFilepath = "src/main/java/resources/main/config.json";
         Json = new Json(loadJSONObject(jsonFilepath), jsonFilepath);
 
-        //initialise database 
+        //initialise database
         String databaseFilePath = "src/main/java/resources/main/database.db";
         Database = new Database(databaseFilePath);
         Database.initialiseDatabase();
 
-        //initialise admin login  
+        //initialise admin login
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
 
@@ -97,6 +102,9 @@ public class App extends PApplet{
         unSelectedUpdate.resize(1920 / 40, 1080 / 40);
 
         CurrencyConverterUI = new CurrencyConverterUI(this);
+        PopularUI = new PopularUI(this);
+        PrintSummaryUI = new PrintSummaryUI(this);
+        UpdateUI = new UpdateUI(this);
     }
 
     public void settings() {
@@ -116,19 +124,6 @@ public class App extends PApplet{
 
         // drawing the logo
         image(logo, 25, -15);
-
-//        // Shadow properties
-//        fill(0, 0, 0, 50);
-//        noStroke();
-//
-//        rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, rectH + 2 * shadowOffset, cornerRadius + 5);
-//
-//        // Main rectangle properties
-//        fill(255,249,254);
-//        noStroke();
-//
-//        // Draw the main rounded rectangle
-//        rect(rectX, rectY, rectW, rectH, cornerRadius);
 
         // Long rectangle header
         fill(220, 202, 216);
@@ -179,15 +174,34 @@ public class App extends PApplet{
         }
 
         if (popularTabSelected) {
-            // Popular Table Tab
+            if (PopularUI != null) {
+                PopularUI.drawPopular();
+            } else {
+                System.out.println("Popular UI is null");
+            }
+            // Long rectangle header
+            fill(220, 202, 216);
+            rect(rectX, rectY+30, rectW, 30);
+            rect(rectX, rectY, rectW, 60, cornerRadius);
+
+            // Most Popular tab
             fill(255, 249, 254);
             rect(rectX+rectW/4, rectY, rectW/4, 60, cornerRadius);
             rect(rectX+rectW/4, rectY+30, rectW/4, 30);
 
-            // Converter text and image
             fill(222, 37, 176);
             image(selectedPopular, 290, 153);
             text("Most Popular", 335, 173);
+
+            fill(220, 202, 216);
+            rect(rectX, rectY, rectW/4, 60, cornerRadius);
+            rect(rectX, rectY+30, rectW/4, 30);
+
+
+            // Converter tab
+            fill(113, 103, 111);
+            image(unSelectedConvert, 100, 155);
+            text("Convert", 145, 173);
 
         } else {
             // Popular Table Tab
@@ -207,7 +221,17 @@ public class App extends PApplet{
         }
 
         if (printTabSelected) {
-            // Print Summary Tab
+            if (PrintSummaryUI != null) {
+                PrintSummaryUI.drawPrintSummaryUI();
+            } else {
+                System.out.println("Print Summary UI is null");
+            }
+
+            // Long rectangle header
+            fill(220, 202, 216);
+            rect(rectX, rectY+30, rectW, 30);
+            rect(rectX, rectY, rectW, 60, cornerRadius);
+
             fill(255, 249, 254);
             rect(rectX+2*rectW/4, rectY, rectW/4, 60, cornerRadius);
             rect(rectX+2*rectW/4, rectY+30, rectW/4, 30);
@@ -215,6 +239,25 @@ public class App extends PApplet{
             fill(222, 37, 176);
             image(selectedPrint, 500, 155);
             text("Print Summary", 545, 173);
+
+            fill(220, 202, 216);
+            rect(rectX, rectY, rectW/4, 60, cornerRadius);
+            rect(rectX, rectY+30, rectW/4, 30);
+
+            // Converter text and image
+            fill(113, 103, 111);
+            image(unSelectedConvert, 100, 155);
+            text("Convert", 145, 173);
+
+            // Popular Table Tab
+            fill(220, 202, 216);
+            rect(rectX+rectW/4, rectY, rectW/4, 60, cornerRadius);
+            rect(rectX+rectW/4, rectY+30, rectW/4, 30);
+
+            // Converter text and image
+            fill(113, 103, 111);
+            image(unSelectedPopular, 290, 153);
+            text("Most Popular", 335, 173);
         } else {
             fill(220, 202, 216);
             rect(rectX+2*rectW/4, rectY, rectW/4, 60, cornerRadius);
@@ -231,6 +274,11 @@ public class App extends PApplet{
         }
 
         if (updateTabSelected) {
+            if (UpdateUI != null) {
+                UpdateUI.drawUpdate();
+            } else {
+                System.out.println("Update UI is null");
+            }
             fill(255, 249, 254);
             rect(rectX+3*rectW/4, rectY, rectW/4, 60, cornerRadius);
             rect(rectX+3*rectW/4, rectY+30, rectW/4, 30);
@@ -238,6 +286,34 @@ public class App extends PApplet{
             fill(222, 37, 176);
             image(selectedUpdate, 725, 153);
             text("Rate Update", 770, 173);
+
+            // Convert tab
+            fill(220, 202, 216);
+            rect(rectX, rectY, rectW/4, 60, cornerRadius);
+            rect(rectX, rectY+30, rectW/4, 30);
+
+            fill(113, 103, 111);
+            image(unSelectedConvert, 100, 155);
+            text("Convert", 145, 173);
+
+            // Popular Table Tab
+            fill(220, 202, 216);
+            rect(rectX+rectW/4, rectY, rectW/4, 60, cornerRadius);
+            rect(rectX+rectW/4, rectY+30, rectW/4, 30);
+
+            fill(113, 103, 111);
+            image(unSelectedPopular, 290, 153);
+            text("Most Popular", 335, 173);
+
+            // Print Summary tab
+            fill(220, 202, 216);
+            rect(rectX+2*rectW/4, rectY, rectW/4, 60, cornerRadius);
+            rect(rectX+2*rectW/4, rectY+30, rectW/4, 30);
+
+            fill(113, 103, 111);
+            image(unSelectedPrint, 500, 155);
+            text("Print Summary", 545, 173);
+
         } else {
 
             fill(220, 202, 216);
@@ -248,7 +324,12 @@ public class App extends PApplet{
             image(unSelectedUpdate, 725, 153);
             text("Rate Update", 770, 173);
 
+            if (isHoveringUpdate) {
+                System.out.println("Mouse is hovering over 'update' tab");
+                fill(255, 249, 254, 191);
+            }
         }
+
 
     }
 
@@ -256,6 +337,8 @@ public class App extends PApplet{
         return (mouseX > x && mouseX < x + w &&
                 mouseY > y && mouseY < y + h);
     }
+
+
     @Override
     public void mousePressed() {
         // Delegate the mouse press event to the UI handler

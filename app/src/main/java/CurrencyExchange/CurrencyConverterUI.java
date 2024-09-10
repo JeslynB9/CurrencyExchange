@@ -65,7 +65,6 @@ public class CurrencyConverterUI {
     // Method to draw the converter UI
     public void drawConverter() {
 
-
         // Set text size using the PApplet instance
         parent.stroke(84, 84, 84);
         parent.textSize(12);
