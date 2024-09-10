@@ -1,13 +1,14 @@
 package CurrencyExchange.FileHandlers;
 
 import java.io.*;
+
 import java.util.*;
 import java.nio.file.*;
 import processing.data.*;
 import processing.core.*;
 
 
-//class imports 
+//class imports
 import CurrencyExchange.*;
 
 public class Json {
@@ -17,21 +18,34 @@ public class Json {
     public Json(JSONObject fileObj, String filePath) {
         this.fileObj = fileObj;
         this.filePath = filePath;
+        if (this.fileObj == null) {
+            this.fileObj = loadJsonFile();
+        }
+    }
+
+    private JSONObject loadJsonFile() {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath)));
+            return JSONObject.parse(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONObject();
+        }
     }
 
     /*
-     * To add a country to the json file 
-     * @params: 
+     * To add a country to the json file
+     * @params:
      *      country: String
-     *      flagFilePath : String 
-     *      symbol : String       
+     *      flagFilePath : String
+     *      symbol : String
      */
     public void addCountry(String country, String flagFilePath, String symbol) {
-        //check if country is valid string 
+        //check if country is valid string
         if (country != null && country.matches("[a-zA-Z]+")) {
             JSONObject flagObject = fileObj.getJSONObject("flag");
             flagObject.setString(country, flagFilePath);
-    
+
             JSONObject symbolObject = fileObj.getJSONObject("symbol");
             symbolObject.setString(country, symbol);
             saveJsonFile();
@@ -40,71 +54,71 @@ public class Json {
     }
 
     /*
-     * To update an already existing country flag 
-     * @params: 
+     * To update an already existing country flag
+     * @params:
      *      country: String
-     *      flagFilePath : String 
+     *      flagFilePath : String
      */
     public void updateFlag(String country, String flagFilePath) {
         JSONObject flagObject = fileObj.getJSONObject("flag");
         if (flagObject.hasKey(country)) {
             flagObject.setString(country, flagFilePath);
             saveJsonFile();
-        } 
+        }
         else {
-            addCountry(country, flagFilePath, "NULL"); 
+            addCountry(country, flagFilePath, "NULL");
         }
     }
 
     /*
      * To update an already existing country symbol flag
-     * @params: 
+     * @params:
      *      country: String
-     *      symbol : String   
+     *      symbol : String
      */
     public void updateSymbol(String country, String symbol) {
         JSONObject symbolObject = fileObj.getJSONObject("symbol");
         if (symbolObject.hasKey(country)) {
             symbolObject.setString(country, symbol);
             saveJsonFile();
-        } 
+        }
         else {
             addCountry(country, "NULL", symbol);
         }
     }
 
     /*
-     * To save changes made to JSON file 
+     * To save changes made to JSON file
      */
     private void saveJsonFile() {
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(fileObj.toString());
             file.flush();
-        } 
+        }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     /*
-     * Get the file path of a countrys flag 
-     * @params: 
-     *      country: String 
+     * Get the file path of a countrys flag
+     * @params:
+     *      country: String
      */
     public String getFlag(String country) {
         JSONObject flagObject = fileObj.getJSONObject("flag");
 
         if (flagObject.hasKey(country)) {
             return flagObject.getString(country);
-        } 
+        }
         else {
             return null;
         }
     }
 
     /*
-     * Get the symbol for a countrys currency  
-     * @params: 
+     * Get the symbol for a countrys currency
+     * @params:
      *      country: String
      */
     public String getSymbol(String country) {
@@ -112,7 +126,7 @@ public class Json {
 
         if (symbolObject.hasKey(country)) {
             return symbolObject.getString(country);
-        } 
+        }
         else {
             return null;
         }

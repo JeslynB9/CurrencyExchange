@@ -9,13 +9,42 @@
 plugins {
     id 'java'
     // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
     id 'jacoco'
+    id 'application'
 }
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+}
+
+
+jacoco {
+    toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+    }
+}
+
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.1
+            }
+        }
+    }
+}
+
+test{
+    useJUnitPlatform()
+    finalizedBy(jacocoTestReport, jacocoTestCoverageVerification)
 }
 
 dependencies {
@@ -31,6 +60,9 @@ dependencies {
     //for database
     implementation 'mysql:mysql-connector-java:8.0.32'
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
+
+    implementation 'com.itextpdf:itextpdf:5.5.13.3' 
+
 }
 
 application {

@@ -1,5 +1,5 @@
 package CurrencyExchange.Users;
 
-public class User {
-    
+abstract class User {
+    public abstract boolean isAdmin();
 }
