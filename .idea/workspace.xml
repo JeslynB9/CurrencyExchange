@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b55af20-13e9-4dc4-8347-78a27f16b07a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/CurrencyExchange.app.main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +116,8 @@
       <workItem from="1725722567404" duration="714000" />
       <workItem from="1725777386625" duration="9666000" />
       <workItem from="1725858845413" duration="9770000" />
+      <workItem from="1725946282459" duration="3000" />
+      <workItem from="1725968999232" duration="373000" />
     </task>
     <servers />
   </component>
