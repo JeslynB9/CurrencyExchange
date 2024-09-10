@@ -18,16 +18,13 @@ public class App extends PApplet{
     Json Json;
     AdminLogin AdminLogin;
     Database Database;
+    CurrencyConverterUI CurrencyConverterUI;
 
 
     static int width = 1920/2;
     static int height = 1080/2;
     PImage logo;
     Flag flag;
-
-    // Could be modified
-    String selectedFromCurrency = "AUS";
-    String selectedToCurrency = "USA";
 
     @Override
     public void setup() {
@@ -48,10 +45,7 @@ public class App extends PApplet{
         logo = loadImage("src/main/resources/logo.png");
         logo.resize(492/2, 187/2);
 
-
-        flag = new Flag(this);
-        flag.loadFlag(selectedFromCurrency);  // Load UK flag
-        flag.loadFlag(selectedToCurrency);
+        CurrencyConverterUI = new CurrencyConverterUI(this);
     }
 
     public void settings() {
@@ -61,11 +55,11 @@ public class App extends PApplet{
 
     @Override
     public void draw() {
-        // drawing the background colours - dark pink
-        fill(255,249,254);
+        // drawing the background colours - light pink
+        fill(255, 249, 254);
         rect(0, height/2, width, height/2);
 
-        // drawing the background colours - light pink
+        // drawing the background colours - dark pink
         fill(92,16,73);
         rect(0, 0, width, height/2);
 
@@ -104,8 +98,11 @@ public class App extends PApplet{
         // Draw the main rounded rectangle
         rect(rectX, rectY, rectW, rectH, cornerRadius);
 
-        flag.drawFlag(selectedFromCurrency, 100, 180);
-        flag.drawFlag(selectedToCurrency, 100, 280);
+        if (CurrencyConverterUI != null) {
+            CurrencyConverterUI.drawConverter();
+        } else {
+            System.out.println("Converter UI is null");
+        }
 
     }
 
