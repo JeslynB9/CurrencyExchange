@@ -50,6 +50,9 @@ dependencies {
 
     //for json 
     implementation 'org.json:json:20210307'
+    
+    //for pdf
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
 
 }
 
