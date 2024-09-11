@@ -368,6 +368,10 @@ public class App extends PApplet{
             Login.Register.drawRegister();
         }
 
+        if (UpdateUI.addCurrency.isAddCurrency) {
+            UpdateUI.addCurrency.drawAddCurrency();
+        }
+
 
     }
 
@@ -396,9 +400,14 @@ public class App extends PApplet{
              UpdateUI.mousePressed();
          }
 
+        if (UpdateUI.addCurrency.isAddCurrency) {
+            UpdateUI.addCurrency.mousePressed();
+        }
+
          if (isMouseOverButton(800, 15, 115, 40)) {
             Login.isLoginScreenVisible = true;
          }
+
 
          if (Login.isLoginScreenVisible) {
              Login.mousePressed();

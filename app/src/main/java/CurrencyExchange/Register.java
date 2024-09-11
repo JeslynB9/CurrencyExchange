@@ -5,11 +5,15 @@ import processing.core.PApplet;
 public class Register {
     PApplet parent;
     boolean isRegisterScreenVisible = false;
+    boolean employeeIdSelected = false;
+    boolean usernameSelected = false;
+    boolean passwordSelected = false;
     float shadowOffset = 8;
-    Login Login;
-    public Register(PApplet parent) {
+    Login login;
+    public Register(PApplet parent, Login login) {
 
         this.parent = parent;
+        this.login = login;
     }
 
     public void drawRegister() {
@@ -34,27 +38,39 @@ public class Register {
         // Title Text "Admin Register"
         parent.fill(0);
         parent.textSize(24);
-        parent.text("Admin Register", 395, 150);
+        parent.text("Admin Register", 395, 140);
 
-        // Username Field
+        // Employee ID Field
+        if (employeeIdSelected) {
+            parent.fill(220, 202, 216);
+        } else {
+            parent.noFill();
+        }
         parent.stroke(84, 84, 84);
-        parent.noFill();
         parent.rect(parent.width / 2 - 120, parent.height / 2 - 90, 240, 40, 5);
         parent.fill(84, 84, 84);
         parent.textSize(16);
         parent.text("Employee ID", 370, 205);
 
         // Username Field
+        if (usernameSelected) {
+            parent.fill(220, 202, 216);
+        } else {
+            parent.noFill();
+        }
         parent.stroke(84, 84, 84);
-        parent.noFill();
         parent.rect(parent.width / 2 - 120, parent.height / 2 - 10, 240, 40, 5);
         parent.fill(84, 84, 84);
         parent.textSize(16);
         parent.text("Username", 370, 285);
 
         // Password Field
+        if (passwordSelected) {
+            parent.fill(220, 202, 216);
+        } else {
+            parent.noFill();
+        }
         parent.stroke(84, 84, 84);
-        parent.noFill();
         parent.rect(parent.width / 2 - 120, parent.height / 2 + 70, 240, 40, 5);
         parent.fill(84, 84, 84);
         parent.textSize(16);
@@ -74,7 +90,7 @@ public class Register {
         parent.textSize(16);
         parent.text("Register", 577, 435);
 
-        boolean isHovering = isMouseOverButton(300, 435, (int)parent.textWidth("Have An Account?"), 10);
+        boolean isHovering = isMouseOverButton(300, 425, (int)parent.textWidth("Have An Account?"), 10);
         if (isHovering) {
             parent.fill(222, 37, 176);
         } else {
@@ -91,9 +107,27 @@ public class Register {
     }
 
     public void mousePressed() {
-//        if (isMouseOverButton(300, 435, (int)parent.textWidth("Have An Account?"), 10)) {
-//            isRegisterScreenVisible = false;
-//            Login.isLoginScreenVisible = true;
-//        }
+        if (isMouseOverButton(300, 425, (int)parent.textWidth("Have An Account?"), 10)) {
+            isRegisterScreenVisible = false;
+            login.isLoginScreenVisible = true;
+        }
+
+        if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 - 90, 240, 40)) {
+            employeeIdSelected = true;
+            usernameSelected = false;
+            passwordSelected = false;
+        }
+
+        if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 - 10, 240, 40)) {
+            employeeIdSelected = false;
+            usernameSelected = true;
+            passwordSelected = false;
+        }
+
+        if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 + 70, 240, 40)) {
+            employeeIdSelected = false;
+            usernameSelected = false;
+            passwordSelected = true;
+        }
     }
 }
