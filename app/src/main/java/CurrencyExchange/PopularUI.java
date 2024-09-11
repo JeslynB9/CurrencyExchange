@@ -9,4 +9,8 @@ public class PopularUI {
     public void drawPopular() {
 
     }
+
+    public void mousePressed() {
+
+    }
 }

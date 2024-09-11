@@ -10,4 +10,8 @@ public class UpdateUI {
     public void drawUpdate() {
 
     }
+
+    public void mousePressed() {
+
+    }
 }

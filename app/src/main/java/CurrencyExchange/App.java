@@ -24,6 +24,7 @@ public class App extends PApplet{
     PopularUI PopularUI;
     PrintSummaryUI PrintSummaryUI;
     UpdateUI UpdateUI;
+    Login Login;
 
     // Canvas center
     int centerX = width/2;
@@ -105,6 +106,7 @@ public class App extends PApplet{
         PopularUI = new PopularUI(this);
         PrintSummaryUI = new PrintSummaryUI(this);
         UpdateUI = new UpdateUI(this);
+        Login = new Login(this);
     }
 
     public void settings() {
@@ -147,7 +149,7 @@ public class App extends PApplet{
             } else {
                 System.out.println("Converter UI is null");
             }
-
+            noStroke();
             fill(255, 249, 254);
             rect(rectX, rectY, rectW/4, 60, cornerRadius);
             rect(rectX, rectY+30, rectW/4, 30);
@@ -179,6 +181,7 @@ public class App extends PApplet{
             } else {
                 System.out.println("Popular UI is null");
             }
+            noStroke();
             // Long rectangle header
             fill(220, 202, 216);
             rect(rectX, rectY+30, rectW, 30);
@@ -197,7 +200,7 @@ public class App extends PApplet{
             rect(rectX, rectY, rectW/4, 60, cornerRadius);
             rect(rectX, rectY+30, rectW/4, 30);
 
-
+            textSize(16);
             // Converter tab
             fill(113, 103, 111);
             image(unSelectedConvert, 100, 155);
@@ -227,10 +230,14 @@ public class App extends PApplet{
                 System.out.println("Print Summary UI is null");
             }
 
+            noStroke();
+
             // Long rectangle header
             fill(220, 202, 216);
             rect(rectX, rectY+30, rectW, 30);
             rect(rectX, rectY, rectW, 60, cornerRadius);
+
+            textSize(16);
 
             fill(255, 249, 254);
             rect(rectX+2*rectW/4, rectY, rectW/4, 60, cornerRadius);
@@ -279,6 +286,9 @@ public class App extends PApplet{
             } else {
                 System.out.println("Update UI is null");
             }
+
+            noStroke();
+            textSize(16);
             fill(255, 249, 254);
             rect(rectX+3*rectW/4, rectY, rectW/4, 60, cornerRadius);
             rect(rectX+3*rectW/4, rectY+30, rectW/4, 30);
@@ -330,6 +340,34 @@ public class App extends PApplet{
             }
         }
 
+        // Get mouse hover status
+        boolean isHovering = isMouseOverButton(800, 15, 115, 40);
+
+        // Change the color based on hover
+        if (isHovering) {
+            System.out.println("Mouse is hovering over 'Admin Login' button");
+            fill(222, 37, 176, 200);
+        } else {
+            fill(222, 37, 176); // Default color
+        }
+
+        // Draw the button after setting the fill color
+        noStroke();
+        rect(800, 15, 115, 40, cornerRadius);
+
+        // Draw the button text
+        textSize(16);
+        fill(255);
+        text("Admin Login", 808, 40);
+
+        if (Login.isLoginScreenVisible) {
+            Login.drawLogin();
+        }
+
+        if (Login.Register.isRegisterScreenVisible) {
+            Login.Register.drawRegister();
+        }
+
 
     }
 
@@ -341,8 +379,34 @@ public class App extends PApplet{
 
     @Override
     public void mousePressed() {
-        // Delegate the mouse press event to the UI handler
-        CurrencyConverterUI.mousePressed();
+
+         if (exchangeTabSelected) {
+             CurrencyConverterUI.mousePressed();
+         }
+
+         if (popularTabSelected) {
+             PopularUI.mousePressed();
+         }
+
+         if (printTabSelected) {
+             PrintSummaryUI.mousePressed();
+         }
+
+         if (updateTabSelected) {
+             UpdateUI.mousePressed();
+         }
+
+         if (isMouseOverButton(800, 15, 115, 40)) {
+            Login.isLoginScreenVisible = true;
+         }
+
+         if (Login.isLoginScreenVisible) {
+             Login.mousePressed();
+         }
+
+         if (Login.Register.isRegisterScreenVisible) {
+             Login.Register.mousePressed();
+         }
 
         if (isMouseOverButton((int)rectX, (int)rectY, (int)rectW/4, 60)) {
             exchangeTabSelected = true;
