@@ -1,5 +1,6 @@
 package CurrencyExchange.FileHandlers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.*;
@@ -48,11 +49,18 @@ public class Database {
         }
     }
 
+    
 
-
-    public void addCountry(String country) {
-        if (country == null || !country.matches("[a-zA-Z]+")) {
-            System.out.println("Invalid country code. Please use only letters.");
+    /*
+     * Add a country (column) to the database 
+     * @params: 
+     *      user: String 
+     *      country: String 
+     *      rate: double 
+     */
+    public void addCountry(String user, String country, double rate) {
+        //check if country is valid string 
+        if ((country != null && !country.matches("[a-zA-Z]+")) || rate < 0) {
             return;
         }
 
@@ -76,6 +84,30 @@ public class Database {
         //checkDatabaseContents();
     }
 
+    public void addCountry(String country) {
+        if (country == null || !country.matches("[a-zA-Z]+")) {
+            System.out.println("Invalid country code. Please use only letters.");
+            return;
+        }
+
+        String addColumnSQL = "ALTER TABLE ExchangeRates ADD COLUMN " + country + " DECIMAL(10, 5)";
+
+        try (Connection connection = getConnection();
+             Statement stmt = connection.createStatement()) {
+
+            if (!columnExists(connection, country)) {
+                stmt.execute(addColumnSQL);
+                System.out.println("Added new column: " + country);
+            } else {
+                System.out.println("Column " + country + " already exists.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error adding new country: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     /*
      * Checks if a column with columnName exists
      * @params:
@@ -83,6 +115,9 @@ public class Database {
      *      columnName: String
      */
     private boolean columnExists(Connection connection, String columnName) throws SQLException {
+        if (columnName == null) {
+            return false;
+        }
         String querySQL = "PRAGMA table_info(ExchangeRates)";
 
         try (Statement stmt = connection.createStatement();
@@ -96,6 +131,84 @@ public class Database {
             }
         }
         return false;
+    }
+
+    /*
+     * Updates an existing column with a rate
+     * @params: 
+     *      user: String 
+     *      country: String 
+     *      rate: double 
+     */
+    public void updateRate(String user, String country, double rate) {
+        if (rate < 0) {
+            return; 
+        }
+        String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        String query = "UPDATE ExchangeRates SET " + country + " = ?, User = ? WHERE datetime = ?";
+        
+        //try to open connection to the SQLite database
+        try (Connection connection = getConnection()) {
+        
+            //check if column exists
+            if (!columnExists(connection, country)) {
+                return;
+            }
+    
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setDouble(1, rate);
+                pstmt.setString(2, user);
+                pstmt.setString(3, currentDateTime);
+                pstmt.executeUpdate();
+            }
+    
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateRates(Map<String, Double> currencyRates) {
+        String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        StringBuilder queryBuilder = new StringBuilder("INSERT INTO ExchangeRates (datetime");
+        StringBuilder valuesBuilder = new StringBuilder(") VALUES (?");
+
+        for (String currency : currencyRates.keySet()) {
+            queryBuilder.append(", ").append(currency);
+            valuesBuilder.append(", ?");
+        }
+
+        queryBuilder.append(valuesBuilder).append(") ON CONFLICT(datetime) DO UPDATE SET ");
+
+        boolean first = true;
+        for (String currency : currencyRates.keySet()) {
+            if (!first) {
+                queryBuilder.append(", ");
+            }
+            queryBuilder.append(currency).append(" = excluded.").append(currency);
+            first = false;
+        }
+
+        String query = queryBuilder.toString();
+        System.out.println("Debug: Query = " + query);
+
+        try (Connection connection = getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, currentDateTime);
+            int paramIndex = 2;
+            for (Double rate : currencyRates.values()) {
+                pstmt.setDouble(paramIndex++, rate);
+            }
+
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -127,34 +240,63 @@ public class Database {
     }
 
     /*
-     * Function to print everything in database
+     * Get the last user to modify rate value for a given country
+     * @params: 
+     *      country: String 
+     * @ret: 
+     *      user: String else null 
      */
-    public void printAllRecords() {
-        String querySQL = "SELECT * FROM " + "ExchangeRates";
+    // public String getLastUser(String country) {
+    //     String querySQL = "SELECT User FROM ExchangeRates "
+    //                   + "WHERE " + country + " IS NOT NULL "
+    //                   + "ORDER BY datetime DESC LIMIT 1";
 
-        try (Connection connection = getConnection();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(querySQL)) {
+    //     try (Connection connection = getConnection();
+    //          Statement stmt = connection.createStatement();
+    //          ResultSet rs = stmt.executeQuery(querySQL)) {
 
-            int columnCount = rs.getMetaData().getColumnCount();
+    //         //move the cursor to the next row
+    //         if (rs.next()) {
+    //             return rs.getString("User"); 
+    //         }
 
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.printf("%-20s", rs.getMetaData().getColumnName(i));
-            }
-            System.out.println();
+    //     }
+    //     catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
 
-            while (rs.next()) {
-                for (int i = 1; i <= columnCount; i++) {
-                    System.out.printf("%-20s", rs.getString(i));
-                }
-                System.out.println();
-            }
+    //     return null;
+    // }
 
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    /*
+     * Get the last date to modify rate value for a given country
+     * @params: 
+     *      country: String 
+     * @ret: 
+     *      datetime: String else null
+     */
+    // public String getLastDate(String country) {
+    //     String querySQL = "SELECT datetime FROM ExchangeRates "
+    //                     + "WHERE " + country + " IS NOT NULL "
+    //                     + "ORDER BY datetime DESC LIMIT 1";
+
+
+    //     try (Connection connection = getConnection();
+    //          Statement stmt = connection.createStatement();
+    //          ResultSet rs = stmt.executeQuery(querySQL)) {
+
+    //         //move the cursor to the next row
+    //         if (rs.next()) {
+    //             return rs.getString("datetime"); 
+    //         }
+
+    //     }
+    //     catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     return null;
+    // }
 
     public List<String> getAllCurrencies() {
         List<String> currencies = new ArrayList<>();
@@ -229,48 +371,6 @@ public class Database {
         }
     }
 
-
-    public void updateRates(Map<String, Double> currencyRates) {
-        String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        StringBuilder queryBuilder = new StringBuilder("INSERT INTO ExchangeRates (datetime");
-        StringBuilder valuesBuilder = new StringBuilder(") VALUES (?");
-
-        for (String currency : currencyRates.keySet()) {
-            queryBuilder.append(", ").append(currency);
-            valuesBuilder.append(", ?");
-        }
-
-        queryBuilder.append(valuesBuilder).append(") ON CONFLICT(datetime) DO UPDATE SET ");
-
-        boolean first = true;
-        for (String currency : currencyRates.keySet()) {
-            if (!first) {
-                queryBuilder.append(", ");
-            }
-            queryBuilder.append(currency).append(" = excluded.").append(currency);
-            first = false;
-        }
-
-        String query = queryBuilder.toString();
-        System.out.println("Debug: Query = " + query);
-
-        try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(query)) {
-
-            pstmt.setString(1, currentDateTime);
-            int paramIndex = 2;
-            for (Double rate : currencyRates.values()) {
-                pstmt.setDouble(paramIndex++, rate);
-            }
-
-            int rowsAffected = pstmt.executeUpdate();
-            System.out.println("Rows affected: " + rowsAffected);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
 

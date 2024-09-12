@@ -117,7 +117,7 @@ public class CurrencyManager {
     }
 
     public void printAllRecords() {
-        database.printAllRecords();
+        // database.printAllRecords();
     }
 
 

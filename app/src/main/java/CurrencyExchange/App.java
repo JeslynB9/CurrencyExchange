@@ -408,6 +408,7 @@ public class App extends PApplet{
             PopularUI.mousePressed();
         }
 
+
         if (printTabSelected) {
             PrintSummaryUI.mousePressed();
         }
