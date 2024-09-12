@@ -7,6 +7,11 @@ import CurrencyExchange.FileHandlers.*;
 import CurrencyExchange.Users.AdminLogin;
 import CurrencyExchange.Users.CurrencyManager;
 
+import CurrencyExchange.Users.PopularCurrency;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.*;
@@ -65,6 +70,8 @@ public class App extends PApplet{
     Flag flag;
 
     CurrencyManager currencyManager;
+    PopularCurrency PopularCurrency;
+    PApplet PApplet;
 
     @Override
     public void setup() {
@@ -80,6 +87,14 @@ public class App extends PApplet{
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
+        AdminLogin = new AdminLogin(PApplet.loadJSONObject(loginFilepath), loginFilepath);
+
+        //initialise popular currencies 
+        PopularCurrency = new PopularCurrency(Database);
+        
+        
+        VBox root = new VBox();
+        Scene scene = new Scene(root, 800, 600);
 
         // load the logo
         logo = loadImage("src/main/resources/logo.png");

@@ -34,8 +34,15 @@ public class AdminLoginTest {
     }
 
     @Test
-    public void testAddUser4() { //adding user with null username
+    public void testAddUser4() { //adding user null and empty spaces
         assertFalse(adminLogin.addUser(TEST_USER_ID, null, "password"));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, null, ""));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, null, null));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, "beb", null));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, "beb", ""));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, "", null));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, "", "pass"));
+        assertFalse(adminLogin.addUser(TEST_USER_ID, "", ""));
     }
 
     @Test
@@ -93,6 +100,17 @@ public class AdminLoginTest {
     }
 
     @Test
+    public void testUpdatePassword7() { //invalid cases
+        assertTrue(adminLogin.addUser(TEST_USER_ID, "Henry@123", "Fried$Chicken"));
+        assertFalse(adminLogin.updatePassword(TEST_USER_ID, "Fried$Chicken", "")); //no pass 
+        assertFalse(adminLogin.updatePassword(TEST_USER_ID, "Fried$Chicken", null)); //null pass 
+        assertFalse(adminLogin.updatePassword(TEST_USER_ID, "Fried$Chicken", "     ")); //empty pass 
+        assertFalse(adminLogin.updatePassword(TEST_USER_ID, "Fried Chicken", "     ")); //wrong old pass 
+
+
+    }
+
+    @Test
     public void testUpdateUsername1() { //general case
         assertTrue(adminLogin.addUser(TEST_USER_ID, "Henry", "Fried Chicken"));
         assertTrue(adminLogin.updateUsername(TEST_USER_ID, "Jerry"));
@@ -119,17 +137,34 @@ public class AdminLoginTest {
     public void testCheckLogin1() { //general valid case
         assertTrue(adminLogin.addUser(TEST_USER_ID, "Henry", "Fried Chicken"));
         assertTrue(adminLogin.checkLogin(TEST_USER_ID, "Henry", "Fried Chicken"));
+        
+        assertTrue(adminLogin.addUser(TEST_USER_ID + 1, "Terry", "Fried Fish"));
+        assertTrue(adminLogin.checkLogin(TEST_USER_ID + 1, "Fried Fish"));
     }
 
     @Test
     public void testCheckLogin2() { //username does not exist
         assertTrue(adminLogin.addUser(TEST_USER_ID, "Henry", "Fried Chicken"));
         assertFalse(adminLogin.checkLogin(TEST_USER_ID + 1, "Greg", "Fried Chicken"));
+
+        assertFalse(adminLogin.checkLogin(TEST_USER_ID + 1, "Fried Chicken"));
     }
 
     @Test
     public void testCheckLogin3() { //wrong password
         assertTrue(adminLogin.addUser(TEST_USER_ID, "Henry", "Fried Chicken"));
         assertFalse(adminLogin.checkLogin(TEST_USER_ID, "Henry", "Dumplings"));
+
+        assertTrue(adminLogin.addUser(TEST_USER_ID + 1, "Corn", "Popcorn"));
+        assertFalse(adminLogin.checkLogin(TEST_USER_ID + 1, "grubs"));
+    }
+
+    @Test
+    public void testCheckLogin4() { //wrong user and pass 
+        assertTrue(adminLogin.addUser(TEST_USER_ID, "Henry", "Fried Chicken"));
+        assertFalse(adminLogin.checkLogin(TEST_USER_ID, "Rob", "Dumplings"));
+
+        assertTrue(adminLogin.addUser(TEST_USER_ID + 1, "Pen", "Paper"));
+        assertFalse(adminLogin.checkLogin(TEST_USER_ID + 1, "Rob", "Dumplings"));
     }
 }
