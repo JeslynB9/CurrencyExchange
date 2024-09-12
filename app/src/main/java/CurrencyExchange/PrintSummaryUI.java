@@ -5,8 +5,16 @@ import processing.core.PImage;
 
 import CurrencyExchange.Users.Dropdown;
 import CurrencyExchange.Users.CurrencyManager;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.awt.Desktop;
 
 public class PrintSummaryUI {
     PApplet parent;
@@ -52,10 +60,18 @@ public class PrintSummaryUI {
     String enteredStartDate = ""; // User input for start date
     String enteredEndDate = "";
 
+    private ExecutorService executor;
+    private boolean isPdfGenerating = false;
+    private boolean isPdfGenerated = false;
+
+    private File generatedPDFFile;
+    private boolean pdfGenerated = false;
+
     // Constructor receives the PApplet instance
-    public PrintSummaryUI(PApplet parent, CurrencyManager currencyManager) {
+    public PrintSummaryUI(PApplet parent, CurrencyManager currencyManager, ExecutorService executor) {
         this.parent = parent;
         this.currencyManager = currencyManager;
+        this.executor = executor;
         flagManager = new Flag(parent);
 
         // Load flags for selected currencies
@@ -180,6 +196,7 @@ public class PrintSummaryUI {
         parent.textSize(16);
         parent.text(enteredEndDate, 330, 350);
 
+
         // Draw the flag for 1st currency
         flagManager.drawFlag(selectedFirstCurrency, 90, 263);
         // Draw the flag for 2nd currency
@@ -190,9 +207,17 @@ public class PrintSummaryUI {
         parent.text(selectedFirstCurrencyText, 120, 277);
         parent.text(selectedSecondCurrencyText, 365, 277);
 
+        // Add "Open PDF" button if a PDF has been generated
+        if (pdfGenerated && generatedPDFFile != null && generatedPDFFile.exists()) {
+            if (drawButton("Open PDF", 775, 400, 100, 40)) {
+                openPDFFile(generatedPDFFile);
+            }
+        }
+
         firstDropdown.draw();
         secondDropdown.draw();
         parent.textSize(16);
+
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
@@ -233,6 +258,9 @@ public class PrintSummaryUI {
         }
         else if (isMouseOverButton(775, 350, 100, 40)) {
             generateSummary();
+            if (pdfGenerated && isMouseOverButton(775, 400, 100, 40)) {
+                openPDFFile(generatedPDFFile);
+            }
         }
 
         // Handle dropdown interactions
@@ -282,21 +310,110 @@ public class PrintSummaryUI {
         }
     }
 
-    // Method to generate the exchange rate summary PDF
     private void generateSummary() {
+        System.out.println("Attempting to generate summary...");
+
+        if (selectedFirstCurrency == null || selectedSecondCurrency == null) {
+            System.out.println("Error: Currencies not selected");
+            return;
+        }
+
+        if (enteredStartDate.isEmpty() || enteredEndDate.isEmpty()) {
+            System.out.println("Error: Date range not entered");
+            return;
+        }
+
+
         try {
-            // Parse start and end dates from the UI
+            String testFilePath = "app/src/main/java/CurrencyExchange/Users/PDFSummary/test.txt";
+            File testFile = new File(testFilePath);
+            FileWriter writer = new FileWriter(testFile);
+            writer.write("Test file writing");
+            writer.close();
+            System.out.println("Test file created at: " + testFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Error creating test file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate startDate = LocalDate.parse(enteredStartDate, formatter);
             LocalDate endDate = LocalDate.parse(enteredEndDate, formatter);
 
-            // Generate the exchange rate summary PDF
-            currencyManager.generateExchangeRateSummaryPDF(selectedFirstCurrency, selectedSecondCurrency, startDate, endDate);
-            System.out.println("PDF summary generated for: " + selectedFirstCurrency + " to " + selectedSecondCurrency);
+            if (endDate.isBefore(startDate)) {
+                System.out.println("Error: End date is before start date");
+                return;
+            }
+
+            isPdfGenerating = true;
+            isPdfGenerated = false;
+
+            executor.submit(() -> {
+                try {
+                    currencyManager.generateExchangeRateSummaryPDF(selectedFirstCurrency, selectedSecondCurrency, startDate, endDate);
+                    isPdfGenerated = true;
+                } catch (Exception e) {
+                    System.out.println("Error generating PDF summary: " + e.getMessage());
+                    e.printStackTrace();
+                } finally {
+                    isPdfGenerating = false;
+                }
+            });
+
+        } catch (DateTimeParseException e) {
+            System.out.println("Error parsing dates: " + e.getMessage());
+        }
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startDate = LocalDate.parse(enteredStartDate, formatter);
+            LocalDate endDate = LocalDate.parse(enteredEndDate, formatter);
+
+            String pdfPath = currencyManager.generateExchangeRateSummaryPDF(selectedFirstCurrency, selectedSecondCurrency, startDate, endDate);
+            if (pdfPath != null) {
+                generatedPDFFile = new File(pdfPath);
+                pdfGenerated = true;
+                System.out.println("PDF summary generated for: " + selectedFirstCurrency + " to " + selectedSecondCurrency);
+            } else {
+                System.out.println("Failed to generate PDF summary.");
+                pdfGenerated = false;
+            }
         } catch (Exception e) {
             System.out.println("Error generating PDF summary: " + e.getMessage());
+            e.printStackTrace();
+            pdfGenerated = false;
         }
     }
 
+    private boolean drawButton(String label, int x, int y, int w, int h) {
+        parent.fill(222, 37, 176);
+        parent.rect(x, y, w, h, 10);
+        parent.fill(255);
+        parent.textAlign(PApplet.CENTER, PApplet.CENTER);
+        parent.text(label, x + w/2, y + h/2);
+        return parent.mousePressed && parent.mouseX > x && parent.mouseX < x + w && parent.mouseY > y && parent.mouseY < y + h;
+    }
+
+    private void openPDFFile(File file) {
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    desktop.open(file);
+                } else {
+                    System.out.println("Opening files is not supported on this platform");
+                }
+            } else {
+                System.out.println("Desktop is not supported on this platform");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening PDF file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
 }
+
 

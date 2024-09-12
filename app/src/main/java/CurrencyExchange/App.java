@@ -13,7 +13,8 @@ import java.util.*;
 import java.nio.file.*;
 import processing.data.*;
 import processing.core.*;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class App extends PApplet{
     Json Json;
@@ -107,7 +108,8 @@ public class App extends PApplet{
         CurrencyConverterUI = new CurrencyConverterUI(this, currencyManager);
 
         PopularUI = new PopularUI(this, currencyManager);
-        PrintSummaryUI = new PrintSummaryUI(this, currencyManager);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
         UpdateUI = new UpdateUI(this, currencyManager);
         Login = new Login(this);
     }
