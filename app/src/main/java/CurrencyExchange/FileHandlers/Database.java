@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.*;
 
 //https://www.marcobehler.com/guides/java-databases
@@ -34,17 +33,19 @@ public class Database {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS ExchangeRates ("
                 + "datetime TEXT PRIMARY KEY, "
                 + "User VARCHAR(30), "
-                + "AUD DECIMAL(10, 5), "
-                + "USD DECIMAL(10, 5), "
-                + "GBP DECIMAL(10, 5)"
+                + "AU DECIMAL(10, 5), "
+                + "US DECIMAL(10, 5), "
+                + "UK DECIMAL(10, 5)"
                 + ");";
 
+        //try to open connection to the SQLite database
         try (Connection connection = getConnection();
              Statement stmt = connection.createStatement()) {
 
             stmt.execute(createTableSQL);
-            System.out.println("Database initialized successfully.");
-        } catch (SQLException e) {
+
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -64,24 +65,40 @@ public class Database {
             return;
         }
 
+        //define new column
         String addColumnSQL = "ALTER TABLE ExchangeRates ADD COLUMN " + country + " DECIMAL(10, 5)";
 
+        //try to open connection to the SQLite database
         try (Connection connection = getConnection();
              Statement stmt = connection.createStatement()) {
 
+            //check column exist
             if (!columnExists(connection, country)) {
                 stmt.execute(addColumnSQL);
-                System.out.println("Added new column: " + country);
-            } else {
-                System.out.println("Column " + country + " already exists.");
             }
 
-        } catch (SQLException e) {
-            System.out.println("Error adding new country: " + e.getMessage());
+            //insert data
+            String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String insertSQL = "INSERT INTO ExchangeRates (datetime, User, " + country + ") VALUES (?, ?, ?) "
+                         + "ON CONFLICT(datetime) DO UPDATE SET User = excluded.User, " + country + " = excluded." + country;
+
+            //create a PreparedStatement to execute SQL query
+            //automatically closes after try block
+            try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
+                //insert a new record
+                pstmt.setString(1, currentDateTime);
+                pstmt.setString(2, user);
+                pstmt.setDouble(3, rate);
+                pstmt.executeUpdate();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
-
-        //checkDatabaseContents();
     }
 
     public void addCountry(String country) {
@@ -110,9 +127,9 @@ public class Database {
 
     /*
      * Checks if a column with columnName exists
-     * @params:
-     *      connection: Connection
-     *      columnName: String
+     * @params: 
+     *      connection: Connection 
+     *      columnName: String 
      */
     private boolean columnExists(Connection connection, String columnName) throws SQLException {
         if (columnName == null) {
@@ -215,28 +232,30 @@ public class Database {
 
     /*
      * Get the last exchange rate value for a given country
-     * @params:
-     *      country: String
+     * @params: 
+     *      country: String 
      */
     public float getLastExchangeRate(String country) {
         String querySQL = "SELECT " + country + " FROM ExchangeRates "
-                + "WHERE " + country + " IS NOT NULL "
-                + "ORDER BY datetime DESC LIMIT 1";
+                        + "WHERE " + country + " IS NOT NULL "
+                        + "ORDER BY datetime DESC LIMIT 1";
+
 
         try (Connection connection = getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(querySQL)) {
 
+            //move the cursor to the next row
             if (rs.next()) {
                 return rs.getFloat(country);
-            } else {
-                System.out.println("No exchange rate found for " + country);
-                return -1; // or some other default value
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1; // or some other default value
+
         }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
     /*
@@ -298,40 +317,26 @@ public class Database {
     //     return null;
     // }
 
-    public List<String> getAllCurrencies() {
-        List<String> currencies = new ArrayList<>();
+    public Map<String, Double> getAllCurrencies() {
+        Map<String, Double> currencies = new HashMap<>();
         String query = "PRAGMA table_info(ExchangeRates)";
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                String columnName = rs.getString("name");
-                if (!columnName.equals("datetime") && !columnName.equals("User")) {
-                    currencies.add(columnName);
+
+                while (rs.next()) {
+                    String columnName = rs.getString("name");
+    
+                    if (!columnName.equals("datetime") && !columnName.equals("User")) {
+                        double rate = getLastExchangeRate(columnName);
+                        currencies.put(columnName, rate);
+                    }
                 }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return currencies;
     }
-
-
-    // unnecessary function
-    public void checkDatabaseContents() {
-        String query = "PRAGMA table_info(ExchangeRates)";
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-            System.out.println("Current columns in ExchangeRates table:");
-            while (rs.next()) {
-                System.out.println(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public List<ExchangeRateEntry> getHistoricalRates(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
         List<ExchangeRateEntry> rates = new ArrayList<>();
@@ -370,8 +375,6 @@ public class Database {
             this.rate = rate;
         }
     }
-
-
 }
 
 
