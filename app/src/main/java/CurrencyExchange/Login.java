@@ -20,6 +20,7 @@ public class Login {
         exitButton.resize(1920 / 40, 1080 / 40);
     }
 
+
     public void drawLogin() {
 
         if (!isLoginScreenVisible) return;

@@ -17,7 +17,6 @@ public class Register {
     }
 
     public void drawRegister() {
-
         if (!isRegisterScreenVisible) return;
 
         // Background Overlay

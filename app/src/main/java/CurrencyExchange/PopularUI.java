@@ -210,6 +210,7 @@ public class PopularUI {
             }
         }
 
+
         parent.popStyle();
     }
 
