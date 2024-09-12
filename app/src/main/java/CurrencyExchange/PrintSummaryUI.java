@@ -68,9 +68,10 @@ public class PrintSummaryUI {
     private boolean pdfGenerated = false;
 
     // Constructor receives the PApplet instance
-    public PrintSummaryUI(PApplet parent, CurrencyManager currencyManager) {
+    public PrintSummaryUI(PApplet parent, CurrencyManager currencyManager, ExecutorService executor) {
         this.parent = parent;
         this.currencyManager = currencyManager;
+        this.executor = executor;
         flagManager = new Flag(parent);
 
         // Load flags for selected currencies
@@ -414,4 +415,5 @@ public class PrintSummaryUI {
 
 
 }
+
 

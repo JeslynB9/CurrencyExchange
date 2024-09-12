@@ -13,7 +13,6 @@ import java.util.*;
 import CurrencyExchange.FileHandlers.Database.ExchangeRateEntry;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
-//import java.util.stream.Collectors;
 
 import java.awt.Desktop;
 import com.itextpdf.text.Document;
@@ -24,7 +23,6 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPTable;
-
 
 // Currency manager class
 public class CurrencyManager {
@@ -290,6 +288,5 @@ public class CurrencyManager {
             e.printStackTrace();
         }
     }
-
 
 }
