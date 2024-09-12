@@ -2,6 +2,8 @@ package CurrencyExchange;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import CurrencyExchange.Users.CurrencyManager;
+import CurrencyExchange.Users.Dropdown;
 
 public class CurrencyConverterUI {
     PApplet parent;
@@ -12,7 +14,7 @@ public class CurrencyConverterUI {
     static int width = 1920 / 2;
     static int height = 1080 / 2;
     float rectW = width-100;
-    float rectH = height/2;
+    float rectH = (float) height /2;
     float cornerRadius = 10;
     float rectX;
     float rectY;
@@ -31,25 +33,36 @@ public class CurrencyConverterUI {
     boolean amountBoxSelected = false;
     boolean fromBoxSelected = false;
     boolean toBoxSelected = false;
-    String selectedFromCurrencyText = "USD - Us Dollar"; // Default currency
-    String selectedToCurrencyText = "EUR - Euros";   // Default currency
+    String selectedFromCurrencyText = "USD - US Dollar"; // Default currency
+    String selectedToCurrencyText = "AUD - AU Dollar";   // Default currency
+
     String selectedFromCurrency = "USD";
-    String selectedToCurrency = "EUR";
+    String selectedToCurrency = "AUD";
+    String enteredAmount = "";  // Amount input
+    String conversionResult = "";
+    String conversionRateText = "";
+
+    CurrencyManager currencyManager;
+    Dropdown fromDropdown;
+    Dropdown toDropdown;
+    boolean isSwitched = false;
 
     // Constructor receives the PApplet instance
-    public CurrencyConverterUI(PApplet parent) {
+    public CurrencyConverterUI(PApplet parent, CurrencyManager currencyManager) {
         this.parent = parent;
+        this.currencyManager = currencyManager;
+
         // Initialize Flag manager
         flagManager = new Flag(parent);
         // Load flags for selected currencies
         flagManager.loadFlag(selectedFromCurrency);
         flagManager.loadFlag(selectedToCurrency);
 
+        updateConversionRate();
 
         // Calculate the rectangle's top-left corner based on the center
-        rectX = width / 2 - rectW / 2;
-        rectY = height / 2 - rectH / 2;
-        System.out.println("CurrencyConverterUI initialized");
+        rectX = (float) width / 2 - rectW / 2;
+        rectY = (float) height / 2 - rectH / 2;
 
         // Load the image
         switchImg = parent.loadImage("src/main/resources/switch.png");
@@ -60,9 +73,14 @@ public class CurrencyConverterUI {
 
         dropdownTo = parent.loadImage("src/main/resources/dropdown.png");
         dropdownTo.resize(1920 / 80, 1080 / 80);
+
+        // List of country currencies for dropdowns
+        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
+        fromDropdown = new Dropdown(parent, countries, 350, 250, 200, 40);
+        toDropdown = new Dropdown(parent, countries, 675, 250, 200, 40);
+
     }
 
-    // Method to draw the converter UI
     public void drawConverter() {
 
         // Set text size using the PApplet instance
@@ -88,7 +106,6 @@ public class CurrencyConverterUI {
         } else {
             parent.noFill();
         }
-
         parent.stroke(0);
         parent.rect(80, 250, 200, 40, cornerRadius);
 
@@ -165,6 +182,23 @@ public class CurrencyConverterUI {
         parent.textSize(16);
         parent.fill(255);
         parent.text("Convert", 795, 375);
+
+        //Display entered amount in the "Amount" box
+        parent.fill(0);
+        parent.textSize(16);
+        parent.text(enteredAmount, 90, 275);
+
+        // Display Conversion result
+        parent.text(conversionResult, 500, 380);
+
+        // Display conversion rate
+        parent.fill(0);
+        parent.textSize(12);
+        parent.text(conversionRateText, 90, 380);
+
+        fromDropdown.draw();
+        toDropdown.draw();
+        parent.textSize(16);
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
@@ -177,21 +211,156 @@ public class CurrencyConverterUI {
         // Check if the "AMOUNT" box is clicked
         if (isMouseOverButton(80, 250, 200, 40)) {
             amountBoxSelected = true;
-            fromBoxSelected = false; // Deselect the other box
-            toBoxSelected = false;  // Deselect the other box
+            fromBoxSelected = false;
+            toBoxSelected = false;
         }
         // Check if the "FROM" box is clicked
         else if (isMouseOverButton(350, 250, 200, 40)) {
-            amountBoxSelected = false; // Deselect the other box
+            amountBoxSelected = false;
             fromBoxSelected = true;
-            toBoxSelected = false;  // Deselect the other box
+            toBoxSelected = false;
         }
+
         // Check if the "TO" box is clicked
         else if (isMouseOverButton(675, 250, 200, 40)) {
-            amountBoxSelected = false; // Deselect the other box
-            fromBoxSelected = false;  // Deselect the other box
+            amountBoxSelected = false;
+            fromBoxSelected = false;
             toBoxSelected = true;
+        }
+        // Check if the "Convert" Button is clicked
+        else if (isMouseOverButton(775, 350, 100, 40)) {
+            performConversion();
+            System.out.println("convert button");
+        }
+
+        else if (isMouseOverButton(590, 257, 40, 40)) {  // Coordinates for the switch button
+            switchCurrencies();
+            System.out.println("Switch button clicked");
+        }
+
+        if (!isSwitched) {
+            fromDropdown.mousePressed();
+            toDropdown.mousePressed();
+        }
+
+        // Update dropdowns after the switch is done
+        if (!isSwitched) {
+            // Check for "From" dropdown and update
+            if (!fromDropdown.expanded && fromDropdown.getSelectedItem() != null &&
+                    !selectedFromCurrencyText.equals(fromDropdown.getSelectedItem())) {
+                selectedFromCurrencyText = fromDropdown.getSelectedItem();
+                selectedFromCurrency = selectedFromCurrencyText.split(" ")[0];
+                updateConversionRate();
+                System.out.println("From currency updated to: " + selectedFromCurrencyText);  // Debugging print
+            }
+
+            // Check for "To" dropdown and update
+            if (!toDropdown.expanded && toDropdown.getSelectedItem() != null &&
+                    !selectedToCurrencyText.equals(toDropdown.getSelectedItem())) {
+                selectedToCurrencyText = toDropdown.getSelectedItem();
+                selectedToCurrency = selectedToCurrencyText.split(" ")[0];
+                updateConversionRate();
+                System.out.println("To currency updated to: " + selectedToCurrencyText);  // Debugging print
+            }
+        }
+
+        // Reset isSwitched
+        isSwitched = false;
+    }
+
+    public void keyPressed() {
+        if (amountBoxSelected) {
+            if ((parent.key >= '0' && parent.key <= '9') || parent.key == '.') {
+                enteredAmount += parent.key;
+            }
+
+            // Handle backspace
+            if (parent.key == PApplet.BACKSPACE && enteredAmount.length() > 0) {
+                enteredAmount = enteredAmount.substring(0, enteredAmount.length() - 1);
+            }
         }
     }
 
+    public void switchCurrencies() {
+        // Swap the "From" and "To" currencies
+        String tempCurrency = selectedFromCurrency;
+        selectedFromCurrency = selectedToCurrency;
+        selectedToCurrency = tempCurrency;
+
+        // Swap the "From" and "To" currency text labels
+        String tempCurrencyText = selectedFromCurrencyText;
+        selectedFromCurrencyText = selectedToCurrencyText;
+        selectedToCurrencyText = tempCurrencyText;
+
+        // Update the flags after the swap
+        flagManager.loadFlag(selectedFromCurrency);
+        flagManager.loadFlag(selectedToCurrency);
+
+        isSwitched = true;
+
+        // Update the conversion rate after the swap
+        updateConversionRate();
+
+        System.out.println("Currencies switched: " + selectedFromCurrency + " to " + selectedToCurrency);
+    }
+
+    public void updateConversionRate() {
+        try {
+            // Fetch the conversion rates from the database via CurrencyManager
+            double fromRate = currencyManager.getLastExchangeRate(selectedFromCurrency);
+            double toRate = currencyManager.getLastExchangeRate(selectedToCurrency);
+
+            // Calculate the conversion rate
+            double conversionRate = fromRate/toRate;
+
+            // Update the conversion rate text for display
+            conversionRateText = "$ 1 " + selectedFromCurrency + " = " + conversionRate + " " + selectedToCurrency;
+
+        } catch (Exception e) {
+            // If there's an issue (e.g., missing exchange rate), clear the conversion rate text
+            conversionRateText = "Conversion rate unavailable";
+        }
+    }
+
+    // Perform the conversion using backend logic
+    public void performConversion() {
+        try {
+            // Ensure that an amount has been entered
+            if (enteredAmount.isEmpty()) {
+                conversionResult = "Please enter an amount.";
+                return;
+            }
+
+            // Capture and validate the entered amount
+            double amount = Double.parseDouble(enteredAmount);
+
+            // Ensure valid currencies
+            if (selectedFromCurrency == null || selectedToCurrency == null) {
+                conversionResult = "Please select valid currencies.";
+                return;
+            }
+
+            // Get the exchange rates and perform the conversion
+            double fromRate = currencyManager.getLastExchangeRate(selectedFromCurrency);
+            double toRate = currencyManager.getLastExchangeRate(selectedToCurrency);
+
+            if (fromRate == 0 || toRate == 0) {
+                conversionResult = "Conversion rate unavailable!";
+                return;
+            }
+
+            // Perform the conversion
+            double convertedAmount = amount * (fromRate/toRate);
+
+            // Update the conversion result to display
+            conversionResult = String.format("%.2f %s = %.2f %s", amount, selectedFromCurrency, convertedAmount, selectedToCurrency);
+
+        } catch (NumberFormatException e) {
+            // Handle invalid input for the amount
+            conversionResult = "Invalid amount entered!";
+        } catch (Exception e) {
+            // Handle any other unexpected errors
+            conversionResult = "Error occurred during conversion!";
+        }
+    }
 }

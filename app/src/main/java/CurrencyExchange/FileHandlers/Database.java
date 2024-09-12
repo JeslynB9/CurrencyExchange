@@ -33,9 +33,9 @@ public class Database {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS ExchangeRates ("
                 + "datetime TEXT PRIMARY KEY, "
                 + "User VARCHAR(30), "
-                + "AU DECIMAL(10, 5), "
-                + "US DECIMAL(10, 5), "
-                + "UK DECIMAL(10, 5)"
+                + "AUD DECIMAL(10, 5), "
+                + "USD DECIMAL(10, 5), "
+                + "GBP DECIMAL(10, 5)"
                 + ");";
 
         try (Connection connection = getConnection();

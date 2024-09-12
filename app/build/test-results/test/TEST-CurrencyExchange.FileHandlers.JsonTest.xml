@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CurrencyExchange.FileHandlers.JsonTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-09-03T07:36:04" hostname="IrenedeMacBook-Pro.local" time="0.005">
+<testsuite name="CurrencyExchange.FileHandlers.JsonTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-09-11T12:46:15" hostname="IrenedeMacBook-Pro.local" time="0.007">
   <properties/>
-  <testcase name="testAddCountry1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.002"/>
-  <testcase name="testAddCountry2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
+  <testcase name="testAddCountry1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.006"/>
+  <testcase name="testAddCountry2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
   <testcase name="testAddCountry3" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
   <testcase name="testUpdateCountryFlag1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
   <testcase name="testUpdateCountryFlag2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>

@@ -27,15 +27,15 @@ import com.itextpdf.text.pdf.PdfPTable;
 
 
 // Currency manager class
-class CurrencyManager {
+public class CurrencyManager {
     private Database database;
     private Json jsonHandler;
-    private List<String> popularCurrencies;
+    public List<String> popularCurrencies;
 
     public CurrencyManager(Database database, Json jsonHandler) {
         this.database = database;
         this.jsonHandler = jsonHandler;
-        this.popularCurrencies = new ArrayList<>(Arrays.asList("AU", "US", "UK", "JP"));
+        this.popularCurrencies = new ArrayList<>(Arrays.asList("AUD", "USD", "GBP", "JPY"));
         database.initialiseDatabase();
     }
 
@@ -66,6 +66,10 @@ class CurrencyManager {
         double fromRate = database.getLastExchangeRate(fromCurrency);
         double toRate = database.getLastExchangeRate(toCurrency);
         return Math.abs(amount * (toRate / fromRate));
+    }
+
+    public double getLastExchangeRate(String currency) {
+        return database.getLastExchangeRate(currency);
     }
 
     public void displayPopularCurrencies() {
@@ -171,8 +175,6 @@ class CurrencyManager {
         }
     }
 
-
-
     public void generateExchangeRateSummaryPDF(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
         ExchangeRateSummary summary = getExchangeRateSummary(currency1, currency2, startDate, endDate);
 
@@ -253,7 +255,6 @@ class CurrencyManager {
         table.addCell(new Phrase(key, font));
         table.addCell(new Phrase(value, font));
     }
-
 
 
 

@@ -5,13 +5,12 @@ package CurrencyExchange;
 
 import CurrencyExchange.FileHandlers.*;
 import CurrencyExchange.Users.AdminLogin;
+import CurrencyExchange.Users.CurrencyManager;
 
 
 import java.io.*;
 import java.util.*;
 import java.nio.file.*;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import processing.data.*;
 import processing.core.*;
 
@@ -24,6 +23,7 @@ public class App extends PApplet{
     PopularUI PopularUI;
     PrintSummaryUI PrintSummaryUI;
     UpdateUI UpdateUI;
+    Login Login;
 
     // Canvas center
     int centerX = width/2;
@@ -64,18 +64,20 @@ public class App extends PApplet{
     PImage unSelectedUpdate;
     Flag flag;
 
+    CurrencyManager currencyManager;
+
     @Override
     public void setup() {
-        //initialise json file
+        //initialise json file 
         String jsonFilepath = "src/main/java/resources/main/config.json";
         Json = new Json(loadJSONObject(jsonFilepath), jsonFilepath);
 
-        //initialise database
+        //initialise database 
         String databaseFilePath = "src/main/java/resources/main/database.db";
         Database = new Database(databaseFilePath);
         Database.initialiseDatabase();
 
-        //initialise admin login
+        //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
 
@@ -101,10 +103,13 @@ public class App extends PApplet{
         unSelectedUpdate = loadImage("src/main/resources/update-not-selected.png");
         unSelectedUpdate.resize(1920 / 40, 1080 / 40);
 
-        CurrencyConverterUI = new CurrencyConverterUI(this);
-        PopularUI = new PopularUI(this);
-        PrintSummaryUI = new PrintSummaryUI(this);
-        UpdateUI = new UpdateUI(this);
+        currencyManager = new CurrencyManager(Database, Json);
+        CurrencyConverterUI = new CurrencyConverterUI(this, currencyManager);
+
+        PopularUI = new PopularUI(this, currencyManager);
+        PrintSummaryUI = new PrintSummaryUI(this, currencyManager);
+        UpdateUI = new UpdateUI(this, currencyManager);
+        Login = new Login(this);
     }
 
     public void settings() {
@@ -125,7 +130,21 @@ public class App extends PApplet{
         // drawing the logo
         image(logo, 25, -15);
 
+//        // Shadow properties
+//        fill(0, 0, 0, 50);
+//        noStroke();
+//
+//        rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, rectH + 2 * shadowOffset, cornerRadius + 5);
+//
+//        // Main rectangle properties
+//        fill(255,249,254);
+//        noStroke();
+//
+//        // Draw the main rounded rectangle
+//        rect(rectX, rectY, rectW, rectH, cornerRadius);
+
         // Long rectangle header
+        noStroke();
         fill(220, 202, 216);
         rect(rectX, rectY+30, rectW, 30);
         rect(rectX, rectY, rectW, 60, cornerRadius);
@@ -147,7 +166,7 @@ public class App extends PApplet{
             } else {
                 System.out.println("Converter UI is null");
             }
-
+            noStroke();
             fill(255, 249, 254);
             rect(rectX, rectY, rectW/4, 60, cornerRadius);
             rect(rectX, rectY+30, rectW/4, 30);
@@ -179,6 +198,7 @@ public class App extends PApplet{
             } else {
                 System.out.println("Popular UI is null");
             }
+            noStroke();
             // Long rectangle header
             fill(220, 202, 216);
             rect(rectX, rectY+30, rectW, 30);
@@ -197,7 +217,7 @@ public class App extends PApplet{
             rect(rectX, rectY, rectW/4, 60, cornerRadius);
             rect(rectX, rectY+30, rectW/4, 30);
 
-
+            textSize(16);
             // Converter tab
             fill(113, 103, 111);
             image(unSelectedConvert, 100, 155);
@@ -227,10 +247,14 @@ public class App extends PApplet{
                 System.out.println("Print Summary UI is null");
             }
 
+            noStroke();
+
             // Long rectangle header
             fill(220, 202, 216);
             rect(rectX, rectY+30, rectW, 30);
             rect(rectX, rectY, rectW, 60, cornerRadius);
+
+            textSize(16);
 
             fill(255, 249, 254);
             rect(rectX+2*rectW/4, rectY, rectW/4, 60, cornerRadius);
@@ -258,7 +282,9 @@ public class App extends PApplet{
             fill(113, 103, 111);
             image(unSelectedPopular, 290, 153);
             text("Most Popular", 335, 173);
+
         } else {
+            noStroke();
             fill(220, 202, 216);
             rect(rectX+2*rectW/4, rectY, rectW/4, 60, cornerRadius);
             rect(rectX+2*rectW/4, rectY+30, rectW/4, 30);
@@ -279,6 +305,9 @@ public class App extends PApplet{
             } else {
                 System.out.println("Update UI is null");
             }
+
+            noStroke();
+            textSize(16);
             fill(255, 249, 254);
             rect(rectX+3*rectW/4, rectY, rectW/4, 60, cornerRadius);
             rect(rectX+3*rectW/4, rectY+30, rectW/4, 30);
@@ -327,22 +356,81 @@ public class App extends PApplet{
             if (isHoveringUpdate) {
                 System.out.println("Mouse is hovering over 'update' tab");
                 fill(255, 249, 254, 191);
-            }
+            };
+        }
+        // Get mouse hover status
+        boolean isHovering = isMouseOverButton(800, 15, 115, 40);
+
+        // Change the color based on hover
+        if (isHovering) {
+            System.out.println("Mouse is hovering over 'Admin Login' button");
+            fill(222, 37, 176, 200);
+        } else {
+            fill(222, 37, 176); // Default color
         }
 
+        // Draw the button after setting the fill color
+        noStroke();
+        rect(800, 15, 115, 40, cornerRadius);
+
+        // Draw the button text
+        textSize(16);
+        fill(255);
+        text("Admin Login", 808, 40);
+
+        if (Login.isLoginScreenVisible) {
+            Login.drawLogin();
+        }
+
+        if (Login.Register.isRegisterScreenVisible) {
+            Login.Register.drawRegister();
+        }
+
+        if (UpdateUI.addCurrency.isAddCurrency) {
+            UpdateUI.addCurrency.drawAddCurrency();
+        }
 
     }
+
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
         return (mouseX > x && mouseX < x + w &&
                 mouseY > y && mouseY < y + h);
     }
-
-
     @Override
     public void mousePressed() {
         // Delegate the mouse press event to the UI handler
-        CurrencyConverterUI.mousePressed();
+        if (exchangeTabSelected) {
+            CurrencyConverterUI.mousePressed();
+        }
+
+        if (popularTabSelected) {
+            PopularUI.mousePressed();
+        }
+
+        if (printTabSelected) {
+            PrintSummaryUI.mousePressed();
+        }
+
+        if (updateTabSelected) {
+            UpdateUI.mousePressed();
+        }
+
+        if (UpdateUI.addCurrency.isAddCurrency) {
+            UpdateUI.addCurrency.mousePressed();
+        }
+
+        if (isMouseOverButton(800, 15, 115, 40)) {
+            Login.isLoginScreenVisible = true;
+        }
+
+        if (Login.isLoginScreenVisible) {
+            Login.mousePressed();
+        }
+
+        if (Login.Register.isRegisterScreenVisible) {
+            Login.Register.mousePressed();
+        }
 
         if (isMouseOverButton((int)rectX, (int)rectY, (int)rectW/4, 60)) {
             exchangeTabSelected = true;
@@ -371,8 +459,14 @@ public class App extends PApplet{
             printTabSelected = false;
             updateTabSelected = true;
         }
+    }
 
-
+    @Override
+    public void keyPressed() {
+        // Delegate to the CurrencyConverterUI if the amount box is selected
+        CurrencyConverterUI.keyPressed();
+        PrintSummaryUI.keyPressed();
+        UpdateUI.keyPressed();
     }
 
     public static void main(String[] args) {
