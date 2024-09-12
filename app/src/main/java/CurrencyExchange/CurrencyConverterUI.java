@@ -42,6 +42,7 @@ public class CurrencyConverterUI {
     String conversionResult = "";
     String conversionRateText = "";
 
+
     CurrencyManager currencyManager;
     Dropdown fromDropdown;
     Dropdown toDropdown;

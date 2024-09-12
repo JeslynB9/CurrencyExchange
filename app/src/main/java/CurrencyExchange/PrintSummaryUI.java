@@ -180,6 +180,7 @@ public class PrintSummaryUI {
         parent.textSize(16);
         parent.text(enteredEndDate, 330, 350);
 
+
         // Draw the flag for 1st currency
         flagManager.drawFlag(selectedFirstCurrency, 90, 263);
         // Draw the flag for 2nd currency

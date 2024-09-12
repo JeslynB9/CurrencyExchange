@@ -17,6 +17,7 @@ public class AddCurrency {
         this.login = login;
     }
 
+
     public void drawAddCurrency() {
 
         if (!isAddCurrency) return;
