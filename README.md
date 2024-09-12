@@ -1,4 +1,4 @@
-# Aerin_Lab09_Group03 - Currency Exchange Software
+# Aerin_Lab09_Group03 - Currency Exchange Program
 
 ## How To Run
 There are two steps to take when running the program:
@@ -31,7 +31,21 @@ The 'From' currency cannot be altered.\
 The exchange rate of that currency will be updated once admin clicks 'Update'
 
 #### Add Currency
+If an admin wants to update an exchange rate to a country that is not available, they can select the 'Add' button at the bottom of the dropdown when selecting the 'To' currency. This will prompt the admin to enter the new currency's name, flag, symbol and rate.\
+This will be saved by pressed the 'Add' button.
 
+#### Set Popular Currencies
+The admin can set the four most popular currencies by selecting each of the currencies.\
+Once the four currencies are selected they can be saved by pressing the 'Set' button.\
+These four currencies will be displayed to the user in the 'Most Popular' tab.
 
 ## How To Test
-
+There are two steps to take when testing the program
+1. To build the program:
+```
+gradle build
+```
+2. To test the program:
+```
+gradle test
+```
