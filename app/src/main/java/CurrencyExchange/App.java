@@ -5,7 +5,7 @@ package CurrencyExchange;
 
 import CurrencyExchange.FileHandlers.*;
 import CurrencyExchange.Users.AdminLogin;
-
+import CurrencyExchange.Users.PopularCurrency;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -25,6 +25,7 @@ public class App extends Application {
     Json Json;
     AdminLogin AdminLogin;
     Database Database;
+    PopularCurrency PopularCurrency;
     PApplet PApplet;
 
     @Override
@@ -52,6 +53,10 @@ public class App extends Application {
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(PApplet.loadJSONObject(loginFilepath), loginFilepath);
+
+        //initialise popular currencies 
+        PopularCurrency = new PopularCurrency(Database);
+        
         
         VBox root = new VBox();
         Scene scene = new Scene(root, 800, 600);
