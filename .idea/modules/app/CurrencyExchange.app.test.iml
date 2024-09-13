@@ -100,5 +100,4 @@
     <orderEntry type="library" name="Gradle: org.jogamp.jogl:nativewindow:os-x11:2.3.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.protobuf:protobuf-java:3.21.9" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="CurrencyExchange.app.main" />
 </module>

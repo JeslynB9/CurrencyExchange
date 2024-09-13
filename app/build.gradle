@@ -37,7 +37,10 @@ dependencies {
 
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
-
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
     //for processing library
     implementation 'org.processing:core:3.3.7'
 

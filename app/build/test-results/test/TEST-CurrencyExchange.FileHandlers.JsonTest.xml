@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CurrencyExchange.FileHandlers.JsonTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-09-13T06:51:38" hostname="DESKTOP-5CU6960" time="0.027">
+<testsuite name="CurrencyExchange.FileHandlers.JsonTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-09-13T12:33:30" hostname="DESKTOP-BQJN6U8" time="0.013">
   <properties/>
-  <testcase name="testAddCountry1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.011"/>
-  <testcase name="testAddCountry2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.002"/>
-  <testcase name="testAddCountry3" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
-  <testcase name="testLoadJson" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.006"/>
+  <testcase name="testAddCountry1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.005"/>
+  <testcase name="testAddCountry2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
+  <testcase name="testAddCountry3" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
+  <testcase name="testLoadJson" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.004"/>
   <testcase name="testUpdateCountryFlag1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
-  <testcase name="testUpdateCountryFlag2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.002"/>
+  <testcase name="testUpdateCountryFlag2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
   <testcase name="testUpdateCountryFlag3" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
-  <testcase name="testUpdateCountrySymbol1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
+  <testcase name="testUpdateCountrySymbol1" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
   <testcase name="testUpdateCountrySymbol2" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.001"/>
   <testcase name="testUpdateCountrySymbol3" classname="CurrencyExchange.FileHandlers.JsonTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
