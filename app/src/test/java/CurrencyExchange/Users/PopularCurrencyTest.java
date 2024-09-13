@@ -31,15 +31,15 @@ public class PopularCurrencyTest {
     @Test
     public void testPopularCurrency() {
         popularCurrency.setPopularCurrency("GB", "JP", "UK", "EU");
-        HashMap<String, Float> map = popularCurrency.getPopularCurrency();
+        HashMap<String, Double> map = popularCurrency.getPopularCurrency();
         assertTrue(map.containsKey("GB"));
-        assertEquals(1.23f, map.get("GB"), 0.0001f);
+        assertEquals(1.23, map.get("GB"), 0.0001f);
         assertTrue(map.containsKey("JP"));
-        assertEquals(1.0f, map.get("JP"), 0.0001f);
+        assertEquals(1.0, map.get("JP"), 0.0001f);
         assertTrue(map.containsKey("UK"));
-        assertEquals(0.8f, map.get("UK"), 0.0001f);
+        assertEquals(0.8, map.get("UK"), 0.0001f);
         assertTrue(map.containsKey("EU"));
-        assertEquals(0.85f, map.get("EU"), 0.0001f);
+        assertEquals(0.85, map.get("EU"), 0.0001f);
 
         assertFalse(map.containsKey("US"));
         assertFalse(map.containsKey("AU"));

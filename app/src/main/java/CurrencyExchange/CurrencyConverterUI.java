@@ -169,7 +169,7 @@ public class CurrencyConverterUI {
 
         // Change the color based on hover
         if (isHovering) {
-            System.out.println("Mouse is hovering over 'Convert' button");
+            // System.out.println("Mouse is hovering over 'Convert' button");
             parent.fill(222, 37, 176, 200);
         } else {
             parent.fill(222, 37, 176); // Default color
@@ -232,6 +232,7 @@ public class CurrencyConverterUI {
         else if (isMouseOverButton(775, 350, 100, 40)) {
             performConversion();
             System.out.println("convert button");
+            currencyManager.convertCurrency(centerX, selectedFromCurrency, selectedToCurrency);
         }
 
         else if (isMouseOverButton(590, 257, 40, 40)) {  // Coordinates for the switch button
@@ -312,7 +313,13 @@ public class CurrencyConverterUI {
             double toRate = currencyManager.getLastExchangeRate(selectedToCurrency);
 
             // Calculate the conversion rate
-            double conversionRate = fromRate/toRate;
+            double conversionRate;
+            if (fromRate != 1) {
+                conversionRate = fromRate/toRate;
+            } else {
+                conversionRate = toRate;
+            }
+            
 
             // Update the conversion rate text for display
             conversionRateText = "$ 1 " + selectedFromCurrency + " = " + conversionRate + " " + selectedToCurrency;
@@ -351,7 +358,7 @@ public class CurrencyConverterUI {
             }
 
             // Perform the conversion
-            double convertedAmount = amount * (fromRate/toRate);
+            double convertedAmount = currencyManager.convertCurrency(amount, selectedFromCurrency, selectedToCurrency);
 
             // Update the conversion result to display
             conversionResult = String.format("%.2f %s = %.2f %s", amount, selectedFromCurrency, convertedAmount, selectedToCurrency);
