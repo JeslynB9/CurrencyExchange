@@ -207,17 +207,19 @@ public class PrintSummaryUI {
         parent.text(selectedFirstCurrencyText, 120, 277);
         parent.text(selectedSecondCurrencyText, 365, 277);
 
+
+
         // Add "Open PDF" button if a PDF has been generated
         if (pdfGenerated && generatedPDFFile != null && generatedPDFFile.exists()) {
-            if (drawButton("Open PDF", 775, 400, 100, 40)) {
-                openPDFFile(generatedPDFFile);
+            if (drawButton("Open PDF", 775, 300, 100, 40)) {
+                currencyManager.openPDFFile(generatedPDFFile);
             }
         }
 
         firstDropdown.draw();
         secondDropdown.draw();
         parent.textSize(16);
-
+//        drawButton("Open PDF", 775, 300, 100, 40); // testing
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
@@ -259,7 +261,7 @@ public class PrintSummaryUI {
         else if (isMouseOverButton(775, 350, 100, 40)) {
             generateSummary();
             if (pdfGenerated && isMouseOverButton(775, 400, 100, 40)) {
-                openPDFFile(generatedPDFFile);
+                currencyManager.openPDFFile(generatedPDFFile);
             }
         }
 
@@ -291,7 +293,6 @@ public class PrintSummaryUI {
         }
     }
 
-
     private void handleDateInput(boolean isStartDate) {
         char key = parent.key;
         if (Character.isDigit(key) || key == '-') {
@@ -322,7 +323,6 @@ public class PrintSummaryUI {
             System.out.println("Error: Date range not entered");
             return;
         }
-
 
         try {
             String testFilePath = "app/src/main/java/CurrencyExchange/Users/PDFSummary/test.txt";
@@ -387,32 +387,13 @@ public class PrintSummaryUI {
     }
 
     private boolean drawButton(String label, int x, int y, int w, int h) {
+        parent.noStroke();
         parent.fill(222, 37, 176);
         parent.rect(x, y, w, h, 10);
         parent.fill(255);
-        parent.textAlign(PApplet.CENTER, PApplet.CENTER);
-        parent.text(label, x + w/2, y + h/2);
+        parent.text(label, 790, 325);
         return parent.mousePressed && parent.mouseX > x && parent.mouseX < x + w && parent.mouseY > y && parent.mouseY < y + h;
     }
-
-    private void openPDFFile(File file) {
-        try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop.isSupported(Desktop.Action.OPEN)) {
-                    desktop.open(file);
-                } else {
-                    System.out.println("Opening files is not supported on this platform");
-                }
-            } else {
-                System.out.println("Desktop is not supported on this platform");
-            }
-        } catch (IOException e) {
-            System.out.println("Error opening PDF file: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
 
 }
 

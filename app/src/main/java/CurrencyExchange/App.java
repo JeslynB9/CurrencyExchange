@@ -8,7 +8,6 @@ import CurrencyExchange.Users.AdminLogin;
 import CurrencyExchange.Users.CurrencyManager;
 
 import CurrencyExchange.Users.PopularCurrency;
-
 import java.io.*;
 import java.util.*;
 import java.nio.file.*;
@@ -27,6 +26,7 @@ public class App extends PApplet{
     PrintSummaryUI PrintSummaryUI;
     UpdateUI UpdateUI;
     Login Login;
+    Register register;
 
     // Canvas center
     int centerX = width/2;
@@ -69,7 +69,7 @@ public class App extends PApplet{
 
     CurrencyManager currencyManager;
     PopularCurrency PopularCurrency;
-
+    boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
     @Override
     public void setup() {
         //initialise json file 
@@ -88,7 +88,6 @@ public class App extends PApplet{
 
         //initialise popular currencies 
         PopularCurrency = new PopularCurrency(Database);
-
 
         // load the logo
         logo = loadImage("src/main/resources/logo.png");
@@ -119,7 +118,8 @@ public class App extends PApplet{
         ExecutorService executor = Executors.newFixedThreadPool(2);
         PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
         UpdateUI = new UpdateUI(this, currencyManager);
-        Login = new Login(this);
+        Login = new Login(this, this);
+
     }
 
     public void settings() {
@@ -309,7 +309,7 @@ public class App extends PApplet{
             }
         }
 
-        if (updateTabSelected) {
+        if (updateTabSelected && isAdminLoggedIn) {
             if (UpdateUI != null) {
                 UpdateUI.drawUpdate();
             } else {
@@ -465,12 +465,26 @@ public class App extends PApplet{
         }
 
         else if (isMouseOverButton((int)rectX+3*(int)rectW/4, (int)rectY, (int)rectW/4, 60)) {
-            exchangeTabSelected = false;
-            popularTabSelected = false;
-            printTabSelected = false;
-            updateTabSelected = true;
+            if (isAdminLoggedIn) {
+                exchangeTabSelected = false;
+                popularTabSelected = false;
+                printTabSelected = false;
+                updateTabSelected = true;
+            } else {
+                System.out.println("Admin not logged in. Access to update page is restricted.");
+            }
         }
     }
+
+//    @Override
+//    public void keyPressed() {
+//        // Delegate to the CurrencyConverterUI if the amount box is selected
+//        CurrencyConverterUI.keyPressed();
+//        PrintSummaryUI.keyPressed();
+//        UpdateUI.keyPressed();
+//        Login.keyPressed();
+//        Register.keyPressed();
+//    }
 
     @Override
     public void keyPressed() {
@@ -478,6 +492,16 @@ public class App extends PApplet{
         CurrencyConverterUI.keyPressed();
         PrintSummaryUI.keyPressed();
         UpdateUI.keyPressed();
+
+        // Use the Login instance instead of class
+        if (Login.isLoginScreenVisible) {
+            Login.keyPressed();  // Use the instance method
+        }
+
+        // Use the Register instance within Login
+        if (Login.Register.isRegisterScreenVisible) {
+            Login.Register.keyPressed();  // Use the instance method
+        }
     }
 
     public static void main(String[] args) {
