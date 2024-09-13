@@ -13,8 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.awt.Desktop;
 
 public class PrintSummaryUI {
     PApplet parent;

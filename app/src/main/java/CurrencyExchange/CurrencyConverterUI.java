@@ -33,11 +33,12 @@ public class CurrencyConverterUI {
     boolean amountBoxSelected = false;
     boolean fromBoxSelected = false;
     boolean toBoxSelected = false;
+
     String selectedFromCurrencyText = "USD - US Dollar"; // Default currency
     String selectedToCurrencyText = "AUD - AU Dollar";   // Default currency
-
     String selectedFromCurrency = "USD";
     String selectedToCurrency = "AUD";
+
     String enteredAmount = "";  // Amount input
     String conversionResult = "";
     String conversionRateText = "";

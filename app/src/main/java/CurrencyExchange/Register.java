@@ -15,7 +15,6 @@ public class Register {
     String enteredPassword = "";
 
     public Register(PApplet parent, Login login) {
-
         this.parent = parent;
         this.login = login;
     }

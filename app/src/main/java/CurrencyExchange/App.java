@@ -35,6 +35,7 @@ public class App extends PApplet{
     Login Login;
     Register register;
 
+
     // Canvas center
     int centerX = width/2;
     int centerY = height/2;
@@ -76,7 +77,7 @@ public class App extends PApplet{
 
     CurrencyManager currencyManager;
     PopularCurrency PopularCurrency;
-//    PApplet PApplet;
+    AddCurrency addCurrency;
     boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
 
     @Override
@@ -131,7 +132,7 @@ public class App extends PApplet{
         PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
         UpdateUI = new UpdateUI(this, currencyManager);
         Login = new Login(this, this);
-
+        addCurrency = new AddCurrency(this, Login);
     }
 
     public void settings() {
@@ -498,12 +499,16 @@ public class App extends PApplet{
 //        Register.keyPressed();
 //    }
 
-    @Override
     public void keyPressed() {
         // Delegate to the CurrencyConverterUI if the amount box is selected
         CurrencyConverterUI.keyPressed();
         PrintSummaryUI.keyPressed();
         UpdateUI.keyPressed();
+
+        if (addCurrency != null && addCurrency.isAddCurrency) {
+            System.out.println("Calling AddCurrency keyPressed");
+            addCurrency.keyPressed();
+        }
 
         // Use the Login instance instead of class
         if (Login.isLoginScreenVisible) {
@@ -515,6 +520,7 @@ public class App extends PApplet{
             Login.Register.keyPressed();  // Use the instance method
         }
     }
+
 
     public static void main(String[] args) {
         PApplet.main("CurrencyExchange.App");

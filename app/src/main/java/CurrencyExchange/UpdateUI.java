@@ -16,6 +16,7 @@ public class UpdateUI {
     CurrencyManager currencyManager;
     Dropdown toDropdown;
     Flag flagManager;
+    Login login;
 
     boolean toSelected = false;
     boolean dateSelected = false;
@@ -62,7 +63,7 @@ public class UpdateUI {
         dropdown = parent.loadImage("src/main/resources/dropdown.png");
         dropdown.resize(1920 / 80, 1080 / 80);
 
-        addCurrency = new AddCurrency(parent);
+        addCurrency = new AddCurrency(parent, login);
 
         // Initialize the dropdown for "To" currency selection
         String[] countries = { "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
@@ -99,13 +100,31 @@ public class UpdateUI {
             parent.fill(222, 37, 176); // Default color
         }
 
-        // Draw the button after setting the fill color
+        // Draw Update button after setting the fill color
         parent.noStroke();
         parent.rect(775, 425, 100, 40, cornerRadius);
         // Draw the button text
         parent.textSize(16);
         parent.fill(255);
         parent.text("Update", 797, 450);
+
+        // Get mouse hover status
+        boolean isHovering2 = isMouseOverButton(600, 425, 150, 40);
+
+        // Change the color based on hover
+        if (isHovering2) {
+            System.out.println("Mouse is hovering over 'Update' button");
+            parent.fill(222, 37, 176, 200);
+        } else {
+            parent.fill(222, 37, 176); // Default color
+        }
+        // Draw Add Currency button after setting the fill color
+        parent.noStroke();
+        parent.rect(600, 425, 150, 40, cornerRadius);
+        // Draw the button text
+        parent.textSize(16);
+        parent.fill(255);
+        parent.text("Add Currency", 622, 450);
 
         // Draw the static USD currency box
         parent.fill(220, 202, 216);
@@ -139,7 +158,6 @@ public class UpdateUI {
         parent.textSize(16);
         parent.text(selectedToCurrencyText, 435, 277);
 
-
         parent.image(dropdown, 570, 265);
 
         // Draw the "DATE" box
@@ -161,9 +179,9 @@ public class UpdateUI {
         parent.fill(0);
         parent.textSize(12);
         parent.text("Old Rate", 227, 345);
-        parent.textSize(16);
-        parent.text("Old Rate", 227, 375);
 
+        parent.textSize(16);
+        parent.text("Old Rate", 227, 375); // need to replace to an old rate
 
         // Draw the "NEW RATE" box
         if (newRateSelected) {
@@ -209,8 +227,10 @@ public class UpdateUI {
             newRateSelected = true;
         }
         if (isMouseOverButton(775, 425, 100, 40)) {
-            addCurrency.isAddCurrency = true;
             performUpdate();
+        }
+        if (isMouseOverButton(600, 425, 150, 40)) {
+            addCurrency.isAddCurrency = true;
             addCurrency.mousePressed();
         }
 

@@ -85,7 +85,6 @@ public class Login {
             parent.text("Password", 370, 315);
         }
 
-//        parent.noFill();
         parent.textSize(16);
         parent.fill(0);
 

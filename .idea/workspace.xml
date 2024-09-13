@@ -5,16 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b55af20-13e9-4dc4-8347-78a27f16b07a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/FileHandlers/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/FileHandlers/Database.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/AddCurrency.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/AddCurrency.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/CurrencyConverterUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/CurrencyConverterUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/UpdateUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/UpdateUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/CurrencyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/CurrencyManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,6 +52,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>

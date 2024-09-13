@@ -228,8 +228,6 @@ public class Database {
         }
     }
 
-
-
     /*
      * Get the last exchange rate value for a given country
      * @params:

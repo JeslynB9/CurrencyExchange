@@ -63,7 +63,11 @@ public class CurrencyManager {
     }
 
     public double getLastExchangeRate(String currency) {
-        return database.getLastExchangeRate(currency);
+        System.out.println("Fetching exchange rate for: " + currency);
+        double rate = database.getLastExchangeRate(currency);
+        System.out.println("Exchange rate for " + currency + ": " + rate);
+        return rate;
+//        return database.getLastExchangeRate(currency);
     }
 
     public void displayPopularCurrencies() {
