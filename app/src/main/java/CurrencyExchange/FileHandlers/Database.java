@@ -50,14 +50,14 @@ public class Database {
         }
     }
 
-    
+
 
     /*
-     * Add a country (column) to the database 
-     * @params: 
-     *      user: String 
-     *      country: String 
-     *      rate: double 
+     * Add a country (column) to the database
+     * @params:
+     *      user: String
+     *      country: String
+     *      rate: double
      */
     public void addCountry(String user, String country, double rate) {
         //check if country is valid string 
@@ -80,7 +80,7 @@ public class Database {
             //insert data
             String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String insertSQL = "INSERT INTO ExchangeRates (datetime, User, " + country + ") VALUES (?, ?, ?) "
-                         + "ON CONFLICT(datetime) DO UPDATE SET User = excluded.User, " + country + " = excluded." + country;
+                    + "ON CONFLICT(datetime) DO UPDATE SET User = excluded.User, " + country + " = excluded." + country;
 
             //create a PreparedStatement to execute SQL query
             //automatically closes after try block
@@ -127,9 +127,9 @@ public class Database {
 
     /*
      * Checks if a column with columnName exists
-     * @params: 
-     *      connection: Connection 
-     *      columnName: String 
+     * @params:
+     *      connection: Connection
+     *      columnName: String
      */
     private boolean columnExists(Connection connection, String columnName) throws SQLException {
         if (columnName == null) {
@@ -152,34 +152,34 @@ public class Database {
 
     /*
      * Updates an existing column with a rate
-     * @params: 
-     *      user: String 
-     *      country: String 
-     *      rate: double 
+     * @params:
+     *      user: String
+     *      country: String
+     *      rate: double
      */
     public void updateRate(String user, String country, double rate) {
         if (rate < 0) {
-            return; 
+            return;
         }
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         String query = "UPDATE ExchangeRates SET " + country + " = ?, User = ? WHERE datetime = ?";
-        
+
         //try to open connection to the SQLite database
         try (Connection connection = getConnection()) {
-        
+
             //check if column exists
             if (!columnExists(connection, country)) {
                 return;
             }
-    
+
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setDouble(1, rate);
                 pstmt.setString(2, user);
                 pstmt.setString(3, currentDateTime);
                 pstmt.executeUpdate();
             }
-    
+
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -232,13 +232,13 @@ public class Database {
 
     /*
      * Get the last exchange rate value for a given country
-     * @params: 
-     *      country: String 
+     * @params:
+     *      country: String
      */
     public float getLastExchangeRate(String country) {
         String querySQL = "SELECT " + country + " FROM ExchangeRates "
-                        + "WHERE " + country + " IS NOT NULL "
-                        + "ORDER BY datetime DESC LIMIT 1";
+                + "WHERE " + country + " IS NOT NULL "
+                + "ORDER BY datetime DESC LIMIT 1";
 
 
         try (Connection connection = getConnection();
@@ -260,10 +260,10 @@ public class Database {
 
     /*
      * Get the last user to modify rate value for a given country
-     * @params: 
-     *      country: String 
-     * @ret: 
-     *      user: String else null 
+     * @params:
+     *      country: String
+     * @ret:
+     *      user: String else null
      */
     // public String getLastUser(String country) {
     //     String querySQL = "SELECT User FROM ExchangeRates "
@@ -289,9 +289,9 @@ public class Database {
 
     /*
      * Get the last date to modify rate value for a given country
-     * @params: 
-     *      country: String 
-     * @ret: 
+     * @params:
+     *      country: String
+     * @ret:
      *      datetime: String else null
      */
     // public String getLastDate(String country) {
@@ -324,14 +324,14 @@ public class Database {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
-                while (rs.next()) {
-                    String columnName = rs.getString("name");
-    
-                    if (!columnName.equals("datetime") && !columnName.equals("User")) {
-                        double rate = getLastExchangeRate(columnName);
-                        currencies.put(columnName, rate);
-                    }
+            while (rs.next()) {
+                String columnName = rs.getString("name");
+
+                if (!columnName.equals("datetime") && !columnName.equals("User")) {
+                    double rate = getLastExchangeRate(columnName);
+                    currencies.put(columnName, rate);
                 }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

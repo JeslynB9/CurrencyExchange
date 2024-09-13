@@ -11,15 +11,21 @@ public class Login {
     Register Register;
     PImage exitButton;
     float shadowOffset = 8;
-    public Login(PApplet parent) {
+
+    String enteredUsername = "";
+    String enteredPassword = "";
+    App parent2;
+
+
+    public Login(PApplet parent, App parent2) {
 
         this.parent = parent;
+        this.parent2 = parent2;
         Register = new Register(parent, this);
         System.out.println("Register initialized");
         exitButton = parent.loadImage("src/main/resources/exit.png");
         exitButton.resize(1920 / 40, 1080 / 40);
     }
-
 
     public void drawLogin() {
 
@@ -53,9 +59,16 @@ public class Login {
         // Username Field
         parent.stroke(84, 84, 84);
         parent.rect(parent.width / 2 - 120, parent.height / 2 - 60, 240, 40, 5);
-        parent.fill(84, 84, 84);
+
+        if (enteredUsername.isEmpty()) {
+            parent.fill(84, 84, 84);
+            parent.textSize(16);
+            parent.text("Username", parent.width / 2 - 110, parent.height / 2 - 35);
+        }
+
         parent.textSize(16);
-        parent.text("Username", 370, 235);
+        parent.fill(0);
+        parent.text(enteredUsername, parent.width / 2 - 110, parent.height / 2 - 35);
 
         // Password Field
         if (passwordSelected) {
@@ -65,9 +78,20 @@ public class Login {
         }
         parent.stroke(84, 84, 84);
         parent.rect(parent.width / 2 - 120, parent.height / 2 + 20, 240, 40, 5);
-        parent.fill(84, 84, 84);
+
+        if (enteredPassword.isEmpty()) {
+            parent.fill(84, 84, 84);
+            parent.textSize(16);
+            parent.text("Password", 370, 315);
+        }
+
+//        parent.noFill();
         parent.textSize(16);
-        parent.text("Password", 370, 315);
+        parent.fill(0);
+
+        // Password Field (You may want to hide this with '*')
+        String hiddenPassword = "*".repeat(enteredPassword.length());
+        parent.text(hiddenPassword, parent.width / 2 - 110, parent.height / 2 + 45);
 
         // Login Button
         // Draw the button after setting the fill color
@@ -104,7 +128,6 @@ public class Login {
         parent.ellipse(314, 153, 35, 35);
         parent.image(exitButton, 290, 140);
 
-
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
@@ -138,5 +161,53 @@ public class Login {
             usernameSelected = false;
             passwordSelected = true;
         }
+
+        if (isMouseOverButton(560, 360, 100, 40)) {
+            if (validateCredentials(enteredUsername, enteredPassword)) {
+                System.out.println("Login successful");
+                parent2.isAdminLoggedIn = true;
+                isLoginScreenVisible = false;
+                // Trigger whatever happens after login (e.g., show another screen)
+            } else {
+                System.out.println("Login failed. Invalid username or password.");
+            }
+        }
+    }
+
+    public void keyPressed() {
+        handleKeyInput();
+
+        if (parent.key == PApplet.ENTER || parent.key == PApplet.RETURN) {
+            if (validateCredentials(enteredUsername, enteredPassword)) {
+                System.out.println("Login successful");
+                isLoginScreenVisible = false;
+            } else {
+                System.out.println("Login failed. Invalid username or password.");
+            }
+        }
+    }
+
+    public void handleKeyInput() {
+        char key = parent.key;
+        if (usernameSelected) {
+            if (Character.isLetterOrDigit(key) || key == '_') {
+                enteredUsername += key;
+            }
+            if (key == PApplet.BACKSPACE && enteredUsername.length() > 0) {
+                enteredUsername = enteredUsername.substring(0, enteredUsername.length() - 1);
+            }
+        } else if (passwordSelected) {
+            if (Character.isLetterOrDigit(key) || key == '_') {
+                enteredPassword += key;
+            }
+            if (key == PApplet.BACKSPACE && enteredPassword.length() > 0) {
+                enteredPassword = enteredPassword.substring(0, enteredPassword.length() - 1);
+            }
+        }
+    }
+
+    private boolean validateCredentials(String username, String password) {
+        // Replace with real validation logic, e.g., check from a file or database
+        return username.equals("admin") && password.equals("password123");
     }
 }

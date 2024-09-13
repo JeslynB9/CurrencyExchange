@@ -5,55 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b55af20-13e9-4dc4-8347-78a27f16b07a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Windows-Linux/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/CurrencyConverterUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PopularUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/UpdateUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/AdminUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/CurrencyConverterApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/CurrencyManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/ExchangeRate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/NormalUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/PDFSummary/AU-UK_2004-01-01_to_2024-09-10_Summary.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/PDFSummary/AU-UK_2024-08-01_to_2024-09-10_Summary.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/UserInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/convert-not-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/convert-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/dropdown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/popular-not-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/popular-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/print-not-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/print-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/switch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/update-not-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/resources/update-selected.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/AU-UK_2024-08-01_to_2024-09-10_Summary.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/AU-US_2024-08-01_to_2024-09-10_Summary.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/AU-US_2024-08-04_to_2024-09-09_Summary.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/force_test_1725861399469.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/force_test_1725861409558.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/force_test_1725861438293.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summaries/test_2024-09-09T15-52-41.709775900.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/scripts/app.bat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/scripts/app.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/FileHandlers/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/FileHandlers/Database.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Json.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Json.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Flag.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Flag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/USA.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/USD.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/CurrencyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/Users/CurrencyManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +66,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging Irene",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/User/Downloads/sqlite-jdbc-3.46.1.0.jar",
     "node.js.detected.package.eslint": "true",
