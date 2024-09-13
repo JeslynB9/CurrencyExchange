@@ -82,7 +82,7 @@ public class Database {
      *      connection: Connection
      *      columnName: String
      */
-    private boolean columnExists(Connection connection, String columnName) throws SQLException {
+    public boolean columnExists(Connection connection, String columnName) throws SQLException {
         String querySQL = "PRAGMA table_info(ExchangeRates)";
 
         try (Statement stmt = connection.createStatement();

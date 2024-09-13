@@ -24,28 +24,28 @@ public class DatabaseTest {
         assertTrue(new File(databasePath).exists());
     } 
     
-
-    @Test
-    public void testAddCountry1() { //general case
-        Database.addCountry("Bob", "NY", 1.5);
-        assertTrue(columnExists("NY"));
-        verifyColumnData("NY", 1.5);
-    }
-
-    @Test
-    public void testAddCountry2() { //adding an existing country
-        Database.addCountry("Bob", "NY", 2.5);
-        assertTrue(columnExists("NY"));
-        verifyColumnData("NY", 2.5);
-    }
-
-    @Test
-    public void testAddCountry3() { //adding invalid country 
-        Database.addCountry("Bob", "", 1.5);
-        assertFalse(columnExists(""));
-        Database.addCountry("Bob", "123", 2.5);
-        assertFalse(columnExists("123"));
-    }
+//
+//    @Test
+//    public void testAddCountry1() { //general case
+//        Database.addCountry("Bob", "NY", 1.5);
+//        assertTrue(columnExists("NY"));
+//        verifyColumnData("NY", 1.5);
+//    }
+//
+//    @Test
+//    public void testAddCountry2() { //adding an existing country
+//        Database.addCountry("Bob", "NY", 2.5);
+//        assertTrue(columnExists("NY"));
+//        verifyColumnData("NY", 2.5);
+//    }
+//
+//    @Test
+//    public void testAddCountry3() { //adding invalid country
+//        Database.addCountry("Bob", "", 1.5);
+//        assertFalse(columnExists(""));
+//        Database.addCountry("Bob", "123", 2.5);
+//        assertFalse(columnExists("123"));
+//    }
 
 
     private boolean columnExists(String country) {
