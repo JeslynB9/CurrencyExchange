@@ -32,6 +32,14 @@ public class JsonTest {
         json = new Json(initialJson, jsonFilepath);
     }
 
+    @Test 
+    public void testLoadJson() {
+        json = new Json(null, "src/main/java/resources/test/config.json");
+        json = new Json(null, "eeeoooeeeooo");
+
+    }
+    
+
     @Test
     public void testAddCountry1() { //valid general case
         json.addCountry("NZ", "nzFlag.png", "$");

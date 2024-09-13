@@ -1,12 +1,12 @@
 {
   "symbol": {
-    "AU": "$",
-    "UK": "£",
-    "US": "$"
+    "AUD": "$",
+    "GBP": "£",
+    "USD": "$"
   },
   "flag": {
-    "AU": "auFlag.png",
-    "UK": "ukFlag.png",
-    "US": "usFlag.png"
+    "AUD": "AUD.png",
+    "GBP": "GBP.png",
+    "USD": "USD.png"
   }
 }

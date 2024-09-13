@@ -13,6 +13,7 @@ public class Flag {
         flagMap = new HashMap<>();
     }
 
+
     // Load flag
     public void loadFlag(String countryCode) {
         if (!flagMap.containsKey(countryCode)) {

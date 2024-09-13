@@ -15,14 +15,22 @@ public class AdminLogin {
     /*
      * Add a new user to the JSON file
      * @params:
+     *      id: int 
      *      user: String
      *      pass: String
      * @ret:    
      *      true if successful, else false
      */
-    public boolean addUser(String user, String pass) {
+    public boolean addUser(int id, String user, String pass) {
         if (user != null && pass != null && !user.isEmpty() && !pass.isEmpty()) {
-            fileObj.setString(user, pass);
+            if (fileObj.hasKey(String.valueOf(id))) { //check if id exists
+                return false; 
+            } 
+
+            JSONObject newUser = new JSONObject();
+            newUser.put("username", user);
+            newUser.put("password", pass);
+            fileObj.put(String.valueOf(id), newUser);
             saveJsonFile();
             return true;
         }
@@ -30,22 +38,20 @@ public class AdminLogin {
     }
 
     /* 
-     * Deletes an existing user from the json 
+     * Deletes an existing user from the JSON object
      * @params: 
      *      user: String 
      * @ret: 
      *      true if user exists and deleted, else false
      */
-    public boolean deleteUser(String user) {
-        if (fileObj.hasKey(user)) {
-            fileObj.remove(user);
+    public boolean deleteUser(int id) {
+        if (fileObj.hasKey(String.valueOf(id))) {
+            fileObj.remove(String.valueOf(id));
             saveJsonFile();
             return true;
         }
         return false;
     }
-
-
     /*
      * Update an existing users password
      * @params:
@@ -55,30 +61,32 @@ public class AdminLogin {
      * @ret: 
      *      true if successful, else false if unsuccessful or user does not exist 
      */
-    public boolean updatePassword(String username, String oldPass, String newPass) {
-        if (checkLogin(username, oldPass)) {
-            if (fileObj.hasKey(username) && newPass != null && !newPass.trim().isEmpty()) {
-                fileObj.setString(username, newPass);
-                saveJsonFile();
-                return true;
+    public boolean updatePassword(int id, String oldPass, String newPass) {
+        if (fileObj.hasKey(String.valueOf(id))) {
+            JSONObject userObj = fileObj.getJSONObject(String.valueOf(id));
+            if (userObj.getString("password").equals(oldPass)) {
+                if (newPass != null && !newPass.trim().isEmpty()) {
+                    userObj.put("password", newPass);
+                    saveJsonFile();
+                    return true;
+                }
             }
         }
-        return false; //user does not exist 
+        return false;
     }
 
     /*
      * Update the admin username 
      * @params: 
-     *      userOld : String
+     *      id : int
      *      userNew : String
      * @ret: 
      *      true if updated successfully, else false 
      */
-    public boolean updateUser(String userOld, String userNew) {
-        if (userNew != null && fileObj.hasKey(userOld) && !userNew.trim().isEmpty()) {
-            String password = fileObj.getString(userOld);
-            fileObj.remove(userOld);
-            fileObj.setString(userNew, password);
+    public boolean updateUsername(int id, String userNew) {
+        if (userNew != null && !userNew.trim().isEmpty() && fileObj.hasKey(String.valueOf(id))) {
+            JSONObject userObj = fileObj.getJSONObject(String.valueOf(id));
+            userObj.put("username", userNew);
             saveJsonFile();
             return true;
         }
@@ -89,14 +97,36 @@ public class AdminLogin {
     /*
      * Checks if entered username and password match 
      * @params: 
+     *      id : int 
      *      user : String
      *      pass : String 
      * @ret: 
      *      true if correct user and pass, else false
      */
-    public boolean checkLogin(String username, String password) {
-        return fileObj.hasKey(username) && fileObj.getString(username).equals(password);
+    public boolean checkLogin(int id, String username, String password) {
+        if (fileObj.hasKey(String.valueOf(id))) {
+            JSONObject userObj = fileObj.getJSONObject(String.valueOf(id));
+            return userObj.getString("username").equals(username) && userObj.getString("password").equals(password);
+        }
+        return false;
     }
+
+    /*
+     * Checks if entered username and password match 
+     * @params: 
+     *      id : int 
+     *      pass : String 
+     * @ret: 
+     *      true if correct user and pass, else false
+     */
+    public boolean checkLogin(int id, String password) {
+        if (fileObj.hasKey(String.valueOf(id))) {
+            JSONObject userObj = fileObj.getJSONObject(String.valueOf(id));
+            return userObj.getString("password").equals(password);
+        }
+        return false;
+    }
+    
 
     /*
      * To save changes made to JSON file 

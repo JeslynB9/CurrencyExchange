@@ -13,9 +13,8 @@ import java.util.*;
 import CurrencyExchange.FileHandlers.Database.ExchangeRateEntry;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
-//import java.util.stream.Collectors;
 
-
+import java.awt.Desktop;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -25,17 +24,16 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPTable;
 
-
 // Currency manager class
-class CurrencyManager {
+public class CurrencyManager {
     private Database database;
     private Json jsonHandler;
-    private List<String> popularCurrencies;
+    public List<String> popularCurrencies;
 
     public CurrencyManager(Database database, Json jsonHandler) {
         this.database = database;
         this.jsonHandler = jsonHandler;
-        this.popularCurrencies = new ArrayList<>(Arrays.asList("AU", "US", "UK", "JP"));
+        this.popularCurrencies = new ArrayList<>(Arrays.asList("AUD", "USD", "GBP", "JPY"));
         database.initialiseDatabase();
     }
 
@@ -66,6 +64,10 @@ class CurrencyManager {
         double fromRate = database.getLastExchangeRate(fromCurrency);
         double toRate = database.getLastExchangeRate(toCurrency);
         return Math.abs(amount * (toRate / fromRate));
+    }
+
+    public double getLastExchangeRate(String currency) {
+        return database.getLastExchangeRate(currency);
     }
 
     public void displayPopularCurrencies() {
@@ -112,9 +114,9 @@ class CurrencyManager {
         return jsonHandler.getSymbol(country);
     }
 
-    public void printAllRecords() {
-        database.printAllRecords();
-    }
+//    public void printAllRecords() {
+//        database.printAllRecords();
+//    }
 
 
     public ExchangeRateSummary getExchangeRateSummary(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
@@ -171,14 +173,12 @@ class CurrencyManager {
         }
     }
 
-
-
-    public void generateExchangeRateSummaryPDF(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
+    public String generateExchangeRateSummaryPDF(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
         ExchangeRateSummary summary = getExchangeRateSummary(currency1, currency2, startDate, endDate);
 
         if (summary == null || summary.allRates.isEmpty()) {
             System.out.println("No data available for the specified period and currencies.");
-            return;
+            return null;
         }
 
         String fileName = String.format("%s-%s_%s_to_%s_Summary.pdf",
@@ -187,17 +187,21 @@ class CurrencyManager {
         String folderPath = "app/src/main/java/CurrencyExchange/Users/PDFSummary";
         String filePath = folderPath + File.separator + fileName;
 
+        File pdfFile = new File(filePath);
+        System.out.println("Attempting to generate PDF at: " + pdfFile.getAbsolutePath());
+
         // Ensure the summaries folder exists
         try {
             Files.createDirectories(Paths.get(folderPath));
         } catch (Exception e) {
             System.out.println("Error creating summaries folder: " + e.getMessage());
-            return;
+            return null;
         }
 
         Document document = new Document();
+        PdfWriter writer = null;
         try {
-            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
             document.open();
 
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
@@ -239,22 +243,50 @@ class CurrencyManager {
             }
             document.add(ratesTable);
 
+            System.out.println("PDF content added successfully.");
+
         } catch (Exception e) {
             System.out.println("Error generating PDF: " + e.getMessage());
             e.printStackTrace();
+            return null;
         } finally {
-            document.close();
+            if (document != null && document.isOpen()) {
+                document.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
         }
 
-        System.out.println("PDF generated successfully: " + filePath);
+        if (pdfFile.exists() && pdfFile.length() > 0) {
+            System.out.println("PDF generated successfully: " + pdfFile.getAbsolutePath());
+            return pdfFile.getAbsolutePath();
+        } else {
+            System.out.println("Failed to create PDF file or file is empty: " + pdfFile.getAbsolutePath());
+            return null;
+        }
     }
 
     private void addRowToTable(PdfPTable table, String key, String value, Font font) {
         table.addCell(new Phrase(key, font));
         table.addCell(new Phrase(value, font));
     }
-
-
-
+    private void openPDFFile(File file) {
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    desktop.open(file);
+                } else {
+                    System.out.println("Opening files is not supported on this platform");
+                }
+            } else {
+                System.out.println("Desktop is not supported on this platform");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening PDF file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 }
