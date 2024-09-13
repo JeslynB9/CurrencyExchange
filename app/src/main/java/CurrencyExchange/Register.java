@@ -1,5 +1,6 @@
 package CurrencyExchange;
 
+import CurrencyExchange.Users.AdminLogin;
 import processing.core.PApplet;
 
 public class Register {
@@ -10,10 +11,17 @@ public class Register {
     boolean passwordSelected = false;
     float shadowOffset = 8;
     Login login;
-    public Register(PApplet parent, Login login) {
+    String enteredEmployeeId = "";
+    String enteredUsername = "";
+    String enteredPassword = "";
+    AdminLogin adminLogin;
 
+
+    public Register(PApplet parent, Login login) {
         this.parent = parent;
         this.login = login;
+        String loginFilepath = "src/main/java/resources/main/admin.json";
+        adminLogin = new AdminLogin(parent.loadJSONObject(loginFilepath), loginFilepath);
     }
 
     public void drawRegister() {
@@ -27,7 +35,6 @@ public class Register {
         parent.fill(0, 0, 0, 50);
         parent.noStroke();
         parent.rect(parent.width / 2 - 200 - shadowOffset, parent.height / 2 - 200 - shadowOffset, 400 + 2 * shadowOffset, 400 + 2 * shadowOffset, 15);
-
 
         // White Login Box
         parent.fill(255,249,254);
@@ -47,9 +54,17 @@ public class Register {
         }
         parent.stroke(84, 84, 84);
         parent.rect(parent.width / 2 - 120, parent.height / 2 - 90, 240, 40, 5);
-        parent.fill(84, 84, 84);
+
+        if (enteredEmployeeId.isEmpty()) {
+            parent.fill(84, 84, 84);
+            parent.textSize(16);
+            parent.text("Employee ID", 370, 205);
+        }
+
         parent.textSize(16);
-        parent.text("Employee ID", 370, 205);
+        parent.fill(0);
+        parent.text(enteredEmployeeId, 370, 205);
+
 
         // Username Field
         if (usernameSelected) {
@@ -59,9 +74,17 @@ public class Register {
         }
         parent.stroke(84, 84, 84);
         parent.rect(parent.width / 2 - 120, parent.height / 2 - 10, 240, 40, 5);
-        parent.fill(84, 84, 84);
+
+        if (enteredUsername.isEmpty()) {
+            parent.fill(84, 84, 84);
+            parent.textSize(16);
+            parent.text("Username", 370, 285);
+        }
+
         parent.textSize(16);
-        parent.text("Username", 370, 285);
+        parent.fill(0);
+        parent.text(enteredUsername, 370, 285);
+
 
         // Password Field
         if (passwordSelected) {
@@ -71,9 +94,16 @@ public class Register {
         }
         parent.stroke(84, 84, 84);
         parent.rect(parent.width / 2 - 120, parent.height / 2 + 70, 240, 40, 5);
-        parent.fill(84, 84, 84);
+
+        if (enteredPassword.isEmpty()) {
+            parent.fill(84, 84, 84);
+            parent.textSize(16);
+            parent.text("Password", 370, 365);
+        }
+
         parent.textSize(16);
-        parent.text("Password", 370, 365);
+        parent.fill(0);
+        parent.text(enteredPassword, 370, 365);
 
         // Register Button
         // Draw the button after setting the fill color
@@ -97,6 +127,20 @@ public class Register {
         }
 
         parent.text("Have An Account?", 300, 435);
+
+
+        try {
+            int id = Integer.valueOf(enteredEmployeeId);
+            if (adminLogin.addUser(id, enteredUsername, enteredPassword)) {
+                System.out.println("Created Account!");
+                //add logic to show admin view 
+            }
+            else {
+                System.out.println("Failed to create account: id already exists");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entered ID is not an integer");
+        }
 
     }
 
@@ -127,6 +171,28 @@ public class Register {
             employeeIdSelected = false;
             usernameSelected = false;
             passwordSelected = true;
+        }
+    }
+
+    public void keyPressed() {
+        char key = parent.key;
+        if (Character.isLetterOrDigit(key) || key == '_') {
+            if (employeeIdSelected) {
+                enteredEmployeeId += key;
+            } else if (usernameSelected) {
+                enteredUsername += key;
+            } else if (passwordSelected) {
+                enteredPassword += key;
+            }
+        }
+        if (key == PApplet.BACKSPACE) {
+            if (employeeIdSelected && enteredEmployeeId.length() > 0) {
+                enteredEmployeeId = enteredEmployeeId.substring(0, enteredEmployeeId.length() - 1);
+            } else if (usernameSelected && enteredUsername.length() > 0) {
+                enteredUsername = enteredUsername.substring(0, enteredUsername.length() - 1);
+            } else if (passwordSelected && enteredPassword.length() > 0) {
+                enteredPassword = enteredPassword.substring(0, enteredPassword.length() - 1);
+            }
         }
     }
 }

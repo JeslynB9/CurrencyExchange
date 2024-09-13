@@ -8,10 +8,13 @@ import CurrencyExchange.Users.AdminLogin;
 import CurrencyExchange.Users.CurrencyManager;
 
 import CurrencyExchange.Users.PopularCurrency;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
+import CurrencyExchange.Register;
+
+//import javafx.application.Application;
+//import javafx.scene.Scene;
+//import javafx.scene.layout.VBox;
+//import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.*;
@@ -20,6 +23,7 @@ import processing.data.*;
 import processing.core.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import processing.core.PApplet;
 
 public class App extends PApplet{
     Json Json;
@@ -30,6 +34,7 @@ public class App extends PApplet{
     PrintSummaryUI PrintSummaryUI;
     UpdateUI UpdateUI;
     Login Login;
+    Register register;
 
     // Canvas center
     int centerX = width/2;
@@ -72,7 +77,8 @@ public class App extends PApplet{
 
     CurrencyManager currencyManager;
     PopularCurrency PopularCurrency;
-    PApplet PApplet;
+    AddCurrency addCurrency;
+    boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
 
     @Override
     public void setup() {
@@ -88,14 +94,9 @@ public class App extends PApplet{
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
-        AdminLogin = new AdminLogin(PApplet.loadJSONObject(loginFilepath), loginFilepath);
 
         //initialise popular currencies 
         PopularCurrency = new PopularCurrency(Database);
-        
-        
-        VBox root = new VBox();
-        Scene scene = new Scene(root, 800, 600);
 
         // load the logo
         logo = loadImage("src/main/resources/logo.png");
@@ -126,7 +127,8 @@ public class App extends PApplet{
         ExecutorService executor = Executors.newFixedThreadPool(2);
         PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
         UpdateUI = new UpdateUI(this, currencyManager);
-        Login = new Login(this);
+        Login = new Login(this, this);
+        addCurrency = new AddCurrency(this, Login);
     }
 
     public void settings() {
@@ -316,7 +318,7 @@ public class App extends PApplet{
             }
         }
 
-        if (updateTabSelected) {
+        if (updateTabSelected && isAdminLoggedIn) {
             if (UpdateUI != null) {
                 UpdateUI.drawUpdate();
             } else {
@@ -472,12 +474,26 @@ public class App extends PApplet{
         }
 
         else if (isMouseOverButton((int)rectX+3*(int)rectW/4, (int)rectY, (int)rectW/4, 60)) {
-            exchangeTabSelected = false;
-            popularTabSelected = false;
-            printTabSelected = false;
-            updateTabSelected = true;
+            if (isAdminLoggedIn) {
+                exchangeTabSelected = false;
+                popularTabSelected = false;
+                printTabSelected = false;
+                updateTabSelected = true;
+            } else {
+                System.out.println("Admin not logged in. Access to update page is restricted.");
+            }
         }
     }
+
+//    @Override
+//    public void keyPressed() {
+//        // Delegate to the CurrencyConverterUI if the amount box is selected
+//        CurrencyConverterUI.keyPressed();
+//        PrintSummaryUI.keyPressed();
+//        UpdateUI.keyPressed();
+//        Login.keyPressed();
+//        Register.keyPressed();
+//    }
 
     @Override
     public void keyPressed() {
@@ -485,6 +501,21 @@ public class App extends PApplet{
         CurrencyConverterUI.keyPressed();
         PrintSummaryUI.keyPressed();
         UpdateUI.keyPressed();
+
+        if (addCurrency != null && addCurrency.isAddCurrency) {
+            System.out.println("Calling AddCurrency keyPressed");
+            addCurrency.keyPressed();
+        }
+
+        // Use the Login instance instead of class
+        if (Login.isLoginScreenVisible) {
+            Login.keyPressed();  // Use the instance method
+        }
+
+        // Use the Register instance within Login
+        if (Login.Register.isRegisterScreenVisible) {
+            Login.Register.keyPressed();  // Use the instance method
+        }
     }
 
     public static void main(String[] args) {

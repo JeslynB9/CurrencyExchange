@@ -37,10 +37,6 @@ public class CurrencyManager {
         database.initialiseDatabase();
     }
 
-//    public void addExchangeRate(String currency, double rate, LocalDate date) {
-//        database.updateRate(currency, rate);
-//    }
-
     public void addExchangeRates(Map<String, Double> currencyRates) {
         database.updateRates(currencyRates);
         System.out.println("Exchange rates updated successfully.");
@@ -61,13 +57,26 @@ public class CurrencyManager {
     }
 
     public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
-        double fromRate = database.getLastExchangeRate(fromCurrency);
-        double toRate = database.getLastExchangeRate(toCurrency);
-        return Math.abs(amount * (toRate / fromRate));
+        double fromRateUSD = database.getLastExchangeRate(fromCurrency);  
+        double toRateUSD = database.getLastExchangeRate(toCurrency);     
+    
+        if (fromCurrency.equals("USD")) {
+            return amount * toRateUSD;
+        } else if (toCurrency.equals("USD")) {
+            return amount / fromRateUSD;
+        } else {
+            double amountInUSD = amount / fromRateUSD;  
+            return amountInUSD * toRateUSD;             
+        }
     }
+    
 
     public double getLastExchangeRate(String currency) {
-        return database.getLastExchangeRate(currency);
+        System.out.println("Fetching exchange rate for: " + currency);
+        double rate = database.getLastExchangeRate(currency);
+        System.out.println("Exchange rate for " + currency + ": " + rate);
+        return rate;
+//        return database.getLastExchangeRate(currency);
     }
 
     public void displayPopularCurrencies() {
@@ -92,7 +101,6 @@ public class CurrencyManager {
             System.out.println();
         }
     }
-
 
     public void addCountryData(String country, String flagFilePath, String symbol) {
         jsonHandler.addCountry(country, flagFilePath, symbol);
@@ -271,7 +279,8 @@ public class CurrencyManager {
         table.addCell(new Phrase(key, font));
         table.addCell(new Phrase(value, font));
     }
-    private void openPDFFile(File file) {
+
+    public void openPDFFile(File file) {
         try {
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();

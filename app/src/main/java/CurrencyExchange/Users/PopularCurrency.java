@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PopularCurrency {
     private Database database;
-    private HashMap<String, Float> popularCurrencies;
+    private HashMap<String, Double> popularCurrencies;
 
     public PopularCurrency(Database database){
         this.database = database;
@@ -20,7 +20,7 @@ public class PopularCurrency {
         popularCurrencies.put(c4, database.getLastExchangeRate(c4));
     }
 
-    public HashMap<String, Float> getPopularCurrency() {
+    public HashMap<String, Double> getPopularCurrency() {
         return popularCurrencies;
     }
 }
