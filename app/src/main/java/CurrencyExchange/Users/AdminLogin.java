@@ -112,7 +112,7 @@ public class AdminLogin {
     }
 
     /*
-     * Checks if entered username and password match 
+     * Checks if entered id and password match 
      * @params: 
      *      id : int 
      *      pass : String 

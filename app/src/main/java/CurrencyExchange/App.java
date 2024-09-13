@@ -84,8 +84,7 @@ public class App extends PApplet{
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
-        AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
-
+        
         //initialise popular currencies 
         PopularCurrency = new PopularCurrency(Database);
 
