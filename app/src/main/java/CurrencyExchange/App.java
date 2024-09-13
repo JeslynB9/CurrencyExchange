@@ -5,6 +5,7 @@ package CurrencyExchange;
 
 import CurrencyExchange.FileHandlers.*;
 import CurrencyExchange.Users.AdminLogin;
+import CurrencyExchange.Users.AdminPopularUI;
 import CurrencyExchange.Users.CurrencyManager;
 
 import CurrencyExchange.Users.PopularCurrency;
@@ -31,6 +32,7 @@ public class App extends PApplet{
     Database Database;
     CurrencyConverterUI CurrencyConverterUI;
     PopularUI PopularUI;
+    AdminPopularUI AdminPopularUI;
     PrintSummaryUI PrintSummaryUI;
     UpdateUI UpdateUI;
     Login Login;
@@ -124,6 +126,7 @@ public class App extends PApplet{
         CurrencyConverterUI = new CurrencyConverterUI(this, currencyManager);
 
         PopularUI = new PopularUI(this, currencyManager);
+        AdminPopularUI = new AdminPopularUI(this, currencyManager);
         ExecutorService executor = Executors.newFixedThreadPool(2);
         PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
         UpdateUI = new UpdateUI(this, currencyManager);
@@ -212,10 +215,20 @@ public class App extends PApplet{
         }
 
         if (popularTabSelected) {
-            if (PopularUI != null) {
-                PopularUI.drawPopular();
+            if (isAdminLoggedIn) {
+                // Draw Admin-specific design
+                if (AdminPopularUI != null) {
+                    AdminPopularUI.drawAdminPopularUI();
+                } else {
+                    System.out.println("Admin Popular UI is null");
+                }
             } else {
-                System.out.println("Popular UI is null");
+                // Draw the regular user design
+                if (PopularUI != null) {
+                    PopularUI.drawPopular();
+                } else {
+                    System.out.println("Popular UI is null");
+                }
             }
             noStroke();
             // Long rectangle header
@@ -241,6 +254,7 @@ public class App extends PApplet{
             fill(113, 103, 111);
             image(unSelectedConvert, 100, 155);
             text("Convert", 145, 173);
+
 
         } else {
             // Popular Table Tab
@@ -424,9 +438,12 @@ public class App extends PApplet{
         }
 
         if (popularTabSelected) {
-            PopularUI.mousePressed();
+            if (isAdminLoggedIn) {
+                AdminPopularUI.mousePressed();
+            }else {
+                PopularUI.mousePressed();
+            }
         }
-
 
         if (printTabSelected) {
             PrintSummaryUI.mousePressed();
