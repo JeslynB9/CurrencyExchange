@@ -1,5 +1,6 @@
 package CurrencyExchange;
 
+import CurrencyExchange.Users.AdminLogin;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -15,7 +16,7 @@ public class Login {
     String enteredUsername = "";
     String enteredPassword = "";
     App parent2;
-
+    AdminLogin adminLogin;
 
     public Login(PApplet parent, App parent2) {
 
@@ -25,6 +26,9 @@ public class Login {
         System.out.println("Register initialized");
         exitButton = parent.loadImage("src/main/resources/exit.png");
         exitButton.resize(1920 / 40, 1080 / 40);
+
+        String loginFilepath = "src/main/java/resources/main/admin.json";
+        adminLogin = new AdminLogin(parent.loadJSONObject(loginFilepath), loginFilepath);
     }
 
     public void drawLogin() {
@@ -162,13 +166,19 @@ public class Login {
         }
 
         if (isMouseOverButton(560, 360, 100, 40)) {
-            if (validateCredentials(enteredUsername, enteredPassword)) {
-                System.out.println("Login successful");
-                parent2.isAdminLoggedIn = true;
-                isLoginScreenVisible = false;
-                // Trigger whatever happens after login (e.g., show another screen)
-            } else {
-                System.out.println("Login failed. Invalid username or password.");
+            try {
+                int id = Integer.valueOf(enteredUsername);
+                if (adminLogin.checkLogin(id, enteredPassword)) {
+                    System.out.println("Login successful");
+                    parent2.isAdminLoggedIn = true;
+                    isLoginScreenVisible = false;
+                    // Trigger whatever happens after login (e.g., show another screen)
+                } else {
+                    System.out.println("Login failed. Invalid username or password.");
+                }
+            } 
+            catch (NumberFormatException e) {
+                System.out.println("Entered ID is not an integer");
             }
         }
     }
@@ -177,11 +187,19 @@ public class Login {
         handleKeyInput();
 
         if (parent.key == PApplet.ENTER || parent.key == PApplet.RETURN) {
-            if (validateCredentials(enteredUsername, enteredPassword)) {
-                System.out.println("Login successful");
-                isLoginScreenVisible = false;
-            } else {
-                System.out.println("Login failed. Invalid username or password.");
+            try {
+                int id = Integer.valueOf(enteredUsername);
+                if (adminLogin.checkLogin(id, enteredPassword)) {
+                    System.out.println("Login successful");
+                    parent2.isAdminLoggedIn = true;
+                    isLoginScreenVisible = false;
+                    // Trigger whatever happens after login (e.g., show another screen)
+                } else {
+                    System.out.println("Login failed. Invalid username or password.");
+                }
+            } 
+            catch (NumberFormatException e) {
+                System.out.println("Entered ID is not an integer");
             }
         }
     }

@@ -33,21 +33,36 @@ public class Database {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS ExchangeRates ("
                 + "datetime TEXT PRIMARY KEY, "
                 + "User VARCHAR(30), "
-                + "AU DECIMAL(10, 5), "
-                + "US DECIMAL(10, 5), "
-                + "UK DECIMAL(10, 5)"
+                + "AUD DECIMAL(10, 5), "
+                + "USD DECIMAL(10, 5), "
+                + "GBP DECIMAL(10, 5), "
+                + "JPY DECIMAL(10, 5), "
+                + "EUR DECIMAL(10, 5), "
+                + "PH DECIMAL(10, 5) "
                 + ");";
 
         //try to open connection to the SQLite database
         try (Connection connection = getConnection();
-             Statement stmt = connection.createStatement()) {
+            Statement stmt = connection.createStatement()) {
 
-            stmt.execute(createTableSQL);
+            stmt.execute(createTableSQL); //create table if it no exists
 
-        }
-        catch (SQLException e) {
+            String countRowsSQL = "SELECT COUNT(*) FROM ExchangeRates"; //to check if table is empty 
+            try (ResultSet rs = stmt.executeQuery(countRowsSQL)) {
+                if (rs.next() && rs.getInt(1) == 0) { //check if table empty 
+                    String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PH) "
+                            + "VALUES (?, 'system', 1.49, 1, 0.76, 140.94, 0.90, 56.02)";
+                    try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
+                        pstmt.setString(1, currentDateTime);
+                        pstmt.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -161,6 +176,7 @@ public class Database {
         if (rate < 0) {
             return;
         }
+
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         String query = "UPDATE ExchangeRates SET " + country + " = ?, User = ? WHERE datetime = ?";
@@ -178,6 +194,7 @@ public class Database {
                 pstmt.setString(2, user);
                 pstmt.setString(3, currentDateTime);
                 pstmt.executeUpdate();
+                System.out.println("updated rate onto database");
             }
 
         }
@@ -233,7 +250,7 @@ public class Database {
      * @params:
      *      country: String
      */
-    public float getLastExchangeRate(String country) {
+    public double getLastExchangeRate(String country) {
         String querySQL = "SELECT " + country + " FROM ExchangeRates "
                 + "WHERE " + country + " IS NOT NULL "
                 + "ORDER BY datetime DESC LIMIT 1";
@@ -245,11 +262,12 @@ public class Database {
 
             //move the cursor to the next row
             if (rs.next()) {
-                return rs.getFloat(country);
+                return rs.getDouble(country);
             }
 
         }
         catch (SQLException e) {
+            System.out.println("Column " + country + " doesnt exist");
             e.printStackTrace();
         }
 

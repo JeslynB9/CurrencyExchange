@@ -1,5 +1,6 @@
 package CurrencyExchange;
 
+import CurrencyExchange.Users.AdminLogin;
 import processing.core.PApplet;
 
 public class Register {
@@ -13,10 +14,14 @@ public class Register {
     String enteredEmployeeId = "";
     String enteredUsername = "";
     String enteredPassword = "";
+    AdminLogin adminLogin;
+
 
     public Register(PApplet parent, Login login) {
         this.parent = parent;
         this.login = login;
+        String loginFilepath = "src/main/java/resources/main/admin.json";
+        adminLogin = new AdminLogin(parent.loadJSONObject(loginFilepath), loginFilepath);
     }
 
     public void drawRegister() {
@@ -122,6 +127,20 @@ public class Register {
         }
 
         parent.text("Have An Account?", 300, 435);
+
+
+        try {
+            int id = Integer.valueOf(enteredEmployeeId);
+            if (adminLogin.addUser(id, enteredUsername, enteredPassword)) {
+                System.out.println("Created Account!");
+                //add logic to show admin view 
+            }
+            else {
+                System.out.println("Failed to create account: id already exists");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entered ID is not an integer");
+        }
 
     }
 

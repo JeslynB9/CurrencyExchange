@@ -57,10 +57,19 @@ public class CurrencyManager {
     }
 
     public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
-        double fromRate = database.getLastExchangeRate(fromCurrency);
-        double toRate = database.getLastExchangeRate(toCurrency);
-        return Math.abs(amount * (toRate / fromRate));
+        double fromRateUSD = database.getLastExchangeRate(fromCurrency);  
+        double toRateUSD = database.getLastExchangeRate(toCurrency);     
+    
+        if (fromCurrency.equals("USD")) {
+            return amount * toRateUSD;
+        } else if (toCurrency.equals("USD")) {
+            return amount / fromRateUSD;
+        } else {
+            double amountInUSD = amount / fromRateUSD;  
+            return amountInUSD * toRateUSD;             
+        }
     }
+    
 
     public double getLastExchangeRate(String currency) {
         System.out.println("Fetching exchange rate for: " + currency);

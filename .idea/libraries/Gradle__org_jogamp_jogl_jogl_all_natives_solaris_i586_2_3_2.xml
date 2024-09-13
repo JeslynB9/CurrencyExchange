@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jogamp.jogl:jogl-all:natives-solaris-i586:2.3.2" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jogamp.jogl" artifactId="jogl-all" version="2.3.2" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jogamp.jogl/jogl-all/2.3.2/94d1ed501fe53b7f75eab0f712f39802390d0f5b/jogl-all-2.3.2-natives-solaris-i586.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jogamp.jogl/jogl-all/2.3.2/6a86a9ce357c085e3052efcf639447f9957b82b8/jogl-all-2.3.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jogamp.jogl/jogl-all/2.3.2/677f26584c8860b8ac2091a09b08b5facedc6d68/jogl-all-2.3.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
