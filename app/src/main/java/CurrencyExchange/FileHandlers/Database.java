@@ -43,7 +43,7 @@ public class Database {
 
         //try to open connection to the SQLite database
         try (Connection connection = getConnection();
-            Statement stmt = connection.createStatement()) {
+             Statement stmt = connection.createStatement()) {
 
             stmt.execute(createTableSQL); //create table if it no exists
 

@@ -24,19 +24,19 @@ public class DatabaseTest {
     @Test
     public void testInitialiseDatabase() { //determine if file exists
         assertTrue(new File(databasePath).exists());
-    } 
+    }
 
 
     @Test
     public void testInitialiseDatabase2() {
         Database.initialiseDatabase();
-        try (Connection connection = Database.getConnection(); 
+        try (Connection connection = Database.getConnection();
             Statement stmt = connection.createStatement()) {
             String query = "SELECT COUNT(*) FROM ExchangeRates WHERE User = 'system'";
             try (ResultSet rs = stmt.executeQuery(query)) {
                 assertTrue(rs.next());
             }
-        } 
+        }
         catch (SQLException e) {
             fail(e.getMessage());
         }
@@ -77,7 +77,7 @@ public class DatabaseTest {
         Database.addCountry("");
     }
 
-    @Test 
+    @Test
     public void testUpdateRate1() { //general case 
         Database.addCountry("Amber", "TU", 2.5);
         assertTrue(columnExists("TU"));
@@ -92,7 +92,7 @@ public class DatabaseTest {
         assertTrue(columnExists("AU"));
     }
 
-    @Test 
+    @Test
     public void testUpdateRate3() { //updating with negative value 
         Database.addCountry("Pablo", "JS", 1.5);
         Database.updateRate("Pablo", "JS", -1);
@@ -102,8 +102,8 @@ public class DatabaseTest {
     @Test
     public void testGetLastExchangeRate1() { //general case 
         Database.addCountry("Muhummad", "DB", 1.0);
-        Database.updateRate("Muhood", "DB", 2.0); 
-        Database.updateRate("Muhaed", "DB", 2.5); 
+        Database.updateRate("Muhood", "DB", 2.0);
+        Database.updateRate("Muhaed", "DB", 2.5);
 
         assertEquals((float) 2.5, Database.getLastExchangeRate("DB"), 0.1);
     }
@@ -149,7 +149,7 @@ public class DatabaseTest {
     // public void testGetLastDate2() { //country doesnt exist 
     //     assertNull(Database.getLastDate("PO"));
     // }   
-    
+
     @Test
     public void testGetAllCurrencies1() {
         Database.addCountry("beb", "AU", 0.5);
@@ -161,7 +161,7 @@ public class DatabaseTest {
         assertTrue(currencies.containsKey("BU"));
         assertTrue(currencies.containsKey("CU"));
 
-        assertEquals(0.5, currencies.get("AU"), 0.0001f); 
+        assertEquals(0.5, currencies.get("AU"), 0.0001f);
         assertEquals(1, currencies.get("BU"), 0.0001f);
         assertEquals(1.5, currencies.get("CU"), 0.0001f);
     }
@@ -180,7 +180,7 @@ public class DatabaseTest {
                     return true;
                 }
             }
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
         }
@@ -199,7 +199,7 @@ public class DatabaseTest {
             assertTrue(rs.next());
             assertEquals(expectedRate, rs.getDouble(country), 0.00001);
 
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
         }
