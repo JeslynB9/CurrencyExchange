@@ -208,9 +208,28 @@ public class PrintSummaryUI {
 
 
         // Add "Open PDF" button if a PDF has been generated
+//        if (pdfGenerated && generatedPDFFile != null && generatedPDFFile.exists()) {
+//            if (drawButton("Open PDF", 775, 300, 100, 40)) {
+//                currencyManager.openPDFFile(generatedPDFFile);
+//            }
+//        }
+
         if (pdfGenerated && generatedPDFFile != null && generatedPDFFile.exists()) {
             if (drawButton("Open PDF", 775, 300, 100, 40)) {
-                currencyManager.openPDFFile(generatedPDFFile);
+                try {
+                    currencyManager.openPDFFile(generatedPDFFile);
+                } catch (IOException e) {
+                    System.err.println("Error opening PDF file: " + e.getMessage());
+                    // You might want to show an error message to the user here
+                    // For example, if you're using Processing, you could do:
+                    // fill(255, 0, 0);
+                    // text("Error opening PDF: " + e.getMessage(), 100, 400);
+                } catch (UnsupportedOperationException e) {
+                    System.err.println("Cannot open PDF: " + e.getMessage());
+                    // Show an error message to the user
+                    // fill(255, 0, 0);
+                    // text("Cannot open PDF: " + e.getMessage(), 100, 400);
+                }
             }
         }
 
@@ -259,7 +278,21 @@ public class PrintSummaryUI {
         else if (isMouseOverButton(775, 350, 100, 40)) {
             generateSummary();
             if (pdfGenerated && isMouseOverButton(775, 400, 100, 40)) {
-                currencyManager.openPDFFile(generatedPDFFile);
+                try {
+                    currencyManager.openPDFFile(generatedPDFFile);
+                } catch (IOException e) {
+                    System.err.println("Error opening PDF file: " + e.getMessage());
+                    // Display error message to the user
+                    // For example:
+                    // errorMessage = "Error opening PDF: " + e.getMessage();
+                    // errorMessageTimer = frameRate * 5; // Display for 5 seconds
+                } catch (UnsupportedOperationException e) {
+                    System.err.println("Cannot open PDF: " + e.getMessage());
+                    // Display error message to the user
+                    // For example:
+                    // errorMessage = "Cannot open PDF: " + e.getMessage();
+                    // errorMessageTimer = frameRate * 5; // Display for 5 seconds
+                }
             }
         }
 

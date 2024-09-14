@@ -18,6 +18,7 @@ class UserInterface {
     public UserInterface(CurrencyManager manager) {
         this.scanner = new Scanner(System.in);
         this.manager = manager;
+
     }
 
     public void run() {

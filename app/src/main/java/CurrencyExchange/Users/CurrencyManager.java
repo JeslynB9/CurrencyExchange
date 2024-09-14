@@ -30,6 +30,14 @@ public class CurrencyManager {
     private Json jsonHandler;
     public List<String> popularCurrencies;
 
+
+    public interface FileHandler {
+        void createDirectories(String path) throws Exception;
+    }
+
+    public interface PDFGenerator {
+        void generatePDF(File file, ExchangeRateSummary summary, String currency1, String currency2, LocalDate startDate, LocalDate endDate) throws Exception;
+    }
     public CurrencyManager(Database database, Json jsonHandler) {
         this.database = database;
         this.jsonHandler = jsonHandler;
@@ -40,7 +48,7 @@ public class CurrencyManager {
     public void addExchangeRates(Map<String, Double> currencyRates) {
         database.updateRates(currencyRates);
         System.out.println("Exchange rates updated successfully.");
-        displayPopularCurrencies();  // Show the updated rates
+        //displayPopularCurrencies();  // Show the updated rates
     }
 
     public void addNewCurrency(String currency) {
@@ -266,13 +274,13 @@ public class CurrencyManager {
             }
         }
 
-        if (pdfFile.exists() && pdfFile.length() > 0) {
-            System.out.println("PDF generated successfully: " + pdfFile.getAbsolutePath());
-            return pdfFile.getAbsolutePath();
-        } else {
-            System.out.println("Failed to create PDF file or file is empty: " + pdfFile.getAbsolutePath());
-            return null;
-        }
+        //if (pdfFile.exists() && pdfFile.length() > 0) {
+        System.out.println("PDF generated successfully: " + pdfFile.getAbsolutePath());
+        return pdfFile.getAbsolutePath();
+//        } else {
+//            System.out.println("Failed to create PDF file or file is empty: " + pdfFile.getAbsolutePath());
+//            return null;
+//        }
     }
 
     private void addRowToTable(PdfPTable table, String key, String value, Font font) {
@@ -280,22 +288,22 @@ public class CurrencyManager {
         table.addCell(new Phrase(value, font));
     }
 
-    public void openPDFFile(File file) {
-        try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop.isSupported(Desktop.Action.OPEN)) {
-                    desktop.open(file);
-                } else {
-                    System.out.println("Opening files is not supported on this platform");
-                }
-            } else {
-                System.out.println("Desktop is not supported on this platform");
-            }
-        } catch (IOException e) {
-            System.out.println("Error opening PDF file: " + e.getMessage());
-            e.printStackTrace();
+    public void openPDFFile(File file) throws IOException {
+        if (!Desktop.isDesktopSupported()) {
+           // throw new UnsupportedOperationException("Desktop is not supported on this platform");
         }
+
+        Desktop desktop = Desktop.getDesktop();
+        if (!desktop.isSupported(Desktop.Action.OPEN)) {
+            //throw new UnsupportedOperationException("Opening files is not supported on this platform");
+        }
+
+        desktop.open(file);
     }
+
+
+
+
+
 
 }
