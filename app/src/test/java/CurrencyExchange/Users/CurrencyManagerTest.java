@@ -253,4 +253,38 @@ public class CurrencyManagerTest {
             fail("Unexpected IOException was thrown");
         }
     }
+
+    @Test
+    public void testPopularCurrency() {
+        CurrencyManager cm = new CurrencyManager(createMockDatabase(), null);
+        cm.setPopularCurrencies("GB", "JP", "UK", "EU");
+        HashMap<String, Double> map = cm.getPopularCurrency();
+        assertTrue(map.containsKey("GB"));
+        System.out.println("hehe" + map.get("GB"));
+        assertEquals(1.23, map.get("GB"), 0.0001f);
+        assertTrue(map.containsKey("JP"));
+        assertEquals(1.0, map.get("JP"), 0.0001f);
+        assertTrue(map.containsKey("UK"));
+        assertEquals(0.8, map.get("UK"), 0.0001f);
+        assertTrue(map.containsKey("EU"));
+        assertEquals(0.85, map.get("EU"), 0.0001f);
+
+        assertFalse(map.containsKey("US"));
+        assertFalse(map.containsKey("AU"));
+
+    }
+
+    private Database createMockDatabase() {
+        String databasePath = "src/main/java/resources/test/databaseNew.db";
+        Database database = new Database(databasePath);
+        database.initialiseDatabase();
+
+        database.addCountry("Sam", "UK", 0.8);
+        database.addCountry("Bob", "US", 0.9);
+        database.addCountry("Pan", "JP", 1.0);
+        database.addCountry("Mop", "EU", 0.85);
+        database.addCountry("Wat", "AU", 0.91);
+        database.addCountry("Fab", "GB", 1.23);
+        return database;
+    }
 }
