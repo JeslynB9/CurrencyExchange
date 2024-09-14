@@ -31,10 +31,10 @@ public class AdminPopularUI {
     float rectX;
     float rectY;
 
-    Dropdown firstDropdown;
-    Dropdown secondDropdown;
-    Dropdown thirdDropdown;
-    Dropdown fourthDropdown;
+    public Dropdown firstDropdown;
+    public Dropdown secondDropdown;
+    public Dropdown thirdDropdown;
+    public Dropdown fourthDropdown;
 
     // Canvas center
     int centerX = width/2;

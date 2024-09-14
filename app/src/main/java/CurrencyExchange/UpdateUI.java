@@ -182,7 +182,7 @@ public class UpdateUI {
         parent.rect(217, 350, 200, 40, cornerRadius);
         parent.fill(0);
         parent.textSize(12);
-        parent.text(Double.toString(database.getLastExchangeRate(selectedToCurrency)), 227, 345);
+        parent.text("Old Rate", 227, 345);
 
         parent.textSize(16);
         parent.text(Double.toString(database.getLastExchangeRate(selectedToCurrency)), 227, 375); // need to replace to an old rate

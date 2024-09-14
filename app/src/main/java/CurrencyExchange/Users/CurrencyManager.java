@@ -1,6 +1,5 @@
 package CurrencyExchange.Users;
 
-
 import CurrencyExchange.FileHandlers.Database;
 import CurrencyExchange.FileHandlers.Json;
 

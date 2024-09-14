@@ -43,7 +43,6 @@ public class CurrencyConverterUI {
     String conversionResult = "";
     String conversionRateText = "";
 
-
     CurrencyManager currencyManager;
     Dropdown fromDropdown;
     Dropdown toDropdown;
@@ -80,7 +79,6 @@ public class CurrencyConverterUI {
         String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
         fromDropdown = new Dropdown(parent, countries, 350, 250, 200, 40);
         toDropdown = new Dropdown(parent, countries, 675, 250, 200, 40);
-
     }
 
     public void drawConverter() {
