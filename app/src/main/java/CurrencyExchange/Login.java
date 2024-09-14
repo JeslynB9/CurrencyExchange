@@ -1,5 +1,6 @@
 package CurrencyExchange;
 
+import CurrencyExchange.Users.Admin;
 import CurrencyExchange.Users.AdminLogin;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -192,6 +193,7 @@ public class Login {
                 if (adminLogin.checkLogin(id, enteredPassword)) {
                     System.out.println("Login successful");
                     parent2.isAdminLoggedIn = true;
+                    parent2.userID = Integer.valueOf(enteredUsername);
                     isLoginScreenVisible = false;
                     // Trigger whatever happens after login (e.g., show another screen)
                 } else {

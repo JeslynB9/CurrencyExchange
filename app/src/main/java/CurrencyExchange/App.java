@@ -81,6 +81,7 @@ public class App extends PApplet{
     PopularCurrency PopularCurrency;
     AddCurrency addCurrency;
     boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
+    int userID = -1;
 
     @Override
     public void setup() {
@@ -129,7 +130,7 @@ public class App extends PApplet{
         AdminPopularUI = new AdminPopularUI(this, currencyManager);
         ExecutorService executor = Executors.newFixedThreadPool(2);
         PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
-        UpdateUI = new UpdateUI(this, currencyManager);
+        UpdateUI = new UpdateUI(this, Database, this);
         Login = new Login(this, this);
         addCurrency = new AddCurrency(this, Login);
     }

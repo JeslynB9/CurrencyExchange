@@ -25,7 +25,22 @@ public class DatabaseTest {
     public void testInitialiseDatabase() { //determine if file exists
         assertTrue(new File(databasePath).exists());
     } 
-    
+
+
+    @Test
+    public void testInitialiseDatabase2() {
+        Database.initialiseDatabase();
+        try (Connection connection = Database.getConnection(); 
+            Statement stmt = connection.createStatement()) {
+            String query = "SELECT COUNT(*) FROM ExchangeRates WHERE User = 'system'";
+            try (ResultSet rs = stmt.executeQuery(query)) {
+                assertTrue(rs.next());
+            }
+        } 
+        catch (SQLException e) {
+            fail(e.getMessage());
+        }
+    }
 
     @Test
     public void testAddCountry1() { //general case

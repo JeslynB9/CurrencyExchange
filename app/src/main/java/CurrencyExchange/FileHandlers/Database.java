@@ -22,7 +22,7 @@ public class Database {
     /*
      * Create and return new connection to SQLite database using URL
      */
-    private Connection getConnection() throws SQLException {
+    Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url);
     }
 
@@ -190,9 +190,9 @@ public class Database {
             }
 
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-                pstmt.setDouble(1, rate);
+                pstmt.setDouble(3, rate);
                 pstmt.setString(2, user);
-                pstmt.setString(3, currentDateTime);
+                pstmt.setString(1, currentDateTime);
                 pstmt.executeUpdate();
                 System.out.println("updated rate onto database");
             }
@@ -262,6 +262,7 @@ public class Database {
 
             //move the cursor to the next row
             if (rs.next()) {
+                System.out.println(rs.getDouble(country));
                 return rs.getDouble(country);
             }
 
