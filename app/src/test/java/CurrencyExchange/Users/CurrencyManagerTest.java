@@ -5,17 +5,12 @@ import CurrencyExchange.FileHandlers.Json;
 import org.junit.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import java.io.File;
-import java.awt.Desktop;
-import java.lang.reflect.Field;
-import static org.junit.Assert.*;
+
 public class CurrencyManagerTest {
 
     @Mock
@@ -24,7 +19,6 @@ public class CurrencyManagerTest {
     private Json mockJsonHandler;
 
     private CurrencyManager currencyManager;
-
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -34,7 +28,6 @@ public class CurrencyManagerTest {
         currencyManager = new CurrencyManager(mockDatabase, mockJsonHandler);
         System.setOut(new PrintStream(outContent));
     }
-
 
     @After
     public void restoreStreams() {
@@ -112,7 +105,6 @@ public class CurrencyManagerTest {
         assertEquals("£", currencyManager.getCountrySymbol("GBP"));
     }
 
-
     @Test
     public void testGenerateExchangeRateSummaryPDF() {
         LocalDate startDate = LocalDate.of(2023, 1, 1);
@@ -147,7 +139,6 @@ public class CurrencyManagerTest {
 
     @Test
     public void testDisplayPopularCurrencies() {
-        // Mock the necessary method calls
         when(mockDatabase.getLastExchangeRate("AUD")).thenReturn(0.75);
         when(mockDatabase.getLastExchangeRate("USD")).thenReturn(1.0);
         when(mockDatabase.getLastExchangeRate("GBP")).thenReturn(1.3);
@@ -176,7 +167,6 @@ public class CurrencyManagerTest {
         List<String> customCurrencies = Arrays.asList("USD", "EUR", "CAD", "CNY");
         currencyManager.setPopularCurrencies(customCurrencies);
 
-        // Mock the necessary method calls
         when(mockDatabase.getLastExchangeRate("USD")).thenReturn(1.0);
         when(mockDatabase.getLastExchangeRate("EUR")).thenReturn(1.2);
         when(mockDatabase.getLastExchangeRate("CAD")).thenReturn(0.8);
@@ -199,32 +189,6 @@ public class CurrencyManagerTest {
         assertTrue(output.contains("€"));
         assertTrue(output.contains("¥"));
     }
-
-//    @Test
-//    public void testOpenPDFFile() {
-//        // Create a temporary file for testing
-//        File tempFile = null;
-//        try {
-//            tempFile = File.createTempFile("test", ".pdf");
-//            currencyManager.openPDFFile(tempFile);
-//            assertTrue(outContent.toString().contains("PDF generated successfully"));
-//        } catch (Exception e) {
-//            fail("Exception should not be thrown: " + e.getMessage());
-//        } finally {
-//            if (tempFile != null) {
-//                tempFile.delete();
-//            }
-//        }
-//    }
-//
-//    @Test
-//    public void testOpenPDFFileUnsupportedPlatform() {
-//        // Test when Desktop is not supported
-//        File mockFile = mock(File.class);
-//        currencyManager.openPDFFile(mockFile);
-//        assertTrue(outContent.toString().contains("Desktop is not supported on this platform") ||
-//                outContent.toString().contains("Opening files is not supported on this platform"));
-//    }
 
     @Test
     public void testAddCountryData() {
@@ -263,14 +227,11 @@ public class CurrencyManagerTest {
         assertTrue(outContent.toString().contains("Exchange rates updated successfully."));
     }
 
-
     @Test
     public void testOpenPDFFileSuccess() throws IOException {
-        // Create a temporary file
         File tempFile = File.createTempFile("test", ".txt");
         tempFile.deleteOnExit();
 
-        // This should not throw an exception if Desktop is supported
         try {
             currencyManager.openPDFFile(tempFile);
         } catch (UnsupportedOperationException e) {
@@ -279,12 +240,6 @@ public class CurrencyManagerTest {
             assertTrue(true);
         }
     }
-
-//    @Test(expected = IOException.class)
-//    public void testOpenPDFFileNonExistentFile() throws IOException {
-//        File nonExistentFile = new File("nonexistent.pdf");
-//        currencyManager.openPDFFile(nonExistentFile);
-//    }
 
     @Test
     public void testOpenPDFFileNullFile() {
@@ -298,6 +253,4 @@ public class CurrencyManagerTest {
             fail("Unexpected IOException was thrown");
         }
     }
-
-
 }

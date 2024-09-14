@@ -30,14 +30,9 @@ public class CurrencyManager {
     private Json jsonHandler;
     public List<String> popularCurrencies;
 
+    private HashMap<String, Double> popularCurrenciesMap;
+    
 
-    public interface FileHandler {
-        void createDirectories(String path) throws Exception;
-    }
-
-    public interface PDFGenerator {
-        void generatePDF(File file, ExchangeRateSummary summary, String currency1, String currency2, LocalDate startDate, LocalDate endDate) throws Exception;
-    }
     public CurrencyManager(Database database, Json jsonHandler) {
         this.database = database;
         this.jsonHandler = jsonHandler;
@@ -62,6 +57,30 @@ public class CurrencyManager {
             throw new IllegalArgumentException("Exactly 4 popular currencies must be set.");
         }
         this.popularCurrencies = new ArrayList<>(currencies);
+    }
+
+    /**
+     * Sets populat currencies using 4 String parameters 
+     * @param c1
+     * @param c2
+     * @param c3
+     * @param c4
+     */
+    public void setPopularCurrencies(String c1, String c2, String c3, String c4) {
+        popularCurrenciesMap = new HashMap<>();
+        popularCurrenciesMap.put(c1, database.getLastExchangeRate(c1));
+        popularCurrenciesMap.put(c2, database.getLastExchangeRate(c2));
+        popularCurrenciesMap.put(c3, database.getLastExchangeRate(c3));
+        popularCurrenciesMap.put(c4, database.getLastExchangeRate(c4));
+    }
+
+    /**
+     * gets the popular currencies and exchange rate in relation to USD 
+     * @return
+     *      HashMap<String, Double>
+     */
+    public HashMap<String, Double> getPopularCurrency() {
+        return popularCurrenciesMap;
     }
 
     public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
