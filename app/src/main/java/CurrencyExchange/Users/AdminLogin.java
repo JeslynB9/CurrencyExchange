@@ -6,6 +6,7 @@ import processing.data.*;
 public class AdminLogin {
     String path; 
     JSONObject fileObj;
+    static String user = "--";
 
     public AdminLogin(JSONObject fileObj, String path) {
         this.path = path;

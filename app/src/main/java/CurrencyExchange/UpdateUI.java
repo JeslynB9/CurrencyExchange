@@ -6,10 +6,12 @@ import processing.data.Table;
 import processing.data.TableRow;
 
 import CurrencyExchange.Users.Dropdown;
+import CurrencyExchange.FileHandlers.Database;
 import CurrencyExchange.Users.CurrencyManager;
 
 public class UpdateUI {
     PApplet parent;
+    App parent2;
     PImage newratearrow;
     PImage dropdown;
     AddCurrency addCurrency;
@@ -17,6 +19,7 @@ public class UpdateUI {
     Dropdown toDropdown;
     Flag flagManager;
     Login login;
+    Database database;
 
     boolean toSelected = false;
     boolean dateSelected = false;
@@ -45,9 +48,10 @@ public class UpdateUI {
     String enteredNewRate = "";
 
 
-    public UpdateUI(PApplet parent, CurrencyManager currencyManager) {
+    public UpdateUI(PApplet parent, Database database, App parent2) { //parent2 to store user currently logged in 
         this.parent = parent;
-        this.currencyManager = currencyManager;
+        this.database = database;
+        this.parent2 = parent2;
 
         flagManager = new Flag(parent);
         flagManager.loadFlag("USD");
@@ -178,10 +182,10 @@ public class UpdateUI {
         parent.rect(217, 350, 200, 40, cornerRadius);
         parent.fill(0);
         parent.textSize(12);
-        parent.text("Old Rate", 227, 345);
+        parent.text(Double.toString(database.getLastExchangeRate(selectedToCurrency)), 227, 345);
 
         parent.textSize(16);
-        parent.text("Old Rate", 227, 375); // need to replace to an old rate
+        parent.text(Double.toString(database.getLastExchangeRate(selectedToCurrency)), 227, 375); // need to replace to an old rate
 
         // Draw the "NEW RATE" box
         if (newRateSelected) {
@@ -283,6 +287,8 @@ public class UpdateUI {
         if (!enteredDate.isEmpty() && !enteredNewRate.isEmpty()) {
             System.out.println("Updating exchange rate for " + selectedToCurrency + " on " + enteredDate + " with new rate: " + enteredNewRate);
             // You can add logic here to update the database or perform other actions
+            selectedToCurrency = selectedToCurrencyText.split(" ")[0];
+            database.addCountry(Integer.toString(parent2.userID), selectedToCurrency, Double.valueOf(enteredNewRate));
         } else {
             System.out.println("Please enter all required fields (date and new rate).");
         }
