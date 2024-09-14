@@ -83,6 +83,7 @@ public class DatabaseTest {
         assertTrue(columnExists("TU"));
         verifyColumnData("TU", 2.5);
         Database.updateRate("Guoba", "NY", 1.1);
+        Database.addCountry("Guoba", "NY", 1.1);
         verifyColumnData("NY", 1.1);
     }
 
@@ -103,21 +104,23 @@ public class DatabaseTest {
     public void testGetLastExchangeRate1() { //general case 
         Database.addCountry("Muhummad", "DB", 1.0);
         Database.updateRate("Muhood", "DB", 2.0);
+        Database.addCountry("Muhood", "DB", 2.0);
         Database.updateRate("Muhaed", "DB", 2.5);
+        Database.addCountry("Muhaed", "DB", 2.5);
 
-        assertEquals((float) 2.5, Database.getLastExchangeRate("DB"), 0.1);
+        assertEquals(2.5, Database.getLastExchangeRate("DB"), 0.1);
     }
 
     @Test
     public void testGetLastExchangeRate2() { //country doesnt exist 
-        assertEquals((float) -1, Database.getLastExchangeRate("QQ"), 0.1);
+        assertEquals(-1, Database.getLastExchangeRate("QQ"), 0.1);
     }
 
     @Test
     public void testGetLastExchangeRate3() { //updating with negative values 
         Database.addCountry("Kiri", "OW", 1.0);
         Database.updateRate("Bastion", "OW", -2.0);
-        assertEquals((float) 1.0, Database.getLastExchangeRate("OW"), 0.1);
+        assertEquals(1.0, Database.getLastExchangeRate("OW"), 0.1);
     }
 
     // @Test
