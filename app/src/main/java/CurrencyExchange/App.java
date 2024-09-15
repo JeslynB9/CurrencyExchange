@@ -81,6 +81,8 @@ public class App extends PApplet{
     boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
     int userID = -1;
 
+    static boolean isAddCurrencyActive = false;
+
     @Override
     public void setup() {
         //initialise json file 
@@ -137,6 +139,10 @@ public class App extends PApplet{
 
     @Override
     public void draw() {
+        if (addCurrency.isAddCurrency) {
+            addCurrency.drawAddCurrency();
+            return; // Exit early if AddCurrency is active
+        }
         // drawing the background colours - light pink
         fill(255, 249, 254);
         rect(0, height/2, width, height/2);
@@ -421,14 +427,18 @@ public class App extends PApplet{
 
     }
 
-
     private boolean isMouseOverButton(int x, int y, int w, int h) {
         return (mouseX > x && mouseX < x + w &&
                 mouseY > y && mouseY < y + h);
     }
     @Override
     public void mousePressed() {
-        // Delegate the mouse press event to the UI handler
+
+        if (UpdateUI.addCurrency.isAddCurrency) {
+            UpdateUI.addCurrency.mousePressed();
+            return;
+        }
+
         if (exchangeTabSelected) {
             CurrencyConverterUI.mousePressed();
         }
@@ -447,10 +457,6 @@ public class App extends PApplet{
 
         if (updateTabSelected) {
             UpdateUI.mousePressed();
-        }
-
-        if (UpdateUI.addCurrency.isAddCurrency) {
-            UpdateUI.addCurrency.mousePressed();
         }
 
         if (isMouseOverButton(800, 15, 115, 40)) {
@@ -498,27 +504,16 @@ public class App extends PApplet{
         }
     }
 
-//    @Override
-//    public void keyPressed() {
-//        // Delegate to the CurrencyConverterUI if the amount box is selected
-//        CurrencyConverterUI.keyPressed();
-//        PrintSummaryUI.keyPressed();
-//        UpdateUI.keyPressed();
-//        Login.keyPressed();
-//        Register.keyPressed();
-//    }
-
     @Override
     public void keyPressed() {
-        // Delegate to the CurrencyConverterUI if the amount box is selected
+        if (addCurrency != null && addCurrency.isAddCurrency) {
+            addCurrency.keyPressed();
+            return; // Exit early if AddCurrency is active
+        }
+
         CurrencyConverterUI.keyPressed();
         PrintSummaryUI.keyPressed();
         UpdateUI.keyPressed();
-
-        if (addCurrency != null && addCurrency.isAddCurrency) {
-            System.out.println("Calling AddCurrency keyPressed");
-            addCurrency.keyPressed();
-        }
 
         // Use the Login instance instead of class
         if (Login.isLoginScreenVisible) {

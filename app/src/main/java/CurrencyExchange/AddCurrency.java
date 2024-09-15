@@ -2,13 +2,6 @@ package CurrencyExchange;
 
 import processing.core.PApplet;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 public class AddCurrency {
     PApplet parent;
     boolean isAddCurrency = false;
@@ -35,7 +28,7 @@ public class AddCurrency {
 
         // Background Overlay
         parent.fill(0, 0, 0, 150);
-        parent.rect(0, 0, parent.width*2, parent.height);
+        parent.rect(0, 0, parent.width * 2, parent.height);
 
         // Shadow properties
         parent.fill(0, 0, 0, 50);
@@ -69,7 +62,6 @@ public class AddCurrency {
         }
         parent.text(enteredCurrencyName, 370, 197);
 
-
         // Flag Field
         if (flagSelected) {
             parent.fill(220, 202, 216);
@@ -87,7 +79,6 @@ public class AddCurrency {
         }
         parent.text(enteredFlag, 370, 197);
 
-
         // Symbol Field
         if (symbolSelected) {
             parent.fill(220, 202, 216);
@@ -104,7 +95,6 @@ public class AddCurrency {
             parent.text("Symbol", 370, 297);
         }
         parent.text(enteredSymbol, 370, 297);
-
 
         // Exchange Rate Field
         if (rateSelected) {
@@ -155,7 +145,7 @@ public class AddCurrency {
     }
 
     public void mousePressed() {
-        if (isMouseOverButton(300, 425, (int)parent.textWidth("Cancel?"), 10)) {
+        if (isMouseOverButton(300, 425, (int) parent.textWidth("Cancel?"), 10)) {
             System.out.println("Cancel clicked");
             isAddCurrency = false;
         }
@@ -166,60 +156,43 @@ public class AddCurrency {
                 System.out.println("All fields are required!");
                 return; // Prevent adding if any field is empty
             }
-
-//            // Store the new currency (you will need to define how to store it, e.g., in a database or array)
-//            System.out.println("Adding new currency: " + enteredCurrencyName);
-//            System.out.println("Flag: " + enteredFlag);
-//            System.out.println("Symbol: " + enteredSymbol);
-//            System.out.println("Rate: " + enteredRate);
-//
-//            // Reset the fields after adding the currency
-//            enteredCurrencyName = "";
-//            enteredFlag = "";
-//            enteredSymbol = "";
-//            enteredRate = "";
-//
-//            isAddCurrency = false; // Close the "Add Currency" screen
         }
-
-        // When "ADD" button is pressed, change the new currency to the one that was just added, and remove the screen:
-//      //isAddCurrency = false;
 
         if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 - 100, 240, 40)) {
             nameSelected = true;
             flagSelected = false;
             symbolSelected = false;
             rateSelected = false;
-        }
-
-        if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 - 50, 240, 40)) {
+            System.out.println("Name field selected");
+        } else if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 - 50, 240, 40)) {
             nameSelected = false;
             flagSelected = true;
             symbolSelected = false;
             rateSelected = false;
-        }
-
-        if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2, 240, 40)) {
+            System.out.println("Flag field selected");
+        } else if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2, 240, 40)) {
             nameSelected = false;
             flagSelected = false;
             symbolSelected = true;
             rateSelected = false;
-        }
-
-        if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 + 50, 240, 40)) {
+            System.out.println("Symbol field selected");
+        } else if (isMouseOverButton(parent.width / 2 - 120, parent.height / 2 + 50, 240, 40)) {
             nameSelected = false;
             flagSelected = false;
             symbolSelected = false;
             rateSelected = true;
+            System.out.println("Rate field selected");
         }
     }
 
     public void keyPressed() {
+
         System.out.println("Key Pressed: " + parent.key);
         char key = parent.key;
 
         // Handling input for Currency Name
         if (nameSelected) {
+            System.out.println("name Selected");
             if (Character.isLetterOrDigit(key) || key == ' ') {
                 enteredCurrencyName += key;
             } else if (key == PApplet.BACKSPACE && enteredCurrencyName.length() > 0) {
@@ -258,19 +231,5 @@ public class AddCurrency {
         }
         System.out.println("Entered Rate: " + enteredRate);  // Debugging
     }
-
-//    public void addCurrencyToDatabase(String currencyName, String flag, String symbol, double exchangeRate) {
-//        // SQL or database insert logic goes here
-//        String query = "INSERT INTO currencies (name, flag, symbol, rate) VALUES (?, ?, ?, ?)";
-//        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-//            stmt.setString(1, currencyName);
-//            stmt.setString(2, flag);
-//            stmt.setString(3, symbol);
-//            stmt.setDouble(4, exchangeRate);
-//            stmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }
+

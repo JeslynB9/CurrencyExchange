@@ -276,7 +276,6 @@ public class UpdateUI {
         }
     }
 
-
     private void performUpdate() {
         // Get selected "To" currency
         if (!toDropdown.expanded) {

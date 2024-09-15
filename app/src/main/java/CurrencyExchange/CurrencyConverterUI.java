@@ -5,6 +5,9 @@ import processing.core.PImage;
 import CurrencyExchange.Users.CurrencyManager;
 import CurrencyExchange.Users.Dropdown;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CurrencyConverterUI {
     PApplet parent;
     PImage switchImg;
@@ -48,6 +51,8 @@ public class CurrencyConverterUI {
     Dropdown toDropdown;
     boolean isSwitched = false;
 
+    private Map<String, String> currencySymbols;
+
     // Constructor receives the PApplet instance
     public CurrencyConverterUI(PApplet parent, CurrencyManager currencyManager) {
         this.parent = parent;
@@ -79,6 +84,14 @@ public class CurrencyConverterUI {
         String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
         fromDropdown = new Dropdown(parent, countries, 350, 250, 200, 40);
         toDropdown = new Dropdown(parent, countries, 675, 250, 200, 40);
+
+        // Initialize the currency symbol map
+        currencySymbols = new HashMap<>();
+        currencySymbols.put("USD", "$");
+        currencySymbols.put("EUR", "€");
+        currencySymbols.put("AUD", "A$");
+        currencySymbols.put("GBP", "£");
+        currencySymbols.put("JPY", "¥");
     }
 
     public void drawConverter() {
@@ -183,10 +196,18 @@ public class CurrencyConverterUI {
         parent.fill(255);
         parent.text("Convert", 795, 375);
 
-        //Display entered amount in the "Amount" box
-        parent.fill(0);
-        parent.textSize(16);
-        parent.text(enteredAmount, 90, 275);
+
+        if (currencySymbols != null) {
+            // Get the currency symbol for the selected "From" currency
+            String currencySymbol = currencySymbols.getOrDefault(selectedFromCurrency, "");
+            // Display the entered amount
+            parent.fill(0);
+            parent.textSize(16);
+            parent.text(currencySymbol + " " + enteredAmount, 90, 275);  // Currency symbol and amount
+        } else {
+            // Handle the case where currencySymbols is null
+            System.out.println("currencySymbols map is null");
+        }
 
         // Display Conversion result
         parent.text(conversionResult, 500, 380);
@@ -324,7 +345,7 @@ public class CurrencyConverterUI {
             }
 
             // Update the conversion rate text for display
-            conversionRateText = "$ 1 " + selectedFromCurrency + " = " + conversionRate + " " + selectedToCurrency;
+            conversionRateText = String.format("$ 1 %s = %.3f %s", selectedFromCurrency, toRate / fromRate, selectedToCurrency);
 
         } catch (Exception e) {
             // If there's an issue (e.g., missing exchange rate), clear the conversion rate text
