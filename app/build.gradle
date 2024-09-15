@@ -66,6 +66,9 @@ application {
 }
 
 test {
+    include 'app/src/test/java/CurrencyExchange/FileHandlers/*'
+    include 'app/src/test/java/CurrencyExchange/Users/*'
+    exclude 'app/src/main/java/CurrencyExchange/*'
     finalizedBy jacocoTestReport
 }
 jacocoTestReport{
