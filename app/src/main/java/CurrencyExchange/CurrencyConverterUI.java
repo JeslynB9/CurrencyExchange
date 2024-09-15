@@ -348,7 +348,6 @@ public class CurrencyConverterUI {
             conversionRateText = String.format("$ 1 %s = %.3f %s", selectedFromCurrency, toRate / fromRate, selectedToCurrency);
 
         } catch (Exception e) {
-            // If there's an issue (e.g., missing exchange rate), clear the conversion rate text
             conversionRateText = "Conversion rate unavailable";
         }
     }
@@ -371,7 +370,7 @@ public class CurrencyConverterUI {
                 return;
             }
 
-            // Get the exchange rates and perform the conversion
+            // Get the exchange rates
             double fromRate = currencyManager.getLastExchangeRate(selectedFromCurrency);
             double toRate = currencyManager.getLastExchangeRate(selectedToCurrency);
 
@@ -383,8 +382,8 @@ public class CurrencyConverterUI {
             // Perform the conversion
             double convertedAmount = currencyManager.convertCurrency(amount, selectedFromCurrency, selectedToCurrency);
 
-            // Update the conversion result to display
-            conversionResult = String.format("%.2f %s = %.2f %s", amount, selectedFromCurrency, convertedAmount, selectedToCurrency);
+            // Update the conversion result
+            conversionResult = String.format("%.3f %s = %.3f %s", amount, selectedFromCurrency, convertedAmount, selectedToCurrency);
 
         } catch (NumberFormatException e) {
             // Handle invalid input for the amount

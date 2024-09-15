@@ -446,12 +446,6 @@ public class App extends PApplet{
         // Reset admin login status
         isAdminLoggedIn = false;
         userID = -1;
-
-        // Show the login screen
-        Login.isLoginScreenVisible = true;
-
-        // Clear any additional session data if needed (e.g., reset currency fields, etc.)
-        System.out.println("User logged out. Returning to login screen.");
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
