@@ -245,10 +245,10 @@ public class PopularUI {
 
 
                     if (currentRate > lastRate) {
-                        arrow = " increase (I)"; // Up arrow
+                        arrow = "(I)"; // Up arrow
                         arrowColor = parent.color(0, 255, 0); // Green for increase
                     } else if (currentRate < lastRate) {
-                        arrow = "decrease (D)"; // Down arrow
+                        arrow = "(D)"; // Down arrow
                         arrowColor = parent.color(255, 0, 0); // Red for decrease
                     }
 
