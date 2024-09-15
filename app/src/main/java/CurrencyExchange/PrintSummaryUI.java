@@ -1,5 +1,6 @@
 package CurrencyExchange;
 
+import CurrencyExchange.FileHandlers.Database;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -23,6 +24,7 @@ public class PrintSummaryUI {
     PImage unSelectedPopular;
     Flag flagManager;
     CurrencyManager currencyManager;
+    Database database;
 
     static int width = 1920 / 2;
     static int height = 1080 / 2;
@@ -66,10 +68,11 @@ public class PrintSummaryUI {
     private boolean pdfGenerated = false;
 
     // Constructor receives the PApplet instance
-    public PrintSummaryUI(PApplet parent, CurrencyManager currencyManager, ExecutorService executor) {
+    public PrintSummaryUI(PApplet parent, CurrencyManager currencyManager, ExecutorService executor, Database database) {
         this.parent = parent;
         this.currencyManager = currencyManager;
         this.executor = executor;
+        this.database = database;
         flagManager = new Flag(parent);
 
         // Load flags for selected currencies
@@ -97,7 +100,7 @@ public class PrintSummaryUI {
         unSelectedPopular = parent.loadImage("src/main/resources/popular-not-selected.png");
         unSelectedPopular.resize(1920 / 40, 1080 / 40);
 
-        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
+        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen", "PHP - Philippine Peso" };
         firstDropdown = new Dropdown(parent, countries, 80, 250, 200, 40);
         secondDropdown = new Dropdown(parent, countries, 325, 250, 200, 40);
     }

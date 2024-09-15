@@ -1,18 +1,12 @@
 package CurrencyExchange.Users;
 
+import CurrencyExchange.FileHandlers.Database;
 import CurrencyExchange.Flag;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 public class AdminPopularUI {
     PApplet parent;
@@ -22,6 +16,7 @@ public class AdminPopularUI {
     PImage unSelectedPopular;
     Flag flagManager;
     CurrencyManager currencyManager;
+    Database database;
 
     static int width = 1920 / 2;
     static int height = 1080 / 2;
@@ -62,10 +57,11 @@ public class AdminPopularUI {
     String selectedThirdCurrency = "AUD";
     String selectedFourthCurrency = "JPY";
 
-    public AdminPopularUI(PApplet parent, CurrencyManager currencyManager) {
+    public AdminPopularUI(PApplet parent, CurrencyManager currencyManager, Database database) {
         this.parent = parent;
         this.currencyManager = currencyManager;
         flagManager = new Flag(parent);
+        this.database = database;
 
         flagManager.loadFlag(selectedFirstCurrency);
         flagManager.loadFlag(selectedSecondCurrency);
@@ -89,7 +85,7 @@ public class AdminPopularUI {
         unSelectedPopular = parent.loadImage("src/main/resources/popular-not-selected.png");
         unSelectedPopular.resize(1920 / 40, 1080 / 40);
 
-        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
+        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen", "PHP - Philippine Peso" };
         firstDropdown = new Dropdown(parent, countries, 80, 250, 200, 40);
         secondDropdown = new Dropdown(parent, countries, 325, 250, 200, 40);
         thirdDropdown = new Dropdown(parent, countries, 80, 325, 200, 40);

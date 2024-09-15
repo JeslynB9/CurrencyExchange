@@ -119,12 +119,12 @@ public class App extends PApplet{
         unSelectedUpdate.resize(1920 / 40, 1080 / 40);
 
         currencyManager = new CurrencyManager(Database, Json);
-        CurrencyConverterUI = new CurrencyConverterUI(this, currencyManager);
+        CurrencyConverterUI = new CurrencyConverterUI(this, currencyManager, Database);
 
         PopularUI = new PopularUI(this, currencyManager);
-        AdminPopularUI = new AdminPopularUI(this, currencyManager);
+        AdminPopularUI = new AdminPopularUI(this, currencyManager, Database);
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor);
+        PrintSummaryUI = new PrintSummaryUI(this, currencyManager, executor, Database);
         UpdateUI = new UpdateUI(this, Database, this);
         Login = new Login(this, this);
         addCurrency = new AddCurrency(this, Login);

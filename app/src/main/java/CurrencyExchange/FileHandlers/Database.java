@@ -38,7 +38,7 @@ public class Database {
                 + "GBP DECIMAL(10, 5), "
                 + "JPY DECIMAL(10, 5), "
                 + "EUR DECIMAL(10, 5), "
-                + "PH DECIMAL(10, 5) "
+                + "PHP DECIMAL(10, 5) "
                 + ");";
 
         //try to open connection to the SQLite database
@@ -51,7 +51,7 @@ public class Database {
             try (ResultSet rs = stmt.executeQuery(countRowsSQL)) {
                 if (rs.next() && rs.getInt(1) == 0) { //check if table empty 
                     String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PH) "
+                    String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PHP) "
                             + "VALUES (?, 'system', 1.49, 1, 0.76, 140.94, 0.90, 56.02)";
                     try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
                         pstmt.setString(1, currentDateTime);

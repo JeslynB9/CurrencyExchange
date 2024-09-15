@@ -1,5 +1,6 @@
 package CurrencyExchange;
 
+import CurrencyExchange.FileHandlers.Database;
 import processing.core.PApplet;
 import processing.core.PImage;
 import CurrencyExchange.Users.CurrencyManager;
@@ -37,8 +38,8 @@ public class CurrencyConverterUI {
     boolean fromBoxSelected = false;
     boolean toBoxSelected = false;
 
-    String selectedFromCurrencyText = "USD - US Dollar"; // Default currency
-    String selectedToCurrencyText = "AUD - AU Dollar";   // Default currency
+//    String selectedFromCurrencyText = "USD - US Dollar"; // Default currency
+//    String selectedToCurrencyText = "AUD - AU Dollar";   // Default currency
     String selectedFromCurrency = "USD";
     String selectedToCurrency = "AUD";
 
@@ -52,14 +53,20 @@ public class CurrencyConverterUI {
     boolean isSwitched = false;
 
     private Map<String, String> currencySymbols;
+    Database database;
+
 
     // Constructor receives the PApplet instance
-    public CurrencyConverterUI(PApplet parent, CurrencyManager currencyManager) {
+    public CurrencyConverterUI(PApplet parent, CurrencyManager currencyManager, Database database) {
         this.parent = parent;
         this.currencyManager = currencyManager;
-
-        // Initialize Flag manager
+        this.database = database;
         flagManager = new Flag(parent);
+
+        // Load currencies dynamically from the database
+        Map<String, Double> availableCurrencies = database.getAllCurrencies();
+        String[] currencyList = availableCurrencies.keySet().toArray(new String[0]);
+
         // Load flags for selected currencies
         flagManager.loadFlag(selectedFromCurrency);
         flagManager.loadFlag(selectedToCurrency);
@@ -81,9 +88,9 @@ public class CurrencyConverterUI {
         dropdownTo.resize(1920 / 80, 1080 / 80);
 
         // List of country currencies for dropdowns
-        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
-        fromDropdown = new Dropdown(parent, countries, 350, 250, 200, 40);
-        toDropdown = new Dropdown(parent, countries, 675, 250, 200, 40);
+//        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen", "PHP - Philippine Peso" };
+        fromDropdown = new Dropdown(parent, currencyList, 350, 250, 200, 40);
+        toDropdown = new Dropdown(parent, currencyList, 675, 250, 200, 40);
 
         // Initialize the currency symbol map
         currencySymbols = new HashMap<>();
@@ -173,8 +180,8 @@ public class CurrencyConverterUI {
 
         // Draw selected currencies
         parent.textSize(16);
-        parent.text(selectedToCurrencyText, 715, 277);
-        parent.text(selectedFromCurrencyText, 390, 277);
+        parent.text(selectedToCurrency, 715, 277);
+        parent.text(selectedFromCurrency, 390, 277);
 
         // Get mouse hover status
         boolean isHovering = isMouseOverButton(785, 350, 100, 40);
@@ -269,22 +276,22 @@ public class CurrencyConverterUI {
         if (!isSwitched) {
             // Check for "From" dropdown and update
             if (!fromDropdown.expanded && fromDropdown.getSelectedItem() != null &&
-                    !selectedFromCurrencyText.equals(fromDropdown.getSelectedItem())) {
-                selectedFromCurrencyText = fromDropdown.getSelectedItem();
-                selectedFromCurrency = selectedFromCurrencyText.split(" ")[0];
+                    !selectedFromCurrency.equals(fromDropdown.getSelectedItem())) {
+                selectedFromCurrency = fromDropdown.getSelectedItem();
+//                selectedFromCurrency = selectedFromCurrencyText.split(" ")[0];
                 flagManager.loadFlag(selectedFromCurrency);
                 updateConversionRate();
-                System.out.println("From currency updated to: " + selectedFromCurrencyText);  // Debugging print
+                System.out.println("From currency updated to: " + selectedFromCurrency);  // Debugging print
             }
 
             // Check for "To" dropdown and update
             if (!toDropdown.expanded && toDropdown.getSelectedItem() != null &&
-                    !selectedToCurrencyText.equals(toDropdown.getSelectedItem())) {
-                selectedToCurrencyText = toDropdown.getSelectedItem();
-                selectedToCurrency = selectedToCurrencyText.split(" ")[0];
+                    !selectedToCurrency.equals(toDropdown.getSelectedItem())) {
+                selectedToCurrency = toDropdown.getSelectedItem();
+//                selectedToCurrency = selectedToCurrencyText.split(" ")[0];
                 flagManager.loadFlag(selectedToCurrency);
                 updateConversionRate();
-                System.out.println("To currency updated to: " + selectedToCurrencyText);  // Debugging print
+                System.out.println("To currency updated to: " + selectedToCurrency);  // Debugging print
             }
         }
 
@@ -312,9 +319,9 @@ public class CurrencyConverterUI {
         selectedToCurrency = tempCurrency;
 
         // Swap the "From" and "To" currency text labels
-        String tempCurrencyText = selectedFromCurrencyText;
-        selectedFromCurrencyText = selectedToCurrencyText;
-        selectedToCurrencyText = tempCurrencyText;
+        String tempCurrencyText = selectedFromCurrency;
+        selectedFromCurrency = selectedToCurrency;
+        selectedToCurrency = tempCurrencyText;
 
         // Update the flags after the swap
         flagManager.loadFlag(selectedFromCurrency);

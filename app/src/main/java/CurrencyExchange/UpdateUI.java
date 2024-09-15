@@ -70,7 +70,7 @@ public class UpdateUI {
         addCurrency = new AddCurrency(parent, login);
 
         // Initialize the dropdown for "To" currency selection
-        String[] countries = { "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen" };
+        String[] countries = { "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen", "PHP - Philippine Peso" };
         toDropdown = new Dropdown(parent, countries, 395, 250, 200, 40);
     }
 
