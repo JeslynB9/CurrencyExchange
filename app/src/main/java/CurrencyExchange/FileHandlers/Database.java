@@ -38,7 +38,7 @@ public class Database {
                 + "GBP DECIMAL(10, 5), "
                 + "JPY DECIMAL(10, 5), "
                 + "EUR DECIMAL(10, 5), "
-                + "PH DECIMAL(10, 5) "
+                + "PHP DECIMAL(10, 5) "
                 + ");";
 
         //try to open connection to the SQLite database
@@ -51,7 +51,7 @@ public class Database {
             try (ResultSet rs = stmt.executeQuery(countRowsSQL)) {
                 if (rs.next() && rs.getInt(1) == 0) { //check if table empty 
                     String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PH) "
+                    String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PHP) "
                             + "VALUES (?, 'system', 1.49, 1, 0.76, 140.94, 0.90, 56.02)";
                     try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
                         pstmt.setString(1, currentDateTime);
@@ -402,7 +402,35 @@ public class Database {
             this.rate = rate;
         }
     }
+    public void printAllExchangeRates() {
+        String query = "SELECT * FROM ExchangeRates";
+
+        try (Connection connection = getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            // Get column names and print them
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.print(rsmd.getColumnName(i) + "\t");
+            }
+            System.out.println();
+
+            // Iterate through the result set and print each row
+            while (rs.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    System.out.print(rs.getString(i) + "\t");
+                }
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
 
 
 /*

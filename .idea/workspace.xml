@@ -8,19 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/FileHandlers/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/FileHandlers/Database.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/ARG.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/ARS.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/BRA.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/BRL.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/CAN.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CAD.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/CHN.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CNY.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/CZE.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/CZK.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/DNK.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/DKK.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/EGY.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/EGP.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/HKG.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/HKD.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/IDN.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/IDR.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/IND.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/INR.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/KOR.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/KRW.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/MEX.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/MXN.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/flags/NZL.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/flags/NZD.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/FileHandlers/Database.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,26 +71,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Downloads/sqlite-jdbc-3.46.1.0.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Aerin_Lab09_Group03:app [:app:CurrencyExchange.Users.CurrencyConverterApp.main()].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/User/Downloads/sqlite-jdbc-3.46.1.0.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/resources" />

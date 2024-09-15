@@ -575,6 +575,24 @@ public class App extends PApplet{
     }
 
     public static void main(String[] args) {
+
         PApplet.main("CurrencyExchange.App");
+
+        // Define the database file path
+        String dbFilePath = "path_to_your_database.db";  // Update with your actual path
+
+        // Create an instance of Database
+        Database db = new Database(dbFilePath);
+
+        // Initialize the database if needed
+        db.initialiseDatabase();
+
+        // Call getAllCurrencies() to fetch all currencies and their latest rates
+        Map<String, Double> currencies = db.getAllCurrencies();
+
+        // Print the retrieved data
+        for (Map.Entry<String, Double> entry : currencies.entrySet()) {
+            System.out.println("Currency: " + entry.getKey() + " - Rate: " + entry.getValue());
+        }
     }
 }
