@@ -81,8 +81,6 @@ public class App extends PApplet{
     boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
     int userID = -1;
 
-    static boolean isAddCurrencyActive = false;
-
     @Override
     public void setup() {
         //initialise json file 
@@ -413,6 +411,24 @@ public class App extends PApplet{
         fill(255);
         text("Admin Login", 808, 40);
 
+        // Only display the "Logout" button if the admin is logged in
+        if (isAdminLoggedIn) {
+            boolean isHoveringLogout = isMouseOverButton(800, 70, 115, 40);
+
+            if (isHoveringLogout) {
+                fill(222, 37, 176, 200); // Hover color
+            } else {
+                fill(222, 37, 176); // Default color
+            }
+
+            // Draw Logout button
+            noStroke();
+            rect(800, 70, 115, 40, 10);
+            fill(255);
+            textSize(16);
+            text("Logout", 832, 95);
+        }
+
         if (Login.isLoginScreenVisible) {
             Login.drawLogin();
         }
@@ -424,13 +440,25 @@ public class App extends PApplet{
         if (UpdateUI.addCurrency.isAddCurrency) {
             UpdateUI.addCurrency.drawAddCurrency();
         }
+    }
 
+    public void logout() {
+        // Reset admin login status
+        isAdminLoggedIn = false;
+        userID = -1;
+
+        // Show the login screen
+        Login.isLoginScreenVisible = true;
+
+        // Clear any additional session data if needed (e.g., reset currency fields, etc.)
+        System.out.println("User logged out. Returning to login screen.");
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
         return (mouseX > x && mouseX < x + w &&
                 mouseY > y && mouseY < y + h);
     }
+
     @Override
     public void mousePressed() {
 
@@ -501,6 +529,10 @@ public class App extends PApplet{
             } else {
                 System.out.println("Admin not logged in. Access to update page is restricted.");
             }
+        }
+
+        if (isMouseOverButton(800, 70, 115, 40) && isAdminLoggedIn) {
+            logout();
         }
     }
 
