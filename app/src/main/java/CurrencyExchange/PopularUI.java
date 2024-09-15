@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import processing.data.Table;
 import processing.data.TableRow;
 import CurrencyExchange.Users.CurrencyManager;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PopularUI {
     PApplet parent;
@@ -26,6 +28,7 @@ public class PopularUI {
     int cellWidth = 100;
     int cellHeight = 50;
     int headerHeight = 40;
+    private Map<String, Double> previousRates;
 
     public PopularUI(PApplet parent, CurrencyManager currencyManager) {
         this.parent = parent;
@@ -34,7 +37,7 @@ public class PopularUI {
         // Calculate the rectangle's top-left corner based on the center
         rectX = width / 2 - rectW / 2;
         rectY = height / 2 - rectH / 2;
-
+        previousRates = new HashMap<>();
     }
 
     public void drawPopular() {
@@ -163,6 +166,10 @@ public class PopularUI {
 //            }
 //        }
 
+
+
+
+
         // Draw column headers (currency names)
         for (int i = 0; i < popularCurrencies.length; i++) {
             float headerX = 123 + (i + 1) * rectW / 6; // Correct position for each column header
@@ -186,6 +193,31 @@ public class PopularUI {
         }
 
         // Draw exchange rates between currencies
+//        for (int row = 0; row < rows; row++) {
+//            for (int col = 0; col < cols; col++) {
+//                float cellX = 123 + (col + 1) * rectW / 6;
+//                float cellY = 269 + row * (rectH / 5);
+//
+//                parent.fill(255, 249, 254);
+//                parent.stroke(92, 16, 73);
+//                parent.rect(cellX, cellY, rectW / 6, rectH / 5); // Draw cell
+//
+//                if (row != col) { // No conversion if it's the same currency
+//                    double rate = currencyManager.convertCurrency(1, popularCurrencies[row], popularCurrencies[col]);
+//                    parent.fill(0);
+//                    parent.textSize(14);
+//                    parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
+//                    parent.text(String.format("%.2f", rate), cellX + rectW / 12, cellY + cellHeight / 2); // Draw exchange rate
+//                } else {
+//                    parent.fill(0);
+//                    parent.textSize(14);
+//                    parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
+//                    parent.text("-", cellX + rectW / 12, cellY + cellHeight / 2); // Draw dash for same currency
+//                }
+//            }
+//        }
+
+
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 float cellX = 123 + (col + 1) * rectW / 6;
@@ -193,22 +225,58 @@ public class PopularUI {
 
                 parent.fill(255, 249, 254);
                 parent.stroke(92, 16, 73);
-                parent.rect(cellX, cellY, rectW / 6, rectH / 5); // Draw cell
+                parent.rect(cellX, cellY, rectW / 6, rectH / 5);
 
-                if (row != col) { // No conversion if it's the same currency
-                    double rate = currencyManager.convertCurrency(1, popularCurrencies[row], popularCurrencies[col]);
-                    parent.fill(0);
+                if (row != col) {
+                    String fromCurrency = popularCurrencies[row];
+                    String toCurrency = popularCurrencies[col];
+
+                    // Get the current rate
+                    double currentRate = currencyManager.convertCurrency(1, fromCurrency, toCurrency);
+
+                    // Get the last recorded rate for the target currency
+                    double lastRate = currencyManager.getLastExchangeRate(toCurrency);
+
                     parent.textSize(14);
-                    parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
-                    parent.text(String.format("%.2f", rate), cellX + rectW / 12, cellY + cellHeight / 2); // Draw exchange rate
+                    parent.textAlign(parent.CENTER, parent.CENTER);
+
+                    String arrow = "same"; // Default arrow (no change)
+                    int arrowColor = parent.color(0, 0, 255); // Green for increase
+
+
+                    if (currentRate > lastRate) {
+                        arrow = "increase"; // Up arrow
+                        arrowColor = parent.color(0, 255, 0); // Green for increase
+                    } else if (currentRate < lastRate) {
+                        arrow = "decrease"; // Down arrow
+                        arrowColor = parent.color(255, 0, 0); // Red for decrease
+                    }
+
+                    // Draw the rate
+                    parent.fill(0);
+                    parent.text(String.format("%.2f", currentRate), cellX + rectW / 12, cellY + cellHeight / 2 - 10);
+
+                    // Draw the arrow
+                    parent.fill(arrowColor);
+                    parent.text(arrow, cellX + rectW / 12, cellY + cellHeight / 2 + 10);
+
+                    // Debug output
+                    System.out.println("Rate for " + fromCurrency + " to " + toCurrency +
+                            ": Current = " + currentRate +
+                            ", Last = " + lastRate +
+                            ", Arrow = " + arrow);
+
                 } else {
                     parent.fill(0);
                     parent.textSize(14);
-                    parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
-                    parent.text("-", cellX + rectW / 12, cellY + cellHeight / 2); // Draw dash for same currency
+                    parent.textAlign(parent.CENTER, parent.CENTER);
+                    parent.text("-", cellX + rectW / 12, cellY + cellHeight / 2);
                 }
             }
         }
+
+
+
 
 
         parent.popStyle();
