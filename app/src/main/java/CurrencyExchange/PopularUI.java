@@ -240,15 +240,15 @@ public class PopularUI {
                     parent.textSize(14);
                     parent.textAlign(parent.CENTER, parent.CENTER);
 
-                    String arrow = "S"; // Default arrow (no change)
+                    String arrow = ""; // Default arrow (no change)
                     int arrowColor = parent.color(0, 0, 255); // Green for increase
 
 
                     if (currentRate > lastRate) {
-                        arrow = "I"; // Up arrow
+                        arrow = " increase (I)"; // Up arrow
                         arrowColor = parent.color(0, 255, 0); // Green for increase
                     } else if (currentRate < lastRate) {
-                        arrow = "D"; // Down arrow
+                        arrow = "decrease (D)"; // Down arrow
                         arrowColor = parent.color(255, 0, 0); // Red for decrease
                     }
 

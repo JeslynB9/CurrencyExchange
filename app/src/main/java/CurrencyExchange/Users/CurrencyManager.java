@@ -307,6 +307,9 @@ public class CurrencyManager {
     }
 
     public void openPDFFile(File file) throws IOException {
+        if (file == null) {
+            throw new NullPointerException("File is null");
+        }
         if (!Desktop.isDesktopSupported()) {
            // throw new UnsupportedOperationException("Desktop is not supported on this platform");
         }
