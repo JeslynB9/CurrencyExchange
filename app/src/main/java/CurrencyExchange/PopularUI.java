@@ -240,7 +240,7 @@ public class PopularUI {
                     parent.textSize(14);
                     parent.textAlign(parent.CENTER, parent.CENTER);
 
-                    String arrow = "same (S)"; // Default arrow (no change)
+                    String arrow = ""; // Default arrow (no change)
                     int arrowColor = parent.color(0, 0, 255); // Green for increase
 
 
