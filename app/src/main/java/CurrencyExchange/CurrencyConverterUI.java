@@ -94,11 +94,39 @@ public class CurrencyConverterUI {
 
         // Initialize the currency symbol map
         currencySymbols = new HashMap<>();
-        currencySymbols.put("USD", "$");
-        currencySymbols.put("EUR", "€");
+        currencySymbols.put("ARS", "Af");
         currencySymbols.put("AUD", "A$");
+        currencySymbols.put("BRL", "R$");
+        currencySymbols.put("CAD", "$");
+        currencySymbols.put("CHE", "€");
+        currencySymbols.put("CNY", "¥");
+        currencySymbols.put("CZK", "Kč");
+        currencySymbols.put("DKK", "kr");
+        currencySymbols.put("EGP", "£");
+        currencySymbols.put("EUR", "€");
         currencySymbols.put("GBP", "£");
+        currencySymbols.put("HKD", "$");
+        currencySymbols.put("IDR", "Rp");
+        currencySymbols.put("INR", "Rs");
         currencySymbols.put("JPY", "¥");
+        currencySymbols.put("KRW", "₩");
+        currencySymbols.put("MMK", "K");
+        currencySymbols.put("MXN", "$");
+        currencySymbols.put("MXV", "");
+        currencySymbols.put("NZD", "$");
+        currencySymbols.put("PHP", "Ph");
+        currencySymbols.put("PLN", "zł");
+        currencySymbols.put("RUB", "₽");
+        currencySymbols.put("SAR", "ر.س");
+        currencySymbols.put("SEK", "kr");
+        currencySymbols.put("SGD", "$");
+        currencySymbols.put("THB", "฿");
+        currencySymbols.put("TWD", "NT$");
+        currencySymbols.put("USD", "$");
+        currencySymbols.put("VND", "₫");
+        currencySymbols.put("XOF", "Franc");
+
+
     }
 
     public void drawConverter() {
