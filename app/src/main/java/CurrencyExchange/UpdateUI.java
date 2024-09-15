@@ -8,10 +8,6 @@ import processing.data.TableRow;
 import CurrencyExchange.Users.Dropdown;
 import CurrencyExchange.FileHandlers.Database;
 import CurrencyExchange.Users.CurrencyManager;
-import java.util.HashMap;
-import java.util.Map;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class UpdateUI {
     PApplet parent;
@@ -51,10 +47,8 @@ public class UpdateUI {
     String enteredDate = "";
     String enteredNewRate = "";
 
-    private Map<String, Double> pendingUpdates;
-    private boolean isUpdatingMore;
 
-    public UpdateUI(PApplet parent, Database database, App parent2) { //parent2 to store user currently logged in 
+    public UpdateUI(PApplet parent, Database database, App parent2) { //parent2 to store user currently logged in
         this.parent = parent;
         this.database = database;
         this.parent2 = parent2;
@@ -188,7 +182,7 @@ public class UpdateUI {
         parent.rect(217, 350, 200, 40, cornerRadius);
         parent.fill(0);
         parent.textSize(12);
-        parent.text(Double.toString(database.getLastExchangeRate(selectedToCurrency)), 227, 345);
+        parent.text("Old Rate", 227, 345);
 
         parent.textSize(16);
         parent.text(Double.toString(database.getLastExchangeRate(selectedToCurrency)), 227, 375); // need to replace to an old rate
@@ -211,39 +205,6 @@ public class UpdateUI {
         parent.image(newratearrow, 457, 357);
 
         toDropdown.draw();
-
-
-        // Draw "Update More" button
-        boolean isHoveringUpdateMore = isMouseOverButton(400, 425, 150, 40);
-        parent.fill(isHoveringUpdateMore ? parent.color(222, 37, 176, 200) : parent.color(222, 37, 176));
-        parent.noStroke();
-        parent.rect(400, 425, 150, 40, cornerRadius);
-        parent.fill(255);
-        parent.textSize(16);
-        parent.text("Update More", 422, 450);
-
-        // Draw "Submit All Updates" button (only visible when there are pending updates)
-        if (!pendingUpdates.isEmpty()) {
-            boolean isHoveringSubmitAll = isMouseOverButton(375, 475, 150, 40);
-            parent.fill(isHoveringSubmitAll ? parent.color(0, 150, 0, 200) : parent.color(0, 150, 0));
-            parent.noStroke();
-            parent.rect(375, 475, 150, 40, cornerRadius);
-            parent.fill(255);
-            parent.textSize(16);
-            parent.text("Submit All Updates", 385, 500);
-        }
-
-        // Display pending updates
-        parent.fill(0);
-        parent.textSize(14);
-        int yOffset = 520;
-        for (Map.Entry<String, Double> entry : pendingUpdates.entrySet()) {
-            parent.text(entry.getKey() + ": " + String.format("%.4f", entry.getValue()), 600, yOffset);
-            yOffset += 20;
-        }
-
-
-
     }
 
     private boolean isMouseOverButton(int x, int y, int w, int h) {
@@ -285,15 +246,6 @@ public class UpdateUI {
             selectedToCurrency = selectedToCurrencyText.split(" ")[0];
             System.out.println("To currency updated to: " + selectedToCurrencyText);  // Debugging print
         }
-
-        /////////////////new codes//////////////
-        if (isMouseOverButton(400, 425, 150, 40)) {
-            handleUpdateMore();
-        }
-
-        if (!pendingUpdates.isEmpty() && isMouseOverButton(375, 475, 150, 40)) {
-            submitAllUpdates();
-        }
     }
 
     public void keyPressed() {
@@ -324,34 +276,6 @@ public class UpdateUI {
         }
     }
 
-    private void handleUpdateMore() {
-        if (isUpdatingMore) {
-            // Add current update to pending updates
-            if (!selectedToCurrency.isEmpty() && !enteredNewRate.isEmpty()) {
-                try {
-                    double newRate = Double.parseDouble(enteredNewRate);
-                    pendingUpdates.put(selectedToCurrency, newRate);
-                    System.out.println("Added update: " + selectedToCurrency + " = " + newRate);
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid rate entered.");
-                }
-            }
-        }
-    }
-
-    private void submitAllUpdates() {
-        if (!pendingUpdates.isEmpty()) {
-            // Call the addExchangeRates function from CurrencyManager
-            currencyManager.addExchangeRates(pendingUpdates);
-            System.out.println("Updated exchange rates for " + pendingUpdates.size() + " currencies.");
-
-            // Clear pending updates and reset UI
-            pendingUpdates.clear();
-            isUpdatingMore = false;
-            selectedToCurrency = "AUD - AU Dollar"; // Reset to default
-            enteredNewRate = "";
-        }
-    }
 
     private void performUpdate() {
         // Get selected "To" currency

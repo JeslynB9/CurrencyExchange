@@ -23,6 +23,7 @@ import processing.core.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 
 public class App extends PApplet{
     Json Json;
@@ -527,6 +528,28 @@ public class App extends PApplet{
         // Use the Register instance within Login
         if (Login.Register.isRegisterScreenVisible) {
             Login.Register.keyPressed();  // Use the instance method
+        }
+    }
+
+    @Override
+    public void mouseWheel(MouseEvent event) {
+        int wheelCount = event.getCount();  // Get wheel movement
+
+        if (CurrencyConverterUI != null && CurrencyConverterUI.fromDropdown != null) {
+            CurrencyConverterUI.fromDropdown.mouseWheel(wheelCount);
+            CurrencyConverterUI.toDropdown.mouseWheel(wheelCount);
+        }
+
+        if (PrintSummaryUI != null && PrintSummaryUI.firstDropdown != null) {
+            PrintSummaryUI.firstDropdown.mouseWheel(wheelCount);
+            PrintSummaryUI.secondDropdown.mouseWheel(wheelCount);
+        }
+
+        if (AdminPopularUI != null && AdminPopularUI.firstDropdown != null) {
+            AdminPopularUI.firstDropdown.mouseWheel(wheelCount);
+            AdminPopularUI.secondDropdown.mouseWheel(wheelCount);
+            AdminPopularUI.thirdDropdown.mouseWheel(wheelCount);
+            AdminPopularUI.fourthDropdown.mouseWheel(wheelCount);
         }
     }
 
