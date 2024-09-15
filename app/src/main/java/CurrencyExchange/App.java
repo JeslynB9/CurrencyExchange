@@ -8,8 +8,6 @@ import CurrencyExchange.Users.AdminLogin;
 import CurrencyExchange.Users.AdminPopularUI;
 import CurrencyExchange.Users.CurrencyManager;
 
-import CurrencyExchange.Users.PopularCurrency;
-
 import CurrencyExchange.Register;
 
 //import javafx.application.Application;
@@ -78,7 +76,6 @@ public class App extends PApplet{
     Flag flag;
 
     CurrencyManager currencyManager;
-    PopularCurrency PopularCurrency;
     AddCurrency addCurrency;
     boolean isAdminLoggedIn = false;  // Track whether the admin is logged in
     int userID = -1;
@@ -97,9 +94,6 @@ public class App extends PApplet{
         //initialise admin login  
         String loginFilepath = "src/main/java/resources/main/admin.json";
         AdminLogin = new AdminLogin(loadJSONObject(loginFilepath), loginFilepath);
-
-        //initialise popular currencies 
-        PopularCurrency = new PopularCurrency(Database);
 
         // load the logo
         logo = loadImage("src/main/resources/logo.png");

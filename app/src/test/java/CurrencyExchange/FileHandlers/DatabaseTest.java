@@ -1,6 +1,9 @@
 package CurrencyExchange.FileHandlers;
 
 import org.junit.*;
+
+import CurrencyExchange.FileHandlers.Database.ExchangeRateEntry;
+
 import static org.junit.Assert.*;
 import java.io.*;
 import java.sql.*;
@@ -40,6 +43,24 @@ public class DatabaseTest {
         catch (SQLException e) {
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void testInitialiseDatabase3() { //empty database 
+        File file = new File("src/main/java/resources/test/test3Database.db");
+        String url = "jdbc:sqlite:test3Database.db";
+
+        String sql = "CREATE TABLE IF NOT EXISTS ExchangeRates";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } 
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Database database3 = new Database("src/main/java/resources/test/test3Database.db");
     }
 
     @Test
@@ -101,6 +122,86 @@ public class DatabaseTest {
     }
 
     @Test
+    public void testUpdateRates1() { //general case 
+        databasePath = "src/main/java/resources/test/database.db";
+        Database = new Database(databasePath);
+        Database.initialiseDatabase();
+
+        Map<String, Double> currencyRates = new HashMap<>();
+        currencyRates.put("USD", 1.0);
+        currencyRates.put("EUR", 0.85);
+        currencyRates.put("GBP", 0.75);
+
+        Database.updateRates(currencyRates);
+    }
+
+    @Test
+    public void testUpdateRates2() { //updating existing country 
+        Database.addCountry("Admin", "USD", 1.2);
+        Map<String, Double> currencyRates = new HashMap<>();
+        currencyRates.put("USD", 1.1); 
+
+        Database.updateRates(currencyRates);
+
+        assertTrue(columnExists("USD"));
+        verifyColumnData("USD", 1.1);
+    }
+
+    @Test
+    public void testUpdateRates4() { //empty, null map 
+        databasePath = "src/main/java/resources/test/database.db";
+        Database = new Database(databasePath);
+        Database.initialiseDatabase();
+
+        Map<String, Double> currencyRates = new HashMap<>(); 
+
+        Database.updateRates(currencyRates);
+
+        try (Connection connection = Database.getConnection();
+            Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM ExchangeRates");
+            assertTrue(rs.next());
+        }
+        catch (SQLException e) {
+            fail(e.getMessage());
+        }
+
+        Database.updateRates(null);
+    }
+
+    @Test
+    public void testUpdateRates5() { //negative, null rate 
+        Map<String, Double> currencyRates = new HashMap<>();
+        currencyRates.put("CAD", -1.0);
+        currencyRates.put("YAD", null); 
+        currencyRates.put(null, 1.0); 
+        currencyRates.put(null, -1.0); 
+        currencyRates.put(null, null); 
+        currencyRates.put("", 1.0); 
+        currencyRates.put("", -1.0); 
+        currencyRates.put("", null); 
+
+        Database.updateRates(currencyRates);
+
+        assertFalse(columnExists("CAD"));
+    }
+
+    @Test
+    public void testUpdateRates6() {
+        Database.addCountry("System", "AUD", 1.3); 
+
+        Map<String, Double> currencyRates = new HashMap<>();
+        currencyRates.put("AUD", 1.35);
+
+        Database.updateRates(currencyRates);
+
+        assertTrue(columnExists("AUD"));
+        verifyColumnData("AUD", 1.35);
+    }
+
+
+
+    @Test
     public void testGetLastExchangeRate1() { //general case 
         Database.addCountry("Muhummad", "DB", 1.0);
         Database.updateRate("Muhood", "DB", 2.0);
@@ -152,6 +253,45 @@ public class DatabaseTest {
     // public void testGetLastDate2() { //country doesnt exist 
     //     assertNull(Database.getLastDate("PO"));
     // }   
+
+    @Test
+    public void testGetHistoricalRates1() { //general case 
+        Database.updateRates(Map.of("USD", 1.0, "EUR", 0.85));
+        Database.updateRates(Map.of("USD", 1.0, "EUR", 0.88));
+        Database.updateRates(Map.of("USD", 1.0, "EUR", 0.90));
+
+        LocalDate startDate = LocalDate.now();
+        Duration.ofSeconds(5);
+        LocalDate endDate = LocalDate.now();
+
+        List<ExchangeRateEntry> rates = Database.getHistoricalRates("USD", "EUR", startDate, endDate);
+        assertEquals(0, rates.size()); 
+
+        // assertEquals(0.90, Database.getLastExchangeRate("EUR"), 0.001);
+    }
+
+    @Test
+    public void testGetHistoricalRates2() { //getting current historical rates 
+        LocalDate startDate = LocalDate.now().minusDays(10);
+        LocalDate endDate = LocalDate.now().minusDays(5);
+
+        List<ExchangeRateEntry> rates = Database.getHistoricalRates("USD", "EUR", startDate, endDate);
+        assertTrue(rates.isEmpty()); 
+    }
+
+    @Test
+    public void testGetHistoricalRates3() { //updating existing rates
+        Database.updateRates(Map.of("USD", 1.0, "GBP", 0.75));
+
+        LocalDate startDate = LocalDate.now().minusDays(2);
+        LocalDate endDate = LocalDate.now();
+
+        List<ExchangeRateEntry> rates = Database.getHistoricalRates("USD", "EUR", startDate, endDate);
+        assertTrue(rates.isEmpty());
+    }
+
+
+
 
     @Test
     public void testGetAllCurrencies1() {

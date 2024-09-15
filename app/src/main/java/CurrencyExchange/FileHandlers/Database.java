@@ -49,15 +49,15 @@ public class Database {
 
             String countRowsSQL = "SELECT COUNT(*) FROM ExchangeRates"; //to check if table is empty 
             try (ResultSet rs = stmt.executeQuery(countRowsSQL)) {
-                if (rs.next() && rs.getInt(1) == 0) { //check if table empty 
-                    String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PH) "
-                            + "VALUES (?, 'system', 1.49, 1, 0.76, 140.94, 0.90, 56.02)";
-                    try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
-                        pstmt.setString(1, currentDateTime);
-                        pstmt.executeUpdate();
-                    }
-                }
+                // if (rs.next() && rs.getInt(1) == 0) { //check if table empty 
+                //     String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                //     String insertSQL = "INSERT INTO ExchangeRates (datetime, User, AUD, USD, GBP, JPY, EUR, PH) "
+                //             + "VALUES (?, 'system', 1.49, 1, 0.76, 140.94, 0.90, 56.02)";
+                //     try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
+                //         pstmt.setString(1, currentDateTime);
+                //         pstmt.executeUpdate();
+                //     }
+                // }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,6 +204,16 @@ public class Database {
     }
 
     public void updateRates(Map<String, Double> currencyRates) {
+        if (currencyRates == null || currencyRates.isEmpty()) {
+            return;
+        }
+        //check if entered values are invalid 
+        for (Map.Entry<String, Double> entry : currencyRates.entrySet()) {
+            if (entry.getKey() == null || entry.getKey().isEmpty() || entry.getValue() == null || entry.getValue() < 0) {
+                return;
+            }
+        }
+
         String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         StringBuilder queryBuilder = new StringBuilder("INSERT INTO ExchangeRates (datetime");
