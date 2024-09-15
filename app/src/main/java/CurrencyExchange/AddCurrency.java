@@ -77,7 +77,7 @@ public class AddCurrency {
             parent.fill(84, 84, 84);
             parent.text("Flag", 370, 247);
         }
-        parent.text(enteredFlag, 370, 197);
+        parent.text(enteredFlag, 370, 247);
 
         // Symbol Field
         if (symbolSelected) {
