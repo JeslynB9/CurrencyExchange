@@ -506,8 +506,8 @@ public class App extends PApplet{
 
     @Override
     public void keyPressed() {
-        if (addCurrency != null && addCurrency.isAddCurrency) {
-            addCurrency.keyPressed();
+        if (UpdateUI.addCurrency != null && UpdateUI.addCurrency.isAddCurrency) {
+            UpdateUI.addCurrency.keyPressed();
             return; // Exit early if AddCurrency is active
         }
 

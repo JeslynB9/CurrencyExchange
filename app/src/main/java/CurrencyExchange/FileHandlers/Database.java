@@ -272,7 +272,7 @@ public class Database {
 
             //move the cursor to the next row
             if (rs.next()) {
-                System.out.println(rs.getDouble(country));
+                //System.out.println(rs.getDouble(country));
                 return rs.getDouble(country);
             }
 
