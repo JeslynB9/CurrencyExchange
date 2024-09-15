@@ -299,10 +299,10 @@ public class CurrencyConverterUI {
 
         isSwitched = true;
 
+        System.out.println("Currencies switched: " + selectedFromCurrency + " to " + selectedToCurrency);
+
         // Update the conversion rate after the swap
         updateConversionRate();
-
-        System.out.println("Currencies switched: " + selectedFromCurrency + " to " + selectedToCurrency);
     }
 
     public void updateConversionRate() {
@@ -311,14 +311,17 @@ public class CurrencyConverterUI {
             double fromRate = currencyManager.getLastExchangeRate(selectedFromCurrency);
             double toRate = currencyManager.getLastExchangeRate(selectedToCurrency);
 
+            System.out.println("From Rate (" + selectedFromCurrency + "): " + fromRate);
+            System.out.println("To Rate (" + selectedToCurrency + "): " + toRate);
+
             // Calculate the conversion rate
             double conversionRate;
+
             if (fromRate != 1) {
-                conversionRate = fromRate/toRate;
+                conversionRate = toRate/fromRate;
             } else {
                 conversionRate = toRate;
             }
-            
 
             // Update the conversion rate text for display
             conversionRateText = "$ 1 " + selectedFromCurrency + " = " + conversionRate + " " + selectedToCurrency;
