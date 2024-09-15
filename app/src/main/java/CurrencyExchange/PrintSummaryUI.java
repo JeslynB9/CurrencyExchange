@@ -51,9 +51,9 @@ public class PrintSummaryUI {
     boolean startDateBox = false;
     boolean endDateBox = false;
     String selectedFirstCurrencyText = "USD - US Dollar"; // Default currency
-    String selectedSecondCurrencyText = "EUR - Euros";   // Default currency
+    String selectedSecondCurrencyText = "AUD - AU Dollar";   // Default currency
     String selectedFirstCurrency = "USD";
-    String selectedSecondCurrency = "EUR";
+    String selectedSecondCurrency = "AUD";
 
     String enteredStartDate = ""; // User input for start date
     String enteredEndDate = "";
@@ -304,6 +304,7 @@ public class PrintSummaryUI {
                 !selectedFirstCurrencyText.equals(firstDropdown.getSelectedItem())) {
             selectedFirstCurrencyText = firstDropdown.getSelectedItem();
             selectedFirstCurrency = selectedFirstCurrencyText.split(" ")[0];
+            flagManager.loadFlag(selectedFirstCurrency);
 //            System.out.println("First currency updated to: " + selectedFirstCurrencyText);  // Debugging print
         }
 
@@ -312,6 +313,7 @@ public class PrintSummaryUI {
                 !selectedSecondCurrency.equals(secondDropdown.getSelectedItem())) {
             selectedSecondCurrencyText = secondDropdown.getSelectedItem();
             selectedSecondCurrency = selectedSecondCurrencyText.split(" ")[0];
+            flagManager.loadFlag(selectedSecondCurrency);
 //            System.out.println("Second currency updated to: " + selectedSecondCurrencyText);  // Debugging print
         }
     }

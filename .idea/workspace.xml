@@ -7,10 +7,12 @@
     <list default="true" id="9b55af20-13e9-4dc4-8347-78a27f16b07a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/CurrencyExchange/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/AddCurrency.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/AddCurrency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/CurrencyConverterUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/CurrencyConverterUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PopularUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PopularUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/PrintSummaryUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/UpdateUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/CurrencyExchange/UpdateUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/resources/main/database.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

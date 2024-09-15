@@ -244,6 +244,7 @@ public class UpdateUI {
                 !selectedToCurrencyText.equals(toDropdown.getSelectedItem())) {
             selectedToCurrencyText = toDropdown.getSelectedItem();
             selectedToCurrency = selectedToCurrencyText.split(" ")[0];
+            flagManager.loadFlag(selectedToCurrency);
             System.out.println("To currency updated to: " + selectedToCurrencyText);  // Debugging print
         }
     }

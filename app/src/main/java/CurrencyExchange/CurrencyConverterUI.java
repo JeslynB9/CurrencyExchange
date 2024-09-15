@@ -272,6 +272,7 @@ public class CurrencyConverterUI {
                     !selectedFromCurrencyText.equals(fromDropdown.getSelectedItem())) {
                 selectedFromCurrencyText = fromDropdown.getSelectedItem();
                 selectedFromCurrency = selectedFromCurrencyText.split(" ")[0];
+                flagManager.loadFlag(selectedFromCurrency);
                 updateConversionRate();
                 System.out.println("From currency updated to: " + selectedFromCurrencyText);  // Debugging print
             }
@@ -281,6 +282,7 @@ public class CurrencyConverterUI {
                     !selectedToCurrencyText.equals(toDropdown.getSelectedItem())) {
                 selectedToCurrencyText = toDropdown.getSelectedItem();
                 selectedToCurrency = selectedToCurrencyText.split(" ")[0];
+                flagManager.loadFlag(selectedToCurrency);
                 updateConversionRate();
                 System.out.println("To currency updated to: " + selectedToCurrencyText);  // Debugging print
             }
