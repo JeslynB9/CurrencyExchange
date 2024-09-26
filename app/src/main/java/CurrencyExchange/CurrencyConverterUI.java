@@ -17,15 +17,15 @@ public class CurrencyConverterUI {
     Flag flagManager;
     static int width = 1920 / 2;
     static int height = 1080 / 2;
-    float rectW = width-100;
-    float rectH = (float) height /2;
+    float rectW = width - 100;
+    float rectH = (float) height / 2;
     float cornerRadius = 10;
     float rectX;
     float rectY;
 
     // Canvas center
-    int centerX = width/2;
-    int centerY = height/2;
+    int centerX = width / 2;
+    int centerY = height / 2;
 
     // Shadow offset
     float shadowOffsetX = 10;
@@ -38,12 +38,12 @@ public class CurrencyConverterUI {
     boolean fromBoxSelected = false;
     boolean toBoxSelected = false;
 
-//    String selectedFromCurrencyText = "USD - US Dollar"; // Default currency
-//    String selectedToCurrencyText = "AUD - AU Dollar";   // Default currency
+    // String selectedFromCurrencyText = "USD - US Dollar"; // Default currency
+    // String selectedToCurrencyText = "AUD - AU Dollar"; // Default currency
     String selectedFromCurrency = "USD";
     String selectedToCurrency = "AUD";
 
-    String enteredAmount = "";  // Amount input
+    String enteredAmount = ""; // Amount input
     String conversionResult = "";
     String conversionRateText = "";
 
@@ -54,7 +54,6 @@ public class CurrencyConverterUI {
 
     private Map<String, String> currencySymbols;
     Database database;
-
 
     // Constructor receives the PApplet instance
     public CurrencyConverterUI(PApplet parent, CurrencyManager currencyManager, Database database) {
@@ -88,7 +87,8 @@ public class CurrencyConverterUI {
         dropdownTo.resize(1920 / 80, 1080 / 80);
 
         // List of country currencies for dropdowns
-//        String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar", "GBP - British Pound", "JPY - JP Yen", "PHP - Philippine Peso" };
+        // String[] countries = { "USD - US Dollar", "EUR - Euro", "AUD - AU Dollar",
+        // "GBP - British Pound", "JPY - JP Yen", "PHP - Philippine Peso" };
         fromDropdown = new Dropdown(parent, currencyList, 350, 250, 200, 40);
         toDropdown = new Dropdown(parent, currencyList, 675, 250, 200, 40);
 
@@ -125,8 +125,6 @@ public class CurrencyConverterUI {
         currencySymbols.put("USD", "$");
         currencySymbols.put("VND", "₫");
         currencySymbols.put("XOF", "Franc");
-
-
     }
 
     public void drawConverter() {
@@ -139,10 +137,11 @@ public class CurrencyConverterUI {
         // Shadow properties
         parent.fill(0, 0, 0, 50);
         parent.noStroke();
-        parent.rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, rectH + 2 * shadowOffset, cornerRadius + 5);
+        parent.rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, rectH + 2 * shadowOffset,
+                cornerRadius + 5);
 
         // Main rectangle properties
-        parent.fill(255,249,254);
+        parent.fill(255, 249, 254);
         parent.noStroke();
 
         // Draw the main rounded rectangle
@@ -171,7 +170,7 @@ public class CurrencyConverterUI {
 
         // Change the color based on hover
         if (isHoveringSwitch) {
-            System.out.println("Mouse is hovering over 'Switch' button");
+            // System.out.println("Mouse is hovering over 'Switch' button");
             parent.fill(220, 202, 216, 191);
         } else {
             parent.noFill();
@@ -231,14 +230,13 @@ public class CurrencyConverterUI {
         parent.fill(255);
         parent.text("Convert", 795, 375);
 
-
         if (currencySymbols != null) {
             // Get the currency symbol for the selected "From" currency
             String currencySymbol = currencySymbols.getOrDefault(selectedFromCurrency, "");
             // Display the entered amount
             parent.fill(0);
             parent.textSize(16);
-            parent.text(currencySymbol + " " + enteredAmount, 90, 275);  // Currency symbol and amount
+            parent.text(currencySymbol + " " + enteredAmount, 90, 275); // Currency symbol and amount
         } else {
             // Handle the case where currencySymbols is null
             System.out.println("currencySymbols map is null");
@@ -290,7 +288,7 @@ public class CurrencyConverterUI {
             currencyManager.convertCurrency(centerX, selectedFromCurrency, selectedToCurrency);
         }
 
-        else if (isMouseOverButton(590, 257, 40, 40)) {  // Coordinates for the switch button
+        else if (isMouseOverButton(590, 257, 40, 40)) { // Coordinates for the switch button
             switchCurrencies();
             System.out.println("Switch button clicked");
         }
@@ -306,20 +304,20 @@ public class CurrencyConverterUI {
             if (!fromDropdown.expanded && fromDropdown.getSelectedItem() != null &&
                     !selectedFromCurrency.equals(fromDropdown.getSelectedItem())) {
                 selectedFromCurrency = fromDropdown.getSelectedItem();
-//                selectedFromCurrency = selectedFromCurrencyText.split(" ")[0];
+                // selectedFromCurrency = selectedFromCurrencyText.split(" ")[0];
                 flagManager.loadFlag(selectedFromCurrency);
                 updateConversionRate();
-                System.out.println("From currency updated to: " + selectedFromCurrency);  // Debugging print
+                System.out.println("From currency updated to: " + selectedFromCurrency); // Debugging print
             }
 
             // Check for "To" dropdown and update
             if (!toDropdown.expanded && toDropdown.getSelectedItem() != null &&
                     !selectedToCurrency.equals(toDropdown.getSelectedItem())) {
                 selectedToCurrency = toDropdown.getSelectedItem();
-//                selectedToCurrency = selectedToCurrencyText.split(" ")[0];
+                // selectedToCurrency = selectedToCurrencyText.split(" ")[0];
                 flagManager.loadFlag(selectedToCurrency);
                 updateConversionRate();
-                System.out.println("To currency updated to: " + selectedToCurrency);  // Debugging print
+                System.out.println("To currency updated to: " + selectedToCurrency); // Debugging print
             }
         }
 
@@ -346,10 +344,9 @@ public class CurrencyConverterUI {
         selectedFromCurrency = selectedToCurrency;
         selectedToCurrency = tempCurrency;
 
-        // Swap the "From" and "To" currency text labels
-        String tempCurrencyText = selectedFromCurrency;
-        selectedFromCurrency = selectedToCurrency;
-        selectedToCurrency = tempCurrencyText;
+        // Added a function in Dropdown that sets the specified item
+        fromDropdown.setSelectedItem(selectedFromCurrency);
+        toDropdown.setSelectedItem(selectedToCurrency);
 
         // Update the flags after the swap
         flagManager.loadFlag(selectedFromCurrency);
@@ -376,13 +373,14 @@ public class CurrencyConverterUI {
             double conversionRate;
 
             if (fromRate != 1) {
-                conversionRate = toRate/fromRate;
+                conversionRate = toRate / fromRate;
             } else {
                 conversionRate = toRate;
             }
 
             // Update the conversion rate text for display
-            conversionRateText = String.format("$ 1 %s = %.3f %s", selectedFromCurrency, toRate / fromRate, selectedToCurrency);
+            conversionRateText = String.format("$ 1 %s = %.3f %s", selectedFromCurrency, toRate / fromRate,
+                    selectedToCurrency);
 
         } catch (Exception e) {
             conversionRateText = "Conversion rate unavailable";
@@ -420,7 +418,8 @@ public class CurrencyConverterUI {
             double convertedAmount = currencyManager.convertCurrency(amount, selectedFromCurrency, selectedToCurrency);
 
             // Update the conversion result
-            conversionResult = String.format("%.3f %s = %.3f %s", amount, selectedFromCurrency, convertedAmount, selectedToCurrency);
+            conversionResult = String.format("%.3f %s = %.3f %s", amount, selectedFromCurrency, convertedAmount,
+                    selectedToCurrency);
 
         } catch (NumberFormatException e) {
             // Handle invalid input for the amount

@@ -84,5 +84,17 @@ public class Dropdown {
     public String getSelectedItem() {
         return countryList[selectedIndex];
     }
+
+    // Set the specific item from the dropdown
+    public void setSelectedItem(String item) {
+        for (int i = 0; i < countryList.length; ++i) {
+            if (countryList[i].equals(item)) {
+                selectedIndex = i;
+                break;
+            }
+        }
+
+        expanded = false;
+    }
 }
 

@@ -131,7 +131,7 @@ public class PrintSummaryUI {
 
         // Change the color based on hover
         if (isHovering) {
-            System.out.println("Mouse is hovering over 'Print' button");
+            //System.out.println("Mouse is hovering over 'Print' button");
             parent.fill(222, 37, 176, 200);
         } else {
             parent.fill(222, 37, 176); // Default color
@@ -207,15 +207,6 @@ public class PrintSummaryUI {
         parent.textSize(16);
         parent.text(selectedFirstCurrencyText, 120, 277);
         parent.text(selectedSecondCurrencyText, 365, 277);
-
-
-
-        // Add "Open PDF" button if a PDF has been generated
-//        if (pdfGenerated && generatedPDFFile != null && generatedPDFFile.exists()) {
-//            if (drawButton("Open PDF", 775, 300, 100, 40)) {
-//                currencyManager.openPDFFile(generatedPDFFile);
-//            }
-//        }
 
         if (pdfGenerated && generatedPDFFile != null && generatedPDFFile.exists()) {
             if (drawButton("Open PDF", 775, 300, 100, 40)) {
