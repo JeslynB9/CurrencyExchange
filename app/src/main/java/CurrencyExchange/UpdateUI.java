@@ -98,7 +98,7 @@ public class UpdateUI {
 
         // Change the color based on hover
         if (isHovering) {
-            System.out.println("Mouse is hovering over 'Update' button");
+            //System.out.println("Mouse is hovering over 'Update' button");
             parent.fill(222, 37, 176, 200);
         } else {
             parent.fill(222, 37, 176); // Default color
@@ -117,7 +117,7 @@ public class UpdateUI {
 
         // Change the color based on hover
         if (isHovering2) {
-            System.out.println("Mouse is hovering over 'Update' button");
+            //System.out.println("Mouse is hovering over 'Update' button");
             parent.fill(222, 37, 176, 200);
         } else {
             parent.fill(222, 37, 176); // Default color

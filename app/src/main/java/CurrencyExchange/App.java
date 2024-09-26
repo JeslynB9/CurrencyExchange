@@ -152,19 +152,6 @@ public class App extends PApplet{
         // drawing the logo
         image(logo, 25, -15);
 
-//        // Shadow properties
-//        fill(0, 0, 0, 50);
-//        noStroke();
-//
-//        rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, rectH + 2 * shadowOffset, cornerRadius + 5);
-//
-//        // Main rectangle properties
-//        fill(255,249,254);
-//        noStroke();
-//
-//        // Draw the main rounded rectangle
-//        rect(rectX, rectY, rectW, rectH, cornerRadius);
-
         // Long rectangle header
         noStroke();
         fill(220, 202, 216);
@@ -209,7 +196,7 @@ public class App extends PApplet{
             text("Convert", 145, 173);
 
             if (isHoveringExchange) {
-                System.out.println("Mouse is hovering over 'exchange' tab");
+                //System.out.println("Mouse is hovering over 'exchange' tab");
                 fill(255, 249, 254, 191);
             }
         }
@@ -268,7 +255,7 @@ public class App extends PApplet{
             text("Most Popular", 335, 173);
 
             if (isHoveringPopular) {
-                System.out.println("Mouse is hovering over 'popular' tab");
+                //System.out.println("Mouse is hovering over 'popular' tab");
                 fill(255, 249, 254, 191);
             }
         }
@@ -327,7 +314,7 @@ public class App extends PApplet{
             text("Print Summary", 545, 173);
 
             if (isHoveringPrint) {
-                System.out.println("Mouse is hovering over 'print' tab");
+                //System.out.println("Mouse is hovering over 'print' tab");
                 fill(255, 249, 254, 191);
             }
         }
@@ -387,7 +374,7 @@ public class App extends PApplet{
             text("Rate Update", 770, 173);
 
             if (isHoveringUpdate) {
-                System.out.println("Mouse is hovering over 'update' tab");
+                //System.out.println("Mouse is hovering over 'update' tab");
                 fill(255, 249, 254, 191);
             };
         }
@@ -396,7 +383,7 @@ public class App extends PApplet{
 
         // Change the color based on hover
         if (isHovering) {
-            System.out.println("Mouse is hovering over 'Admin Login' button");
+            //System.out.println("Mouse is hovering over 'Admin Login' button");
             fill(222, 37, 176, 200);
         } else {
             fill(222, 37, 176); // Default color

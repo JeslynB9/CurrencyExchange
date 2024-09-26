@@ -148,11 +148,6 @@ public class CurrencyManager {
         return jsonHandler.getSymbol(country);
     }
 
-//    public void printAllRecords() {
-//        database.printAllRecords();
-//    }
-
-
     public ExchangeRateSummary getExchangeRateSummary(String currency1, String currency2, LocalDate startDate, LocalDate endDate) {
         List<Database.ExchangeRateEntry> historicalRates = database.getHistoricalRates(currency1, currency2, startDate, endDate);
 
@@ -292,13 +287,8 @@ public class CurrencyManager {
             }
         }
 
-        //if (pdfFile.exists() && pdfFile.length() > 0) {
         System.out.println("PDF generated successfully: " + pdfFile.getAbsolutePath());
         return pdfFile.getAbsolutePath();
-//        } else {
-//            System.out.println("Failed to create PDF file or file is empty: " + pdfFile.getAbsolutePath());
-//            return null;
-//        }
     }
 
     private void addRowToTable(PdfPTable table, String key, String value, Font font) {

@@ -1,6 +1,5 @@
 package CurrencyExchange;
 
-import CurrencyExchange.Users.Admin;
 import CurrencyExchange.Users.AdminLogin;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -145,9 +144,6 @@ public class Login {
             System.out.println("Switching to Register screen");
             Register.isRegisterScreenVisible = true;
             isLoginScreenVisible = false;
-//            if (!isLoginScreenVisible) {
-//                System.out.println("Login screen removed");
-//            }
             Register.mousePressed();
         }
 

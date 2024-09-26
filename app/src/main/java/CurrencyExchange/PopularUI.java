@@ -44,13 +44,14 @@ public class PopularUI {
         // Shadow properties
         parent.fill(0, 0, 0, 50);
         parent.noStroke();
-        parent.rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset, (float)(rectH * 1.4) + 2 * shadowOffset, cornerRadius + 5);
+        parent.rect(rectX - shadowOffset, rectY - shadowOffset, rectW + 2 * shadowOffset,
+                (float) (rectH * 1.4) + 2 * shadowOffset, cornerRadius + 5);
 
         // Main rectangle properties
         parent.fill(255, 249, 254);
         parent.noStroke();
         // Draw the main rounded rectangle
-        parent.rect(rectX, rectY, rectW, (float)(rectH * 1.4), cornerRadius);
+        parent.rect(rectX, rectY, rectW, (float) (rectH * 1.4), cornerRadius);
 
         // Long rectangle header
         parent.fill(220, 202, 216);
@@ -76,100 +77,6 @@ public class PopularUI {
         parent.stroke(255, 249, 254); // Stroke color
         parent.rect(123, 225, rectW / 6, rectH / 6); // Position the top-left cell
 
-//        parent.rect(123, 225, rectW/6, rectH/6);
-//        parent.rect(266, 225, rectW/6, rectH/6);
-//        parent.rect(409, 225, rectW/6, rectH/6);
-//        parent.rect(552, 225, rectW/6, rectH/6);
-//        parent.rect(695, 225, rectW/6, rectH/6);
-//
-//        parent.stroke(255, 249, 254);
-//        parent.rect(695, 225, rectW/6+1, rectH/6);
-//
-//        // Row Identifier Cells
-//        parent.fill(92, 16, 73);
-//        parent.stroke(255, 249, 254);
-//        parent.rect(123, 269, rectW/6, rectH/5);
-//        parent.rect(123, 323, rectW/6, rectH/5);
-//        parent.rect(123, 377, rectW/6, rectH/5);
-//        parent.rect(123, 431, rectW/6, rectH/5);
-//
-//        parent.rect(123, 431, rectW/6, rectH/5+1);
-//
-//        // Filler Cells
-//        parent.fill(255, 249, 254);
-//        parent.stroke(92, 16, 73);
-//        parent.rect(266, 269, rectW/6, rectH/5);
-//        parent.rect(266, 323, rectW/6, rectH/5);
-//        parent.rect(266, 377, rectW/6, rectH/5);
-//        parent.rect(266, 431, rectW/6, rectH/5);
-//
-//        parent.rect(409, 269, rectW/6, rectH/5);
-//        parent.rect(409, 323, rectW/6, rectH/5);
-//        parent.rect(409, 377, rectW/6, rectH/5);
-//        parent.rect(409, 431, rectW/6, rectH/5);
-//
-//        parent.rect(552, 269, rectW/6, rectH/5);
-//        parent.rect(552, 323, rectW/6, rectH/5);
-//        parent.rect(552, 377, rectW/6, rectH/5);
-//        parent.rect(552, 431, rectW/6, rectH/5);
-//
-//        parent.rect(695, 269, rectW/6, rectH/5);
-//        parent.rect(695, 323, rectW/6, rectH/5);
-//        parent.rect(695, 377, rectW/6, rectH/5);
-//        parent.rect(695, 431, rectW/6, rectH/5);
-//
-//        parent.popStyle();
-//
-//        // Draw column headers (currency names)
-//        parent.fill(92, 16, 73);
-//        parent.stroke(255, 249, 254);
-//        for (int i = 0; i < popularCurrencies.length; i++) {
-//            float headerX = 123 + (i + 1) * rectW / 6;
-//            parent.rect(headerX, 225, rectW / 6, rectH / 6); // Draw header cell
-//            parent.fill(255); // Set text color
-//            parent.textSize(14);
-//            parent.textAlign(parent.CENTER, parent.CENTER);
-//            parent.text(popularCurrencies[i], headerX + 10, 245); // Draw currency name
-//        }
-//
-//        // Draw row headers (currency names)
-//        for (int i = 0; i < popularCurrencies.length; i++) {
-//            float rowY = 269 + i * (rectH / 5);
-//            parent.fill(92, 16, 73);
-//            parent.rect(123, rowY, rectW / 6, rectH / 5); // Draw row identifier
-//            parent.fill(255);
-//            parent.textSize(14);
-//            parent.textAlign(parent.CENTER, parent.CENTER);
-//            parent.text(popularCurrencies[i], 133, rowY + cellHeight / 2); // Draw currency name
-//        }
-//
-//        // Draw exchange rates between currencies
-//        for (int row = 0; row < rows; row++) {
-//            for (int col = 0; col < cols; col++) {
-//                float cellX = 123 + (col + 1) * rectW / 6;
-//                float cellY = 269 + row * (rectH / 5);
-//
-//                parent.fill(255, 249, 254);
-//                parent.stroke(92, 16, 73);
-//                parent.rect(cellX, cellY, rectW / 6, rectH / 5); // Draw cell
-//
-//                if (row != col) { // No conversion if it's the same currency
-//                    double rate = currencyManager.convertCurrency(1, popularCurrencies[row], popularCurrencies[col]);
-//                    parent.fill(0);
-//                    parent.textSize(14);
-//                    parent.text(String.format("%.2f", rate), cellX + 10, cellY + cellHeight / 2); // Draw exchange rate
-//                } else {
-//                    parent.fill(0);
-//                    parent.textSize(14);
-//                    parent.text("-", cellX + 10, cellY + cellHeight / 2); // Draw dash for same currency
-//                }
-//            }
-//        }
-
-
-
-
-
         // Draw column headers (currency names)
         for (int i = 0; i < popularCurrencies.length; i++) {
             float headerX = 123 + (i + 1) * rectW / 6; // Correct position for each column header
@@ -191,32 +98,6 @@ public class PopularUI {
             parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
             parent.text(popularCurrencies[i], 123 + rectW / 12, rowY + cellHeight / 2); // Adjust row text position
         }
-
-        // Draw exchange rates between currencies
-//        for (int row = 0; row < rows; row++) {
-//            for (int col = 0; col < cols; col++) {
-//                float cellX = 123 + (col + 1) * rectW / 6;
-//                float cellY = 269 + row * (rectH / 5);
-//
-//                parent.fill(255, 249, 254);
-//                parent.stroke(92, 16, 73);
-//                parent.rect(cellX, cellY, rectW / 6, rectH / 5); // Draw cell
-//
-//                if (row != col) { // No conversion if it's the same currency
-//                    double rate = currencyManager.convertCurrency(1, popularCurrencies[row], popularCurrencies[col]);
-//                    parent.fill(0);
-//                    parent.textSize(14);
-//                    parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
-//                    parent.text(String.format("%.2f", rate), cellX + rectW / 12, cellY + cellHeight / 2); // Draw exchange rate
-//                } else {
-//                    parent.fill(0);
-//                    parent.textSize(14);
-//                    parent.textAlign(parent.CENTER, parent.CENTER); // Center the text
-//                    parent.text("-", cellX + rectW / 12, cellY + cellHeight / 2); // Draw dash for same currency
-//                }
-//            }
-//        }
-
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
@@ -242,7 +123,6 @@ public class PopularUI {
 
                     String arrow = ""; // Default arrow (no change)
                     int arrowColor = parent.color(0, 0, 255); // Green for increase
-
 
                     if (currentRate > lastRate) {
                         arrow = "(I)"; // Up arrow
@@ -274,10 +154,6 @@ public class PopularUI {
                 }
             }
         }
-
-
-
-
 
         parent.popStyle();
     }
